@@ -10,7 +10,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public List<String> getChance() {
+    public List<Object> getChance() {
         throw new UnsupportedOperationException();
     }
 

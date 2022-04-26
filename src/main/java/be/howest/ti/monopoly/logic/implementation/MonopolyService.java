@@ -13,7 +13,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<String> getChance() {
+    public List<Object> getChance() {
         return List.of(
                 "Advance to Boardwalk",
                 "Advance to Go (Collect $200)",

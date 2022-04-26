@@ -20,7 +20,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public List<String> getChance() {
+    public List<Object> getChance() {
         return delegate.getChance();
     }
 }

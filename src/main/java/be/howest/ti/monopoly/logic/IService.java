@@ -5,5 +5,5 @@ import java.util.List;
 public interface IService {
     String getVersion();
 
-    List<String> getChance();
+    List<Object> getChance();
 }
