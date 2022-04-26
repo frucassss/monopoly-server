@@ -1,5 +1,9 @@
 package be.howest.ti.monopoly.logic;
 
+import be.howest.ti.monopoly.logic.implementation.Tile;
+
+import java.util.List;
+
 public class ServiceAdapter implements IService {
 
     @Override
@@ -7,4 +11,8 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public List<Tile> getTiles() {
+        throw new UnsupportedOperationException();
+    }
 }
