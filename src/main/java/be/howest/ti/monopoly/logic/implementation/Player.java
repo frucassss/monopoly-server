@@ -39,4 +39,51 @@ public class Player {
         }
     }
 
+    // GETTERS
+    public String getName() {
+        return name;
+    }
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+    public boolean getJailed() {
+        return jailed;
+    }
+    public int getMoney() {
+        return money;
+    }
+    public boolean getBankrupt() {
+        return bankrupt;
+    }
+    public int getGetOutOfJailFreeCards() {
+        return getOutOfJailFreeCards;
+    }
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    // SETTERS
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
+    public void setJailed(boolean jailed) {
+        this.jailed = jailed;
+    }
+    public void setBankrupt(boolean bankrupt) {
+        this.bankrupt = bankrupt;
+    }
+
+    // BUILT-IN
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+        Player player = (Player) o;
+        return name.equals(player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
