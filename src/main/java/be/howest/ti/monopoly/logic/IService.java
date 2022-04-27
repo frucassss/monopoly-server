@@ -7,4 +7,6 @@ public interface IService {
     String getVersion();
     List<Tile> getTiles();
     List<Object> getChance();
+
+    List<Object> getCommunityChest();
 }

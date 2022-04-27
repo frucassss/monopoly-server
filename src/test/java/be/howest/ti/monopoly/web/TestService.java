@@ -27,4 +27,9 @@ public class TestService implements IService {
     public List<Object> getChance() {
         return delegate.getChance();
     }
+
+    @Override
+    public List<Object> getCommunityChest() {
+        return delegate.getCommunityChest();
+    }
 }
