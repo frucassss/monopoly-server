@@ -40,6 +40,12 @@ public class Player {
         money -= 50;
         setJailed(false);
     }
+    public void addProperty(Property property){
+        properties.add(property);
+    }
+    public void removeProperty(Property property){
+        properties.remove(property);
+    }
 
     // GETTERS
     public String getName() {
