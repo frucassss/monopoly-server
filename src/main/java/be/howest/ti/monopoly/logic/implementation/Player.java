@@ -1,10 +1,12 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+
 import java.util.*;
 
 public class Player {
-    private String name;
-    private Tile currentTile = new Tile("Go", 0, "Go", "Go");
+    private final String name;
+    private Tile currentTile = new Tile("Go", 0, "Go");
     private boolean jailed = false;
     private int money = 1500;
     private boolean bankrupt = false;
@@ -24,19 +26,19 @@ public class Player {
     public void collectMoney(int amount){
         this.money += amount;
     }
-    public void buyProperty(Property property){
-        // TODO: code to buy property
-    }
-    // TODO: auction/sell property method
     public void addGetOutOfJailFreeCard(){
         if(this.getOutOfJailFreeCards < 2){
             this.getOutOfJailFreeCards += 1;
         }
     }
-    public void removeGetOutOfJailFreeCard(){
+    public void useGetOutOfJailFreeCard(){
         if(this.getOutOfJailFreeCards > 0){
             this.getOutOfJailFreeCards -= 1;
         }
+    }
+    public void payPrisonFine(){
+        money -= 50;
+        setJailed(false);
     }
 
     // GETTERS
