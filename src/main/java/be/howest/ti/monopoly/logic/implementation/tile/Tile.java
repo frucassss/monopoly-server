@@ -1,16 +1,20 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.tile;
 
 public class Tile{
-    private String name;
-    private int position;
-    private String nameAsPathParameter;
-    private String type;
+    protected final String name;
+    protected final int position;
+    protected final String nameAsPathParameter;
+    protected final String type;
 
-    public Tile(String name, int position, String nameAsPathParameter, String type){
+    public Tile(String name, int position, String type){
         this.name = name;
         this.position = position;
-        this.nameAsPathParameter = nameAsPathParameter;
+        this.nameAsPathParameter = convertNameToNameAsPathParameter(name);
         this.type = type;
+    }
+
+    private String convertNameToNameAsPathParameter(String name){
+        return name.replaceAll("\\s", "_");
     }
 
     public int getPosition() {
@@ -36,11 +40,11 @@ public class Tile{
 
         Tile tile = (Tile) o;
 
-        return name != null ? name.equals(tile.name) : tile.name == null;
+        return position == tile.position;
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        return position;
     }
 }
