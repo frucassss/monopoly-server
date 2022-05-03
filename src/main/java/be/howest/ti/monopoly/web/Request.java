@@ -55,4 +55,16 @@ public class Request {
         return Objects.equals(expectedGameId, user.getGameId()) &&
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
+
+    public int getNumberOfPlayersFromBody(){
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
+
+    public String getPrefixFromBody(){
+        return params.body().getJsonObject().getString("prefix");
+    }
+
+    public String getGameIdFromPath(){
+        return params.pathParameter("gameId").getString();
+    }
 }
