@@ -54,7 +54,7 @@ public class Player {
             money -= 50;
             setJailed(false);
         } else {
-            throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money")
+            throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money");
         }
     }
 
