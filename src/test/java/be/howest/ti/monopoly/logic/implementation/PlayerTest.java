@@ -17,11 +17,10 @@ class PlayerTest {
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        PropertyTile MediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
-        Property Mediterranean = new Property(MediterraneanTile);
+        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
         Michiel.addProperty(Mediterranean);
         Michiel.mortgageProperty(Mediterranean);
-        assertEquals(1530, Michiel.getMoney());
+        assertEquals(1600, Michiel.getMoney());
     }
 
     @Test
@@ -30,8 +29,7 @@ class PlayerTest {
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        PropertyTile MediterraneanTile = (PropertyTile) Monopoly.getTiles().get(5);
-        Property Mediterranean = new Property(MediterraneanTile);
+        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
         Michiel.addProperty(Mediterranean);
         Michiel.mortgageProperty(Mediterranean);
         Michiel.unMortgageProperty(Mediterranean);
@@ -44,8 +42,7 @@ class PlayerTest {
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        PropertyTile MediterraneanTile = (PropertyTile) Monopoly.getTiles().get(5);
-        Property Mediterranean = new Property(MediterraneanTile);
+        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
         Michiel.addProperty(Mediterranean);
         Michiel.mortgageProperty(Mediterranean);
         Michiel.pay(1500);
@@ -58,7 +55,7 @@ class PlayerTest {
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        Property Mediterranean = new Property((PropertyTile) Monopoly.getTiles().get(5));
+        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
         assertThrows(IllegalMonopolyActionException.class, () -> Michiel.mortgageProperty(Mediterranean));
     }
 

@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.tile.PropertyTile;
+import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 public class Property {
     private final PropertyTile property;
@@ -9,9 +10,10 @@ public class Property {
     private int houseCount = 0;
     private int hotelCount = 0;
 
-    public Property(PropertyTile property) {
-        this.property = property;
-        this.mortgageValue = property.getMortgage();
+    public Property(Tile property) {
+        PropertyTile propertyTile = (PropertyTile) property;
+        this.property = propertyTile;
+        this.mortgageValue = propertyTile.getMortgage();
     }
 
     public void addHouse(){
