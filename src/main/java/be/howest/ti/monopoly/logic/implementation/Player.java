@@ -11,7 +11,7 @@ public class Player {
     private int money = 1500;
     private boolean bankrupt = false;
     private int getOutOfJailFreeCards = 0;
-    private final List<Property> properties;
+    private final List<Property> properties = new ArrayList<>();
 
 
     // CONSTRUCTOR
@@ -20,10 +20,10 @@ public class Player {
     }
 
     // METHODS
-    public void payMoney(int amount){
+    public void pay(int amount){
         this.money -= amount;
     }
-    public void collectMoney(int amount){
+    public void collect(int amount){
         this.money += amount;
     }
     public void addGetOutOfJailFreeCard(){
@@ -51,8 +51,8 @@ public class Player {
     public String getName() {
         return name;
     }
-    public Tile getCurrentTile() {
-        return currentTile;
+    public String getCurrentTile() {
+        return currentTile.getName();
     }
     public boolean getJailed() {
         return jailed;
