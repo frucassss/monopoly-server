@@ -9,4 +9,8 @@ public interface IService {
     List<Object> getChance();
 
     List<Object> getCommunityChest();
+
+    Tile getTile(int position);
+
+    Tile getTile(String name);
 }
