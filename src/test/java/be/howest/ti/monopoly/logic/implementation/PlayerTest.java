@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     @Test
-    public void testMortgage() {
+    void testMortgage() {
         Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
@@ -24,7 +24,7 @@ class PlayerTest {
     }
 
     @Test
-    public void testUnMortgage() {
+    void testUnMortgage() {
         Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
@@ -37,7 +37,7 @@ class PlayerTest {
     }
 
     @Test
-    public void testMortgageNoMoney() {
+    void testMortgageNoMoney() {
         Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
@@ -50,7 +50,7 @@ class PlayerTest {
     }
 
     @Test
-    public void testMortgageNotHavingTheProperty() {
+    void testMortgageNotHavingTheProperty() {
         Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
