@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.*;
@@ -21,7 +22,11 @@ public class Player {
 
     // METHODS
     public void pay(int amount) {
-        this.money -= amount;
+        if (money >= amount) {
+            this.money -= amount;
+        } else {
+            throw new IllegalMonopolyActionException("You don't have enough money");
+        }
     }
 
     public void collect(int amount) {
@@ -31,18 +36,26 @@ public class Player {
     public void addGetOutOfJailFreeCard() {
         if (this.getOutOfJailFreeCards < 2) {
             this.getOutOfJailFreeCards += 1;
+        } else {
+            throw new IllegalMonopolyActionException("You already have 2 get out of jail cars");
         }
     }
 
     public void useGetOutOfJailFreeCard() {
         if (this.getOutOfJailFreeCards > 0) {
             this.getOutOfJailFreeCards -= 1;
+        } else {
+            throw new IllegalMonopolyActionException("You don't have an get out of jail card");
         }
     }
 
     public void payPrisonFine() {
-        money -= 50;
-        setJailed(false);
+        if(money >= 50){
+            money -= 50;
+            setJailed(false);
+        } else {
+            throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money")
+        }
     }
 
     public void addProperty(Property property) {
@@ -54,29 +67,37 @@ public class Player {
     }
 
     public void mortgageProperty(Property property) {
-        this.properties.forEach(property1 -> {
-            if (property.equals(property1) && !property.isMortgage()) {
-                Monopoly().getTiles().forEach(tile -> {
-                    if (tile.getName().equals(property.getProperty())) {
-                        money = money + tile.getMortgage();
-                        property.mortgageProperty();
-                    }
-                });
+        for (Property propertyFromPlayerProperties : properties) {
+            if (property.equals(propertyFromPlayerProperties)) {
+                if (!property.isMortgage()) {
+                    this.collect(propertyFromPlayerProperties.mortgageValue);
+                    property.mortgageProperty();
+                    return;
+                } else {
+                    throw new IllegalMonopolyActionException("It's already mortgaged");
+                }
             }
-        });
+        }
+        throw new IllegalMonopolyActionException("You don't own this property.");
     }
 
-    public void unMortgageProperty(Property property){
-        this.properties.forEach(property1 -> {
-            if (property.equals(property1) && property.isMortgage()) {
-                Monopoly().getTiles().forEach(tile -> {
-                    if (tile.getName().equals(property.getProperty())) {
-                        money = money - (tile.getMortgage() + (tile.getMortgage()*0.1));
+    public void unMortgageProperty(Property property) {
+        for (Property propertyFromPlayerProperties : properties) {
+            if (property.equals(propertyFromPlayerProperties)) {
+                if (property.isMortgage()) {
+                    if (this.money >= (int) (propertyFromPlayerProperties.mortgageValue + (propertyFromPlayerProperties.mortgageValue * 0.1))) {
+                        this.pay((int) (propertyFromPlayerProperties.mortgageValue + (propertyFromPlayerProperties.mortgageValue * 0.1)));
                         property.unMortgageProperty();
+                        return;
+                    } else {
+                        throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
                     }
-                });
+                } else {
+                    throw new IllegalMonopolyActionException("This isn't mortgaged yet.");
+                }
             }
-        });
+        }
+        throw new IllegalStateException("You don't own this property.");
     }
 
     // GETTERS
