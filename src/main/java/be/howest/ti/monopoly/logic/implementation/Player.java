@@ -20,52 +20,90 @@ public class Player {
     }
 
     // METHODS
-    public void pay(int amount){
+    public void pay(int amount) {
         this.money -= amount;
     }
-    public void collect(int amount){
+
+    public void collect(int amount) {
         this.money += amount;
     }
-    public void addGetOutOfJailFreeCard(){
-        if(this.getOutOfJailFreeCards < 2){
+
+    public void addGetOutOfJailFreeCard() {
+        if (this.getOutOfJailFreeCards < 2) {
             this.getOutOfJailFreeCards += 1;
         }
     }
-    public void useGetOutOfJailFreeCard(){
-        if(this.getOutOfJailFreeCards > 0){
+
+    public void useGetOutOfJailFreeCard() {
+        if (this.getOutOfJailFreeCards > 0) {
             this.getOutOfJailFreeCards -= 1;
         }
     }
-    public void payPrisonFine(){
+
+    public void payPrisonFine() {
         money -= 50;
         setJailed(false);
     }
-    public void addProperty(Property property){
+
+    public void addProperty(Property property) {
         properties.add(property);
     }
-    public void removeProperty(Property property){
+
+    public void removeProperty(Property property) {
         properties.remove(property);
+    }
+
+    public void mortgageProperty(Property property) {
+        this.properties.forEach(property1 -> {
+            if (property.equals(property1) && !property.isMortgage()) {
+                Monopoly().getTiles().forEach(tile -> {
+                    if (tile.getName().equals(property.getProperty())) {
+                        money = money + tile.getMortgage();
+                        property.mortgageProperty();
+                    }
+                });
+            }
+        });
+    }
+
+    public void unMortgageProperty(Property property){
+        this.properties.forEach(property1 -> {
+            if (property.equals(property1) && property.isMortgage()) {
+                Monopoly().getTiles().forEach(tile -> {
+                    if (tile.getName().equals(property.getProperty())) {
+                        money = money - (tile.getMortgage() + (tile.getMortgage()*0.1));
+                        property.unMortgageProperty();
+                    }
+                });
+            }
+        });
     }
 
     // GETTERS
     public String getName() {
         return name;
     }
+
     public String getCurrentTile() {
         return currentTile.getName();
     }
+
     public boolean getJailed() {
         return jailed;
     }
+
     public int getMoney() {
         return money;
     }
+
     public boolean getBankrupt() {
         return bankrupt;
     }
+
     public int getGetOutOfJailFreeCards() {
         return getOutOfJailFreeCards;
     }
+
     public List<Property> getProperties() {
         return properties;
     }
@@ -74,9 +112,11 @@ public class Player {
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
+
     public void setJailed(boolean jailed) {
         this.jailed = jailed;
     }
+
     public void setBankrupt(boolean bankrupt) {
         this.bankrupt = bankrupt;
     }
