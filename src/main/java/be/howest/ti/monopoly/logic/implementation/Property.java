@@ -23,6 +23,18 @@ public class Property {
         }
     }
 
+    public void addHotel(){
+        if(houseCount == 4 && hotelCount == 0){
+            hotelCount += 1;
+        }
+    }
+
+    public void removeHotel(){
+        if (hotelCount > 0){
+            hotelCount -= 1;
+        }
+    }
+
     // GETTERS
 
     public String getProperty() {
