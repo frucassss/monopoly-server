@@ -9,12 +9,14 @@ import java.util.*;
 
 public class Game {
 
+    private final String prefix;
     private final String id;
     private int numberOfPlayers;
     private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
 
-    public Game(String gameId, int numberOfPlayers) {
+    public Game(String prefix, String gameId, int numberOfPlayers) {
+        this.prefix = prefix;
         this.id = gameId;
         setNumberOfPlayers(numberOfPlayers);
     }
@@ -46,6 +48,9 @@ public class Game {
 
     // GETTERS
 
+    public String getPrefix() {
+        return prefix;
+    }
 
     public String getId() {
         return id;
