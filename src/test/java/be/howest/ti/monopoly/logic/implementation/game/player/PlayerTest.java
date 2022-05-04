@@ -144,6 +144,7 @@ class PlayerTest {
         michiel.sellHouse(mediterraneanProperty);
 
         assertEquals(1,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
+        assertEquals(1375,michiel.getMoney());
     }
 
     @Test

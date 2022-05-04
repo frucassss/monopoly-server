@@ -186,6 +186,7 @@ public class Player {
         checkIfYouHaveAtLeastOneHouseOnProperty(property);
         checkIfYourOtherStreetPropertiesWontRunAhead(property);
         findPropertyInList(property).removeHouse();
+        this.money += (property.getHousePrice() * 0.5);
     }
 
     private void checkIfYourOtherStreetPropertiesWontRunAhead(Property property) {
