@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.validation.RequestParameter;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
 
@@ -84,16 +85,8 @@ public class Request {
         return params.pathParameter("tileId").getString();
     }
 
-    public int getNumberOfPlayersFromQuery() {
-        return params.queryParameter("numberOfPlayers").getInteger();
-    }
-
-    public boolean getStartedFromQuery(){
-        return params.queryParameter("started").getBoolean();
-    }
-
-    public String getPrefixFromQuery(){
-        return params.queryParameter("prefix").getString();
+    public RequestParameter getQueryParameter(String query) {
+        return params.queryParameter(query);
     }
 
 }

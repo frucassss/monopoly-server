@@ -20,6 +20,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
+import io.vertx.ext.web.validation.RequestParameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,17 +176,26 @@ public class MonopolyApiBridge {
     }
 
     private void getGames(RoutingContext ctx) {
+        Request request = Request.from(ctx);
+        RequestParameter numberOfPlayers = request.getQueryParameter("numberOfPlayers");
+        RequestParameter started = request.getQueryParameter("started");
+        RequestParameter prefix = request.getQueryParameter("prefix");
+
         Map<String, Game> games = service.getGames();
         List<JsonObject> list = new ArrayList<>();
 
         for (Map.Entry<String, Game> entry : games.entrySet()){
             Game game = entry.getValue();
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.put("id", game.getId());
-            jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
-            jsonObject.put("started", game.getStarted());
-            jsonObject.put("players", new ArrayList<>(game.getPlayers().keySet()));
-            list.add(jsonObject);
+            if ((started == null || game.getStarted() == started.getBoolean()) &&
+                    (numberOfPlayers == null || game.getNumberOfPlayers() == numberOfPlayers.getInteger()) &&
+                    (prefix == null || game.getPrefix().equals(prefix.getString()))){
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.put("id", game.getId());
+                jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
+                jsonObject.put("started", game.getStarted());
+                jsonObject.put("players", new ArrayList<>(game.getPlayers().keySet()));
+                list.add(jsonObject);
+            }
         }
 
         Response.sendJsonResponse(ctx, 200, new JsonObject()
