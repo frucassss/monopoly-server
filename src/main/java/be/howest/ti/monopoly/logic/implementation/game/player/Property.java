@@ -24,33 +24,47 @@ public class Property {
     }
 
     public void addHouse() {
-        if (houseCount < 4) {
-            houseCount += 1;
-        } else {
+        checkIfYouCanAddHouse();
+        houseCount += 1;
+    }
+
+    public void checkIfYouCanAddHouse() {
+        if (houseCount == 4) {
             throw new IllegalMonopolyActionException("You already have 4 houses on the property");
         }
     }
 
     public void removeHouse() {
-        if (houseCount > 0) {
-            houseCount -= 1;
-        } else {
+        checkIfYouCanRemoveHouse();
+        houseCount -= 1;
+    }
+
+    public void checkIfYouCanRemoveHouse() {
+        if (houseCount == 0) {
             throw new IllegalMonopolyActionException("You don't have houses to remove");
         }
     }
 
     public void addHotel() {
-        if (houseCount == 4 && hotelCount == 0) {
-            hotelCount += 1;
-        } else {
-            throw new IllegalMonopolyActionException("You can't buy an hotel atm");
+        checkIfYouCanAddHotel();
+        hotelCount += 1;
+    }
+
+    public void checkIfYouCanAddHotel() {
+        if (houseCount != 4) {
+            throw new IllegalMonopolyActionException("You can't buy an hotel because you don't have 4 houses");
+        } else if (hotelCount > 0) {
+            throw new IllegalMonopolyActionException("You can't buy an hotel because you already have one");
         }
     }
 
     public void removeHotel() {
-        if (hotelCount > 0) {
-            hotelCount -= 1;
-        } else {
+        checkIfYouCanRemoveHotel();
+        hotelCount -= 1;
+    }
+
+    public void checkIfYouCanRemoveHotel() {
+        if (hotelCount == 0) {
             throw new IllegalMonopolyActionException("You can't remove a hotel you don't have");
         }
     }
