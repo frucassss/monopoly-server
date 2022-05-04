@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
@@ -221,9 +222,9 @@ public class MonopolyApiBridge {
     private void getGame(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameIdFromPath();
-        String authorization = ctx.request().headers().get(HttpHeaderNames.AUTHORIZATION);
 
-        if (!request.isAuthorized(authorization)) {
+        // check if player who requested the game is authorized in game
+        if(!isPlayerAuthorizedInGame(request, gameId)){
             throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
@@ -363,9 +364,20 @@ public class MonopolyApiBridge {
     }
 
     // helpers
-    public boolean isGameValidAccordingToQueries(Game game, RequestParameter started, RequestParameter numberOfPlayers, RequestParameter prefix){
+    private boolean isGameValidAccordingToQueries(Game game, RequestParameter started, RequestParameter numberOfPlayers, RequestParameter prefix){
         return (started == null || game.getStarted() == started.getBoolean()) &&
                 (numberOfPlayers == null || game.getNumberOfPlayers() == numberOfPlayers.getInteger()) &&
                 (prefix == null || game.getPrefix().equals(prefix.getString()));
+    }
+
+    private boolean isPlayerAuthorizedInGame(Request request, String gameId){
+        // check if player who requested the game is authorized in game
+        Map<String, Player> players = service.getGame(gameId).getPlayers();
+        for(Map.Entry<String, Player> entry : players.entrySet()){
+            if (request.isAuthorized(gameId, entry.getKey())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
