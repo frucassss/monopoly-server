@@ -182,7 +182,24 @@ public class Player {
     }
 
     public void sellHouse(Property property) {
+        checkIfYouOwnProperty(property);
+        checkIfYouHaveAtLeastOneHouseOnProperty(property);
+        checkIfYourOtherStreetPropertiesWontRunAhead(property);
+        findPropertyInList(property).removeHouse();
+    }
 
+    private void checkIfYourOtherStreetPropertiesWontRunAhead(Property property) {
+        if (getHighestHouseCountFromStreet(property.getStreetColor()) == getLowestHouseCountFromStreet(property.getStreetColor())){
+            if (getLowestHouseCountFromStreet(property.getStreetColor()) == findPropertyInList(property).getHouseCount()){
+                throw new IllegalMonopolyActionException("You need to sell other houses first");
+            }
+        }
+    }
+
+    private void checkIfYouHaveAtLeastOneHouseOnProperty(Property property){
+        if (findPropertyInList(property).getHouseCount() == 0){
+            throw new IllegalMonopolyActionException("You don't have houses to sell");
+        }
     }
 
     public void buyHotel(Property property) {

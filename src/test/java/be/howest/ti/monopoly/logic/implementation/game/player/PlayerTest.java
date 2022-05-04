@@ -160,7 +160,6 @@ class PlayerTest {
         michiel.buyHouse(balticProperty);
         michiel.buyHouse(mediterraneanProperty);
         michiel.sellHouse(mediterraneanProperty);
-
         assertThrows(IllegalMonopolyActionException.class,()->{
             michiel.sellHouse(mediterraneanProperty);
         });
