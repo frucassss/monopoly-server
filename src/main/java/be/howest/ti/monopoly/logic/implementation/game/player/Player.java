@@ -34,26 +34,35 @@ public class Player {
     }
 
     public void addGetOutOfJailFreeCard() {
-        if (this.getOutOfJailFreeCards < 2) {
-            this.getOutOfJailFreeCards += 1;
-        } else {
+        checkIfYouCanAddGetOutOfJailFreeCard();
+        this.getOutOfJailFreeCards += 1;
+    }
+
+    private void checkIfYouCanAddGetOutOfJailFreeCard() {
+        if (this.getOutOfJailFreeCards > 2) {
             throw new IllegalMonopolyActionException("You already have 2 get out of jail cars");
         }
     }
 
     public void useGetOutOfJailFreeCard() {
-        if (this.getOutOfJailFreeCards > 0) {
-            this.getOutOfJailFreeCards -= 1;
-        } else {
+        checkIfYouCanUseAGetOutOfJailFreeCard();
+        this.getOutOfJailFreeCards -= 1;
+    }
+
+    public void checkIfYouCanUseAGetOutOfJailFreeCard() {
+        if (this.getOutOfJailFreeCards == 0) {
             throw new IllegalMonopolyActionException("You don't have an get out of jail card");
         }
     }
 
     public void payPrisonFine() {
-        if(money >= 50){
-            money -= 50;
-            setJailed(false);
-        } else {
+        checkIfYouCanPayPrisonFine();
+        money -= 50;
+        setJailed(false);
+    }
+
+    public void checkIfYouCanPayPrisonFine() {
+        if (money < 50) {
             throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money");
         }
     }
@@ -67,37 +76,45 @@ public class Player {
     }
 
     public void mortgageProperty(Property property) {
-        for (Property propertyFromPlayerProperties : properties) {
-            if (property.equals(propertyFromPlayerProperties)) {
-                if (!property.isMortgage()) {
-                    this.collect(propertyFromPlayerProperties.getMortgageValue());
-                    property.mortgageProperty();
-                    return;
-                } else {
-                    throw new IllegalMonopolyActionException("It's already mortgaged");
-                }
+        checkIfYouOwnProperty(property);
+        checkIfPropertyIsNotMortgaged(property);
+        this.collect(property.getMortgageValue());
+        property.mortgageProperty();
+    }
+
+    public void checkIfYouOwnProperty(Property property) {
+        for (Property propertiesFormPlayer : properties) {
+            if (propertiesFormPlayer.equals(property)) {
+                return;
             }
         }
         throw new IllegalMonopolyActionException("You don't own this property.");
     }
 
-    public void unMortgageProperty(Property property) {
-        for (Property propertyFromPlayerProperties : properties) {
-            if (property.equals(propertyFromPlayerProperties)) {
-                if (property.isMortgage()) {
-                    if (this.money >= (int) (propertyFromPlayerProperties.getMortgageValue() + (propertyFromPlayerProperties.getMortgageValue() * 0.1))) {
-                        this.pay((int) (propertyFromPlayerProperties.getMortgageValue() + (propertyFromPlayerProperties.getMortgageValue() * 0.1)));
-                        property.unMortgageProperty();
-                        return;
-                    } else {
-                        throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
-                    }
-                } else {
-                    throw new IllegalMonopolyActionException("This isn't mortgaged yet.");
-                }
-            }
+    public void checkIfPropertyIsNotMortgaged(Property property) {
+        if (property.isMortgage()) {
+            throw new IllegalMonopolyActionException("It's already mortgaged");
         }
-        throw new IllegalStateException("You don't own this property.");
+    }
+
+    public void checkIfPropertyIsMortgaged(Property property) {
+        if (!property.isMortgage()) {
+            throw new IllegalMonopolyActionException("It's not mortgaged");
+        }
+    }
+
+    public void checkIfYouHaveEnoughMoneyToUnMortgageProperty(Property property) {
+        if (this.money < (int) (property.getMortgageValue() + (property.getMortgageValue() * 0.1))) {
+            throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
+        }
+    }
+
+    public void unMortgageProperty(Property property) {
+        checkIfYouHaveEnoughMoneyToUnMortgageProperty(property);
+        checkIfYouOwnProperty(property);
+        checkIfPropertyIsMortgaged(property);
+        this.pay((int) (property.getMortgageValue() + (property.getMortgageValue() * 0.1)));
+        property.unMortgageProperty();
     }
 
     // GETTERS
