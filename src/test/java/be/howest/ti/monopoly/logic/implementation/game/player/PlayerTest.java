@@ -164,4 +164,47 @@ class PlayerTest {
             michiel.sellHouse(mediterraneanProperty);
         });
     }
+
+    @Test
+    void testIfPlayerCanBuyHotel(){
+        Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
+        Player michiel = new Player("Michiel");
+        Property mediterraneanProperty = new Property(mediterraneanTile);
+        Property balticProperty = new Property(balticTile);
+
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHotel(mediterraneanProperty);
+        assertEquals(1,michiel.findPropertyInList(mediterraneanProperty).getHotelCount());
+    }
+
+    @Test
+    void testIfPlayerCanBuyHotelWithoutHaving4HousesOnEveryStreetTile(){
+        Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
+        Player michiel = new Player("Michiel");
+        Property mediterraneanProperty = new Property(mediterraneanTile);
+        Property balticProperty = new Property(balticTile);
+
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+
+        assertThrows(IllegalMonopolyActionException.class,()->{michiel.buyHotel(balticProperty);});
+    }
 }

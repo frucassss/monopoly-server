@@ -204,10 +204,25 @@ public class Player {
 
     public void buyHotel(Property property) {
         checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
+        checkIfEveryPropertyFromASpecificStreetColorHas4Houses(property);
         this.money -= property.getHousePrice();
         property.addHotel();
         for (int i = 0; i < 4; i++) {
             property.removeHouse();
+        }
+    }
+
+    private void checkIfEveryPropertyFromASpecificStreetColorHas4Houses(Property property) {
+        int counter = 0;
+        for (Property propertyInPlayerProperties : properties){
+            if (property.getStreetColor().equals(propertyInPlayerProperties.getStreetColor())){
+                if (propertyInPlayerProperties.getHouseCount() == 4){
+                    counter ++;
+                }
+            }
+        }
+        if (counter != property.getGroupSize()){
+            throw new IllegalMonopolyActionException("Not all your properties have 4 houses");
         }
     }
 
