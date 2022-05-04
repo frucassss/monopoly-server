@@ -40,12 +40,12 @@ public class Property {
     }
 
     public void addHouse() {
-        checkIfYouCanAddHouse();
+        checkIfYouDontHaveMoreThen4HousesOnProperty();
         checkIfPropertyIsStreetTile();
         houseCount += 1;
     }
 
-    public void checkIfYouCanAddHouse() {
+    public void checkIfYouDontHaveMoreThen4HousesOnProperty() {
         if (houseCount == 4) {
             throw new IllegalMonopolyActionException("You already have 4 houses on the property");
         }
@@ -109,6 +109,18 @@ public class Property {
         checkIfPropertyIsStreetTile();
         StreetTile propertyStreet = (StreetTile) this.property;
         return propertyStreet.getHousePrice();
+    }
+
+    public int getGroupSize(){
+        checkIfPropertyIsStreetTile();
+        StreetTile propertyStreet = (StreetTile) this.property;
+        return propertyStreet.getGroupSize();
+    }
+
+    public String getStreetColor(){
+        checkIfPropertyIsStreetTile();
+        StreetTile propertyStreet = (StreetTile) this.property;
+        return propertyStreet.getStreetColor();
     }
 
     public int getMortgageValue() {

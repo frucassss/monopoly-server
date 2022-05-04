@@ -29,6 +29,15 @@ public class Player {
         }
     }
 
+    public Property findPropertyInList(Property property){
+        for(Property propertyInProperties : properties){
+            if (property.equals(propertyInProperties)){
+                return propertyInProperties;
+            }
+        }
+        throw new IllegalMonopolyActionException("You dont have this property");
+    }
+
     public void collect(int amount) {
         this.money += amount;
     }
@@ -79,7 +88,7 @@ public class Player {
         checkIfYouOwnProperty(property);
         checkIfPropertyIsNotMortgaged(property);
         this.collect(property.getMortgageValue());
-        property.mortgageProperty();
+        findPropertyInList(property).mortgageProperty();
     }
 
     public void checkIfYouOwnProperty(Property property) {
@@ -117,11 +126,75 @@ public class Player {
         property.unMortgageProperty();
     }
 
-    public void buyHouse(Property property){
+    public void buyHouse(Property property) {
+        checkIfYouOwnProperty(property);
+        checkIfYouHaveAllNeededPropertiesForImprovement(property);
+        checkIfYouDontWanneRunAheadOnProperty(property);
+        checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
+        this.money -= property.getHousePrice();
+        findPropertyInList(property).addHouse();
+    }
+
+    private void checkIfYouHaveAllNeededPropertiesForImprovement(Property property) {
+        int counter = 0;
+        for (Property propertiesFormPlayer : properties) {
+            if (propertiesFormPlayer.getStreetColor().equals(property.getStreetColor())) {
+                counter++;
+            }
+        }
+        if ((counter != property.getGroupSize())){
+            throw new IllegalMonopolyActionException("you don't have all properties of this street, so you can't buy a house");
+        }
+    }
+
+    private void checkIfYouDontWanneRunAheadOnProperty(Property property){
+        if (getHighestHouseCountFromStreet(property.getStreetColor()) != getLowestHouseCountFromStreet(property.getStreetColor())){
+            if (property.getHouseCount() != getLowestHouseCountFromStreet(property.getStreetColor())){
+                throw new IllegalMonopolyActionException("You need to improve your other properties from this street first.");
+            }
+        }
+    }
+
+    private int getHighestHouseCountFromStreet(String streetColor){
+        int highest = -1;
+        for (Property propertiesFromPlayer : properties){
+            if (propertiesFromPlayer.getStreetColor().equals(streetColor) && propertiesFromPlayer.getHouseCount() > highest){
+                highest = propertiesFromPlayer.getHouseCount();
+            }
+        }
+        return highest;
+    }
+
+    private int getLowestHouseCountFromStreet(String streetColor){
+        int lowest = 5;
+        for (Property propertiesFromPlayer : properties){
+            if (propertiesFromPlayer.getStreetColor().equals(streetColor) && propertiesFromPlayer.getHouseCount() < lowest){
+                lowest = propertiesFromPlayer.getHouseCount();
+            }
+        }
+        return lowest;
+    }
+
+    private void checkIfIHaveEnoughMoneyForImprovement(int improvementPrice) {
+        if (this.money < improvementPrice) {
+            throw new IllegalMonopolyActionException("You don't have enough money for this improvement");
+        }
+    }
+
+    public void sellHouse(Property property) {
 
     }
 
-    public void sellHouse(Property property){
+    public void buyHotel(Property property) {
+        checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
+        this.money -= property.getHousePrice();
+        property.addHotel();
+        for (int i = 0; i < 4; i++) {
+            property.removeHouse();
+        }
+    }
+
+    public void sellHotel(Property property) {
 
     }
 
