@@ -117,6 +117,14 @@ public class Player {
         property.unMortgageProperty();
     }
 
+    public void buyHouse(Property property){
+
+    }
+
+    public void sellHouse(Property property){
+
+    }
+
     // GETTERS
     public String getName() {
         return name;
