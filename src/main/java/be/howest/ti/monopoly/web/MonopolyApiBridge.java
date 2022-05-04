@@ -13,6 +13,7 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
+import io.netty.handler.codec.http.HttpHeaderNames;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -186,9 +187,7 @@ public class MonopolyApiBridge {
 
         for (Map.Entry<String, Game> entry : games.entrySet()){
             Game game = entry.getValue();
-            if ((started == null || game.getStarted() == started.getBoolean()) &&
-                    (numberOfPlayers == null || game.getNumberOfPlayers() == numberOfPlayers.getInteger()) &&
-                    (prefix == null || game.getPrefix().equals(prefix.getString()))){
+            if (isGameValidAccordingToQueries(game, started, numberOfPlayers, prefix)){
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.put("id", game.getId());
                 jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
@@ -222,15 +221,13 @@ public class MonopolyApiBridge {
     private void getGame(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameIdFromPath();
+        String authorization = ctx.request().headers().get(HttpHeaderNames.AUTHORIZATION);
 
-        Game game = service.getGame(gameId); // TODO: add proper manner to get player name
-
-        for(String playerName : game.getPlayers().keySet()){
-            if (!request.isAuthorized(gameId, playerName)) {
-                throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
-            }
+        if (!request.isAuthorized(authorization)) {
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
+        Game game = service.getGame(gameId);
         Response.sendJsonResponse(ctx, 200, game);
     }
 
@@ -363,5 +360,12 @@ public class MonopolyApiBridge {
                 .allowedMethod(HttpMethod.PATCH)
                 .allowedMethod(HttpMethod.DELETE)
                 .allowedMethod(HttpMethod.PUT);
+    }
+
+    // helpers
+    public boolean isGameValidAccordingToQueries(Game game, RequestParameter started, RequestParameter numberOfPlayers, RequestParameter prefix){
+        return (started == null || game.getStarted() == started.getBoolean()) &&
+                (numberOfPlayers == null || game.getNumberOfPlayers() == numberOfPlayers.getInteger()) &&
+                (prefix == null || game.getPrefix().equals(prefix.getString()));
     }
 }

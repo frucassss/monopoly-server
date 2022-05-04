@@ -52,9 +52,27 @@ public class Request {
         return params;
     }
 
-    public boolean isAuthorized(String expectedGameId, String expectedPlayerName) {
-        return Objects.equals(expectedGameId, user.getGameId()) &&
-                Objects.equals(expectedPlayerName, user.getPlayerName());
+    public boolean isAuthorized(String Authorization) {
+        String[] partsAuth = Authorization.split(" ");
+        if (partsAuth.length == 2) {
+            String scheme = partsAuth[0];
+            String credentials = partsAuth[1];
+
+            if (scheme.equals("Bearer")) {
+                String[] partsToken = credentials.split("-");
+
+                if(partsToken.length == 2){
+                    String gameId = partsToken[0];
+                    String playerName = partsToken[1];
+                    System.out.println(user.getGameId());
+                    System.out.println(user.getPlayerName());
+                    //verify token
+                    return Objects.equals(gameId, user.getGameId()) &&
+                            Objects.equals(playerName, user.getPlayerName());
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid authorization token.");
     }
 
     public int getNumberOfPlayersFromBody(){
