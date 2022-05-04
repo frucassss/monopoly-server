@@ -16,8 +16,8 @@ public class Property {
         this.mortgageValue = this.property.getMortgage();
     }
 
-    public void makeRightTileTypeFromProperty(Tile property){
-        switch (property.getType()){
+    public void makeRightTileTypeFromProperty(Tile property) {
+        switch (property.getType()) {
             case "street":
                 this.property = (StreetTile) property;
                 break;
@@ -51,9 +51,9 @@ public class Property {
         }
     }
 
-    public void checkIfPropertyIsStreetTile(){
-        if (!this.property.getType().equals("street")){
-            throw new IllegalMonopolyActionException("You're trying to improve a property that isn't a streetTile");
+    public void checkIfPropertyIsStreetTile() {
+        if (!this.property.getType().equals("street")) {
+            throw new IllegalMonopolyActionException("Your property isn't a streetTile");
         }
     }
 
@@ -105,6 +105,11 @@ public class Property {
 
     // GETTERS
 
+    public int getHousePrice() {
+        checkIfPropertyIsStreetTile();
+        StreetTile propertyStreet = (StreetTile) this.property;
+        return propertyStreet.getHousePrice();
+    }
 
     public int getMortgageValue() {
         return mortgageValue;
