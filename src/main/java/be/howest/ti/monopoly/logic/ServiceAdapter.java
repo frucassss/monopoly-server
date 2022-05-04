@@ -30,7 +30,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Game getGame(String gameId){
+    public Game getGame(String gameId) {
         throw new UnsupportedOperationException();
     }
 
@@ -49,4 +49,13 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Tile getTile(String name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Tile getTile(int position) {
+        throw new UnsupportedOperationException();
+    }
 }

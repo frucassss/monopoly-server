@@ -143,10 +143,30 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Game getGame(String gameId){
-        if(!games.containsKey(gameId)){
+    public Game getGame(String gameId) {
+        if (!games.containsKey(gameId)) {
             throw new MonopolyResourceNotFoundException("The game you are looking for does not exist. Double check the ID.");
         }
         return games.get(gameId);
+    }
+
+    @Override
+    public Tile getTile(int position) {
+        for (Tile tile : getTiles()){
+            if (tile.getPosition() == position){
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("no such tile");
+    }
+
+    @Override
+    public Tile getTile(String name) {
+        for (Tile tile: getTiles()){
+            if (tile.getName().equals(name)){
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("no such tile");
     }
 }

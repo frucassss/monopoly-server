@@ -68,7 +68,19 @@ public class Request {
         return params.pathParameter("gameId").getString();
     }
 
-    public String getPlayerNameFromBody(){
+    public String getPlayerNameFromBody() {
         return params.body().getJsonObject().getString("playerName");
+    }
+
+    public int getTilePosition() {
+        return params.pathParameter("tileId").getInteger();
+    }
+
+    public boolean hasTilePosition() {
+        return params.pathParameter("tileId").isNumber();
+    }
+
+    public String getTileName() {
+        return params.pathParameter("tileId").getString();
     }
 }

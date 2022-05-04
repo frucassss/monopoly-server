@@ -24,4 +24,8 @@ public interface IService {
     void joinGame(String gameId, String playerName);
 
     Map<String, Game> getGames();
+
+    Tile getTile(int position);
+
+    Tile getTile(String name);
 }
