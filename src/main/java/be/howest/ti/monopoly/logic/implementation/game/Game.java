@@ -15,9 +15,10 @@ public class Game {
     private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
 
-    public Game(String prefix, String gameId, int numberOfPlayers) {
+    public Game(String prefix, int sessionNumber, int numberOfPlayers) {
+        checkPrefix(prefix);
         this.prefix = prefix;
-        this.id = gameId;
+        this.id = prefix + "_" + sessionNumber;
         setNumberOfPlayers(numberOfPlayers);
     }
 
@@ -83,10 +84,16 @@ public class Game {
     }
 
     public void checkPlayerName(String playerName){
-        if(!playerName.matches("[a-zA-Z]+")){
+        if(!playerName.matches("[a-zA-Z0-9]+")){
             throw new IllegalArgumentException("Invalid player name!");
         }
 
+    }
+
+    public void checkPrefix(String prefix){
+        if(!prefix.matches("[a-zA-Z0-9]+")){
+            throw new IllegalArgumentException("Invalid prefix name!");
+        }
     }
 
     public void checkIfPlayerIsInGame(String playerName){
