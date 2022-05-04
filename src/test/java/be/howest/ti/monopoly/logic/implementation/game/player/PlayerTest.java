@@ -185,6 +185,8 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
         michiel.buyHotel(mediterraneanProperty);
+
+        assertEquals(0,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
         assertEquals(1,michiel.findPropertyInList(mediterraneanProperty).getHotelCount());
     }
 
