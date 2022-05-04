@@ -70,7 +70,7 @@ public class Player {
         for (Property propertyFromPlayerProperties : properties) {
             if (property.equals(propertyFromPlayerProperties)) {
                 if (!property.isMortgage()) {
-                    this.collect(propertyFromPlayerProperties.mortgageValue);
+                    this.collect(propertyFromPlayerProperties.getMortgageValue());
                     property.mortgageProperty();
                     return;
                 } else {
@@ -85,8 +85,8 @@ public class Player {
         for (Property propertyFromPlayerProperties : properties) {
             if (property.equals(propertyFromPlayerProperties)) {
                 if (property.isMortgage()) {
-                    if (this.money >= (int) (propertyFromPlayerProperties.mortgageValue + (propertyFromPlayerProperties.mortgageValue * 0.1))) {
-                        this.pay((int) (propertyFromPlayerProperties.mortgageValue + (propertyFromPlayerProperties.mortgageValue * 0.1)));
+                    if (this.money >= (int) (propertyFromPlayerProperties.getMortgageValue() + (propertyFromPlayerProperties.getMortgageValue() * 0.1))) {
+                        this.pay((int) (propertyFromPlayerProperties.getMortgageValue() + (propertyFromPlayerProperties.getMortgageValue() * 0.1)));
                         property.unMortgageProperty();
                         return;
                     } else {

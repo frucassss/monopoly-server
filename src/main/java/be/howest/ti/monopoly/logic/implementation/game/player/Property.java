@@ -6,7 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 public class Property {
     private final PropertyTile property;
-    protected final int mortgageValue;
+    private final int mortgageValue;
     private boolean mortgage = false;
     private int houseCount = 0;
     private int hotelCount = 0;
@@ -64,6 +64,11 @@ public class Property {
     }
 
     // GETTERS
+
+
+    public int getMortgageValue() {
+        return mortgageValue;
+    }
 
     public String getProperty() {
         return property.getName();
