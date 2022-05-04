@@ -12,54 +12,54 @@ public class Property {
     private int hotelCount = 0;
 
     public Property(Tile property) {
-        if (checkIfTileTypeIsProperty(property)) {
-            this.property = (PropertyTile) property;
-            this.mortgageValue = this.property.getMortgage();
-        } else {
+        checkIfTileTypeIsProperty(property);
+        this.property = (PropertyTile) property;
+        this.mortgageValue = this.property.getMortgage();
+    }
+
+    public void checkIfTileTypeIsProperty(Tile property) {
+        if (!(property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility"))) {
             throw new IllegalMonopolyActionException("You're trying to make a property of a non property");
         }
     }
 
-    public boolean checkIfTileTypeIsProperty(Tile property){
-        return property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility");
-    }
-
-    public void addHouse(){
-        if(houseCount < 4){
+    public void addHouse() {
+        if (houseCount < 4) {
             houseCount += 1;
         } else {
             throw new IllegalMonopolyActionException("You already have 4 houses on the property");
         }
     }
-    public void removeHouse(){
-        if(houseCount > 0){
+
+    public void removeHouse() {
+        if (houseCount > 0) {
             houseCount -= 1;
         } else {
             throw new IllegalMonopolyActionException("You don't have houses to remove");
         }
     }
 
-    public void addHotel(){
-        if(houseCount == 4 && hotelCount == 0){
+    public void addHotel() {
+        if (houseCount == 4 && hotelCount == 0) {
             hotelCount += 1;
         } else {
             throw new IllegalMonopolyActionException("You can't buy an hotel atm");
         }
     }
 
-    public void removeHotel(){
-        if (hotelCount > 0){
+    public void removeHotel() {
+        if (hotelCount > 0) {
             hotelCount -= 1;
         } else {
             throw new IllegalMonopolyActionException("You can't remove a hotel you don't have");
         }
     }
 
-    public void mortgageProperty(){
+    public void mortgageProperty() {
         this.mortgage = true;
     }
 
-    public void unMortgageProperty(){
+    public void unMortgageProperty() {
         this.mortgage = false;
     }
 
