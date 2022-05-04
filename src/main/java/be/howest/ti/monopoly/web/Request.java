@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.validation.RequestParameter;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
 
@@ -51,9 +52,43 @@ public class Request {
         return params;
     }
 
-    public boolean isAuthorized(String expectedGameId, String expectedPlayerName) {
-        return Objects.equals(expectedGameId, user.getGameId()) &&
-                Objects.equals(expectedPlayerName, user.getPlayerName());
+    public boolean isAuthorized(String Authorization) {
+        String[] partsAuth = Authorization.split(" ");
+        if (partsAuth.length == 2) {
+            String scheme = partsAuth[0];
+            String credentials = partsAuth[1];
+
+            if (scheme.equals("Bearer")) {
+                String[] partsToken = credentials.split("-");
+
+                if(partsToken.length == 2){
+                    String gameId = partsToken[0];
+                    String playerName = partsToken[1];
+                    System.out.println(user.getGameId());
+                    System.out.println(user.getPlayerName());
+                    //verify token
+                    return Objects.equals(gameId, user.getGameId()) &&
+                            Objects.equals(playerName, user.getPlayerName());
+                }
+            }
+        }
+        throw new IllegalArgumentException("Invalid authorization token.");
+    }
+
+    public int getNumberOfPlayersFromBody(){
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
+
+    public String getPrefixFromBody(){
+        return params.body().getJsonObject().getString("prefix");
+    }
+
+    public String getGameIdFromPath(){
+        return params.pathParameter("gameId").getString();
+    }
+
+    public String getPlayerNameFromBody() {
+        return params.body().getJsonObject().getString("playerName");
     }
 
     public int getTilePosition() {
@@ -67,4 +102,9 @@ public class Request {
     public String getTileName() {
         return params.pathParameter("tileId").getString();
     }
+
+    public RequestParameter getQueryParameter(String query) {
+        return params.queryParameter(query);
+    }
+
 }
