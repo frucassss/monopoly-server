@@ -1,8 +1,10 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.tile.PropertyTile;
+import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.game.player.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
+import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,50 +15,50 @@ class PlayerTest {
 
     @Test
     void testMortgage() {
-        Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
-        Michiel.addProperty(Mediterranean);
-        Michiel.mortgageProperty(Mediterranean);
-        assertEquals(1600, Michiel.getMoney());
+        Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Property mediterraneanProperty = new Property(mediterranean);
+        Michiel.addProperty(mediterraneanProperty);
+        Michiel.mortgageProperty(mediterraneanProperty);
+        assertEquals(1530, Michiel.getMoney());
     }
 
     @Test
     void testUnMortgage() {
-        Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
-        Michiel.addProperty(Mediterranean);
-        Michiel.mortgageProperty(Mediterranean);
-        Michiel.unMortgageProperty(Mediterranean);
-        assertEquals(1490, Michiel.getMoney());
+        Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Property mediterraneanProperty = new Property(mediterranean);
+        Michiel.addProperty(mediterraneanProperty);
+        Michiel.mortgageProperty(mediterraneanProperty);
+        Michiel.unMortgageProperty(mediterraneanProperty);
+        assertEquals(1497, Michiel.getMoney());
     }
 
     @Test
     void testMortgageNoMoney() {
-        Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
-        Michiel.addProperty(Mediterranean);
-        Michiel.mortgageProperty(Mediterranean);
+        Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Property mediterraneanProperty = new Property(mediterranean);
+        Michiel.addProperty(mediterraneanProperty);
+        Michiel.mortgageProperty(mediterraneanProperty);
         Michiel.pay(1500);
-        assertThrows(IllegalMonopolyActionException.class, () -> Michiel.unMortgageProperty(Mediterranean));
+        assertThrows(IllegalMonopolyActionException.class, () -> Michiel.unMortgageProperty(mediterraneanProperty));
     }
 
     @Test
     void testMortgageNotHavingTheProperty() {
-        Monopoly monopoly = new Monopoly();
         Player Michiel = new Player("Michiel");
         Player Lucas = new Player("Lucas");
         List<Player> players = List.of(Michiel, Lucas);
-        Property Mediterranean = new Property(Monopoly.getTiles().get(5));
-        assertThrows(IllegalMonopolyActionException.class, () -> Michiel.mortgageProperty(Mediterranean));
+        Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Property mediterraneanProperty = new Property(mediterranean);
+        assertThrows(IllegalMonopolyActionException.class, () -> Michiel.mortgageProperty(mediterraneanProperty));
     }
 
 

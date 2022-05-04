@@ -1,5 +1,6 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.game.player;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tile.PropertyTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
@@ -11,31 +12,46 @@ public class Property {
     private int hotelCount = 0;
 
     public Property(Tile property) {
-        PropertyTile propertyTile = (PropertyTile) property;
-        this.property = propertyTile;
-        this.mortgageValue = propertyTile.getMortgage();
+        if (checkIfTileTypeIsProperty(property)) {
+            this.property = (PropertyTile) property;
+            this.mortgageValue = this.property.getMortgage();
+        } else {
+            throw new IllegalMonopolyActionException("You're trying to make a property of a non property");
+        }
+    }
+
+    public boolean checkIfTileTypeIsProperty(Tile property){
+        return property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility");
     }
 
     public void addHouse(){
         if(houseCount < 4){
-            hotelCount += 1;
+            houseCount += 1;
+        } else {
+            throw new IllegalMonopolyActionException("You already have 4 houses on the property");
         }
     }
     public void removeHouse(){
         if(houseCount > 0){
             houseCount -= 1;
+        } else {
+            throw new IllegalMonopolyActionException("You don't have houses to remove");
         }
     }
 
     public void addHotel(){
         if(houseCount == 4 && hotelCount == 0){
             hotelCount += 1;
+        } else {
+            throw new IllegalMonopolyActionException("You can't buy an hotel atm");
         }
     }
 
     public void removeHotel(){
         if (hotelCount > 0){
             hotelCount -= 1;
+        } else {
+            throw new IllegalMonopolyActionException("You can't remove a hotel you don't have");
         }
     }
 
