@@ -1,15 +1,52 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import be.howest.ti.monopoly.logic.implementation.tile.UtilityTile;
+import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
+import io.vertx.core.json.JsonObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MonopolyService extends ServiceAdapter {
+
+    private final Map<String, Game> games = new HashMap<>();
+
+    public void addGame(String gameId, Game game){
+        if(games.containsKey(gameId)){
+            throw new IllegalArgumentException("You made a 'bad request'. First, verify if you supplied a body. This body can be empty, but it must be present. Then, verify if you set the \"Content-Type\"-header correctly to \"application/json\". Finnally, verify the content of the body. For the prefix, for instance, only simple names are allowed, i.e., no special characters such as spaces, pluses, or dashes, ... are allowed. For the number of players, mind to min and max number.");
+        }
+        games.put(gameId, game);
+    }
+
+    @Override
+    public Map<String, Game> getGames(){
+        return games;
+    }
+
+    @Override
+    public Game createGame(String prefix, int numberOfPlayers){
+        String gameId = prefix + "_" + games.size();
+        Game game = new Game(gameId, numberOfPlayers);
+        addGame(gameId, game);
+
+        return game;
+    }
+
+    @Override
+    public void joinGame(String gameId, String playerName){
+        Game game = getGame(gameId);
+        game.newPlayer(playerName);
+    }
 
     @Override
     public String getVersion() {
@@ -63,7 +100,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Object> getChance() {
+    public List<String> getChance() {
         return List.of(
                 "Advance to Boardwalk",
                 "Advance to Go (Collect $200)",
@@ -84,7 +121,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Object> getCommunityChest() {
+    public List<String> getCommunityChest() {
         return List.of(
                 "Advance to Go (Collect $200)",
                 "Bank error in your favor. Collect $200",
@@ -103,5 +140,13 @@ public class MonopolyService extends ServiceAdapter {
                 "You have won second prize in a beauty contest. Collect $10",
                 "You inherit $100"
         );
+    }
+
+    @Override
+    public Game getGame(String gameId){
+        if(!games.containsKey(gameId)){
+            throw new MonopolyResourceNotFoundException("The game you are looking for does not exist. Double check the ID.");
+        }
+        return games.get(gameId);
     }
 }
