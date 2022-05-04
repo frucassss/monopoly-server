@@ -83,4 +83,17 @@ public class Request {
     public String getTileName() {
         return params.pathParameter("tileId").getString();
     }
+
+    public int getNumberOfPlayersFromQuery() {
+        return params.queryParameter("numberOfPlayers").getInteger();
+    }
+
+    public boolean getStartedFromQuery(){
+        return params.queryParameter("started").getBoolean();
+    }
+
+    public String getPrefixFromQuery(){
+        return params.queryParameter("prefix").getString();
+    }
+
 }
