@@ -71,6 +71,10 @@ public class Player {
     }
 
     // SETTERS
+    public void setCurrentTileWithPostition(int postition){
+        getTile()
+    }
+
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
