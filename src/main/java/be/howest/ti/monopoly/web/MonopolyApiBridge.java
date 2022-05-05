@@ -14,7 +14,6 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
-import io.netty.handler.codec.http.HttpHeaderNames;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -183,7 +182,7 @@ public class MonopolyApiBridge {
         RequestParameter started = request.getQueryParameter("started");
         RequestParameter prefix = request.getQueryParameter("prefix");
 
-        Map<String, Game> games = service.getGames();
+        Map<String, Game> games = service.getGamesFromService();
         List<JsonObject> list = new ArrayList<>();
 
         for (Map.Entry<String, Game> entry : games.entrySet()){

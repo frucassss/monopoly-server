@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import io.vertx.core.json.JsonObject;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +22,11 @@ public interface IService {
 
     void joinGame(String gameId, String playerName);
 
-    Map<String, Game> getGames();
+    Map<String, Game> getGamesFromService();
 
     Tile getTile(int position);
 
     Tile getTile(String name);
+
+    JsonObject getGames();
 }

@@ -45,7 +45,12 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Map<String, Game> getGames(){
+    public Map<String, Game> getGamesFromService() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public JsonObject getGames(){
         throw new UnsupportedOperationException();
     }
 
