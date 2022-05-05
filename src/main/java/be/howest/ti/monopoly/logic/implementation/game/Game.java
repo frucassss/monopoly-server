@@ -73,7 +73,7 @@ public class Game {
 
     public void checkNumberOfPlayers(int numberOfPlayers){
         if(numberOfPlayers < 2 || numberOfPlayers > 8){
-            throw new InvalidRequestException("Invalid number of players: min. 2 & max. 8");
+            throw new IllegalArgumentException("Invalid number of players: min. 2 & max. 8");
         }
     }
 
