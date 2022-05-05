@@ -27,6 +27,4 @@ public interface IService {
     Tile getTile(int position);
 
     Tile getTile(String name);
-
-    JsonObject getGames();
 }

@@ -58,12 +58,6 @@ public class TestService implements IService {
     }
 
     @Override
-    public JsonObject getGames(){
-        delegate.getGames();
-        return null;
-    }
-
-    @Override
     public Tile getTile(int position) {
         return delegate.getTile(position);
     }
