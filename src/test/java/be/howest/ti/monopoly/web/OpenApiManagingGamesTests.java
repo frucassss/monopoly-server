@@ -1,35 +1,60 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.game.Game;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Map<String, Game> getGamesFromService() {
+                return new HashMap<>();
+            }
+        });
+
         get(
                 testContext,
                 "/games",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                this::assertOkResponse
         );
     }
 
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Map<String, Game> getGamesFromService() {
+                return new HashMap<>();
+            }
+        });
+
         get(
                 testContext,
                 "/games?started=true&prefix=azerty&numberOfPlayers=3",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                this::assertOkResponse
         );
     }
 
     @Test
     void getGamesWithInvalidStartedType(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Map<String, Game> getGamesFromService() {
+                return new HashMap<>();
+            }
+        });
+
         get(
                 testContext,
                 "/games?started=not-a-boolean",
@@ -40,6 +65,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGamesWithInvalidNumberType(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Map<String, Game> getGamesFromService() {
+                return new HashMap<>();
+            }
+        });
         get(
                 testContext,
                 "/games?numberOfPlayers=not-a-number",
@@ -50,30 +81,51 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameWithEmptyBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
                 null,
                 new JsonObject(),
-                response -> assertNotYetImplemented(response, "createGame")
+                response -> assertErrorResponse(response, 400)
         );
     }
 
     @Test
     void createGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
                 null,
                 new JsonObject()
                         .put("prefix", "Prefix123")
-                        .put("numberOfPlayers", 10),
-                response -> assertNotYetImplemented(response, "createGame")
+                        .put("numberOfPlayers", 8),
+                this::assertOkResponse
         );
     }
 
     @Test
     void createGamePrefixTooLong(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
@@ -86,6 +138,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameInvalidSymbol(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
@@ -98,6 +157,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameTooManyPlayers(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
@@ -110,6 +176,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameTooFewPlayers(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
@@ -134,6 +207,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameWithoutBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return new Game(prefix,0, numberOfPlayers);
+            }
+        });
+
         post(
                 testContext,
                 "/games",
@@ -144,18 +224,30 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void joinGame(String gameId, String playerName) {
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players",
                 null,
                 new JsonObject()
-                        .put("playerName", "Alice"),
-                response -> assertNotYetImplemented(response, "joinGame")
+                        .put("playerName", "Alice")
+                        .put("icon", "Test"),
+                this::assertOkResponse
         );
     }
 
     @Test
     void joinGamePlayerNameTooLong(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void joinGame(String gameId, String playerName) {
+            }
+        });
+
         post(
                 testContext,
                 "/games/game-id/players",
@@ -168,6 +260,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGamePlayerNameTooShort(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void joinGame(String gameId, String playerName) {
+            }
+        });
+
         post(
                 testContext,
                 "/games/game-id/players",
@@ -180,6 +278,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGamePlayerNameInvalidPatterns(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void joinGame(String gameId, String playerName) {
+            }
+        });
+
         post(
                 testContext,
                 "/games/game-id/players",
@@ -192,6 +296,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGameWithoutBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void joinGame(String gameId, String playerName) {
+            }
+        });
+
         post(
                 testContext,
                 "/games/game-id/players",
@@ -202,6 +312,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGameWithEmptyBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void joinGame(String gameId, String playerName) {
+            }
+        });
+
         post(
                 testContext,
                 "/games/game-id/players",
