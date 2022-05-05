@@ -16,6 +16,7 @@ public class Game {
     private boolean started = false;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers) {
+        checkIfStringIsNotNull(prefix, "Prefix");
         checkPrefix(prefix);
         this.prefix = prefix;
         this.id = prefix + "_" + sessionNumber;
@@ -23,6 +24,7 @@ public class Game {
     }
 
     public void newPlayer(String playerName){
+        checkIfStringIsNotNull(playerName, "Player name");
         checkIfGameIsNotStarted();
         checkPlayerName(playerName);
         checkIfPlayerIsInGame(playerName);
@@ -92,13 +94,19 @@ public class Game {
 
     public void checkPrefix(String prefix){
         if(!prefix.matches("[a-zA-Z0-9]+")){
-            throw new IllegalArgumentException("Invalid prefix name!");
+            throw new IllegalArgumentException("Invalid prefix name! Prefix can only contain alphabetical and numeric characters. ");
         }
     }
 
     public void checkIfPlayerIsInGame(String playerName){
         if(players.containsKey(playerName)){
             throw new ForbiddenAccessException("Player is already in game! Can only contain Alphabets.");
+        }
+    }
+
+    public void checkIfStringIsNotNull(String str, String type){
+        if(str == null){
+            throw new IllegalArgumentException(type + " cannot not be empty.");
         }
     }
 }
