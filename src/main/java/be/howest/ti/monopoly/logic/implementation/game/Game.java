@@ -84,8 +84,8 @@ public class Game {
     }
 
     public void checkPlayerName(String playerName){
-        if(!playerName.matches("[a-zA-Z0-9]+")){
-            throw new IllegalArgumentException("Invalid player name!");
+        if(!playerName.matches("[a-zA-Z0-9]+") || playerName.length() > 14 || playerName.length() < 1){
+            throw new IllegalArgumentException("Invalid player name! Player name can have a max. length of 14 alphabetical and numeric characters");
         }
 
     }
