@@ -16,17 +16,15 @@ public class Game {
     private boolean started = false;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers) {
-        checkIfStringIsNotNull(prefix, "Prefix");
-        checkPrefix(prefix);
+        checkCharactersInString(prefix, "Prefix");
         this.prefix = prefix;
         this.id = prefix + "_" + sessionNumber;
         setNumberOfPlayers(numberOfPlayers);
     }
 
     public void newPlayer(String playerName){
-        checkIfStringIsNotNull(playerName, "Player name");
         checkIfGameIsNotStarted();
-        checkPlayerName(playerName);
+        checkCharactersInString(playerName, "Player name");
         checkIfPlayerIsInGame(playerName);
 
         Player player = new Player(playerName);
@@ -85,28 +83,19 @@ public class Game {
         }
     }
 
-    public void checkPlayerName(String playerName){
-        if(!playerName.matches("[a-zA-Z0-9]+") || playerName.length() > 14 || playerName.length() < 1){
-            throw new IllegalArgumentException("Invalid player name! Player name can have a max. length of 14 alphabetical and numeric characters");
+    public void checkCharactersInString(String str, String type){
+        if(str == null){
+            throw new IllegalArgumentException(type + " cannot not be empty.");
+        }
+        else if(!str.matches("[a-zA-Z0-9]+") || str.length() > 14 || str.length() < 1){
+            throw new IllegalArgumentException(type + " is invalid, " + type + " can have a max. length of 14 alphabetical and numeric characters");
         }
 
-    }
-
-    public void checkPrefix(String prefix){
-        if(!prefix.matches("[a-zA-Z0-9]+")){
-            throw new IllegalArgumentException("Invalid prefix name! Prefix can only contain alphabetical and numeric characters. ");
-        }
     }
 
     public void checkIfPlayerIsInGame(String playerName){
         if(players.containsKey(playerName)){
             throw new ForbiddenAccessException("Player is already in game! Can only contain Alphabets.");
-        }
-    }
-
-    public void checkIfStringIsNotNull(String str, String type){
-        if(str == null){
-            throw new IllegalArgumentException(type + " cannot not be empty.");
         }
     }
 }
