@@ -53,8 +53,8 @@ public class TestService implements IService {
     }
 
     @Override
-    public Map<String, Game> getGames(){
-        return delegate.getGames();
+    public Map<String, Game> getGamesFromService() {
+        return delegate.getGamesFromService();
     }
 
     @Override
