@@ -16,7 +16,7 @@ public class Game {
     private boolean started = false;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers) {
-        checkPrefix(prefix);
+        checkCharactersInString(prefix, "Prefix");
         this.prefix = prefix;
         this.id = prefix + "_" + sessionNumber;
         setNumberOfPlayers(numberOfPlayers);
@@ -24,7 +24,7 @@ public class Game {
 
     public void newPlayer(String playerName){
         checkIfGameIsNotStarted();
-        checkPlayerName(playerName);
+        checkCharactersInString(playerName, "Player name");
         checkIfPlayerIsInGame(playerName);
 
         Player player = new Player(playerName);
@@ -73,7 +73,7 @@ public class Game {
 
     public void checkNumberOfPlayers(int numberOfPlayers){
         if(numberOfPlayers < 2 || numberOfPlayers > 8){
-            throw new InvalidRequestException("Invalid number of players: min. 2 & max. 8");
+            throw new IllegalArgumentException("Invalid number of players: min. 2 & max. 8");
         }
     }
 
@@ -83,17 +83,14 @@ public class Game {
         }
     }
 
-    public void checkPlayerName(String playerName){
-        if(!playerName.matches("[a-zA-Z0-9]+")){
-            throw new IllegalArgumentException("Invalid player name!");
+    public void checkCharactersInString(String str, String type){
+        if(str == null){
+            throw new IllegalArgumentException(type + " cannot not be empty.");
+        }
+        else if(!str.matches("[a-zA-Z0-9]+") || str.length() > 14 || str.length() < 1){
+            throw new IllegalArgumentException(type + " is invalid, " + type + " can have a max. length of 14 alphabetical and numeric characters");
         }
 
-    }
-
-    public void checkPrefix(String prefix){
-        if(!prefix.matches("[a-zA-Z0-9]+")){
-            throw new IllegalArgumentException("Invalid prefix name!");
-        }
     }
 
     public void checkIfPlayerIsInGame(String playerName){
