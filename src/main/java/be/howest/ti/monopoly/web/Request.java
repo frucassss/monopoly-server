@@ -107,4 +107,7 @@ public class Request {
         return params.queryParameter(query);
     }
 
+    public String getPlayerNameFromPath() {
+        return params.pathParameter("playerName").getString();
+    }
 }

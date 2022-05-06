@@ -55,6 +55,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public void declareBankruptcy(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Tile getTile(int position) {
         throw new UnsupportedOperationException();
     }

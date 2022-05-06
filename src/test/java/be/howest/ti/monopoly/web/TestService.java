@@ -66,4 +66,9 @@ public class TestService implements IService {
     public Tile getTile(String name) {
         return delegate.getTile(name);
     }
+
+    @Override
+    public void declareBankruptcy(String gameId, String playerName) {
+        delegate.declareBankruptcy(gameId, playerName);
+    }
 }
