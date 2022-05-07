@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.ArrayList;
@@ -7,14 +8,14 @@ import java.util.List;
 import java.util.Random;
 
 public class Turn {
-    private int[] dices = new int[2];
-    private Player player;
-    private List<Move> moves = new ArrayList<>();
+    private final int[] dices = new int[2];
+    private final Player player;
+    private final List<Move> moves = new ArrayList<>();
     protected List<Tile> tiles;
     protected List<String> chance;
     protected List<String> communityChest;
 
-    Turn(Player player, List<String> chance, List<String> communityChest,List<Tile> tiles){
+    Turn(Player player, List<String> chance, List<String> communityChest, List<Tile> tiles){
         this.player = player;
         this.tiles = tiles;
         this.chance = chance;

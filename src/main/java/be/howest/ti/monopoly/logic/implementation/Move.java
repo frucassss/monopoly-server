@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Move {
-    private Tile tile;
+    private final Tile tile;
     private String description;
     protected List<Tile> tiles;
     protected List<String> chance;
