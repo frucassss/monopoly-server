@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.validation.RequestParameter;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
 
@@ -55,4 +56,37 @@ public class Request {
         return Objects.equals(expectedGameId, user.getGameId()) &&
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
+
+    public int getNumberOfPlayersFromBody(){
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
+
+    public String getPrefixFromBody(){
+        return params.body().getJsonObject().getString("prefix");
+    }
+
+    public String getGameIdFromPath(){
+        return params.pathParameter("gameId").getString();
+    }
+
+    public String getPlayerNameFromBody() {
+        return params.body().getJsonObject().getString("playerName");
+    }
+
+    public int getTilePosition() {
+        return params.pathParameter("tileId").getInteger();
+    }
+
+    public boolean hasTilePosition() {
+        return params.pathParameter("tileId").isNumber();
+    }
+
+    public String getTileName() {
+        return params.pathParameter("tileId").getString();
+    }
+
+    public RequestParameter getQueryParameter(String query) {
+        return params.queryParameter(query);
+    }
+
 }

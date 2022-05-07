@@ -5,9 +5,13 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
+import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
+import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
 import io.vertx.core.http.HttpMethod;
@@ -17,7 +21,11 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
+import io.vertx.ext.web.validation.RequestParameter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,7 +134,17 @@ public class MonopolyApiBridge {
     }
 
     private void getTile(RoutingContext ctx) {
-        throw new NotYetImplementedException("getTile");
+        Request request = Request.from(ctx);
+        Tile tile;
+        if (request.hasTilePosition()) {
+            int position = request.getTilePosition();
+            tile = service.getTile(position);
+        }
+        else{
+            String name = request.getTileName();
+            tile = service.getTile(name);
+        }
+        Response.sendJsonResponse(ctx, 200, tile);
     }
 
     private void getChance(RoutingContext ctx) {
@@ -142,19 +160,75 @@ public class MonopolyApiBridge {
     }
 
     private void createGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("createGame");
+        Request request = Request.from(ctx);
+        int numberOfPlayers = request.getNumberOfPlayersFromBody();
+        String prefix = request.getPrefixFromBody();
+
+        Game game = service.createGame(prefix, numberOfPlayers);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.put("id", game.getId());
+        jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
+        jsonObject.put("started", game.getStarted());
+        jsonObject.put("players", new ArrayList<>(game.getPlayers().keySet()));
+
+        Response.sendJsonResponse(ctx, 200, jsonObject);
+
     }
 
     private void getGames(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGames");
+        Request request = Request.from(ctx);
+        RequestParameter numberOfPlayers = request.getQueryParameter("numberOfPlayers");
+        RequestParameter started = request.getQueryParameter("started");
+        RequestParameter prefix = request.getQueryParameter("prefix");
+
+        Map<String, Game> games = service.getGamesFromService();
+        List<JsonObject> list = new ArrayList<>();
+
+        for (Map.Entry<String, Game> entry : games.entrySet()){
+            Game game = entry.getValue();
+            if (isGameValidAccordingToQueries(game, started, numberOfPlayers, prefix)){
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.put("id", game.getId());
+                jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
+                jsonObject.put("started", game.getStarted());
+                jsonObject.put("players", new ArrayList<>(game.getPlayers().keySet()));
+                list.add(jsonObject);
+            }
+        }
+
+        Response.sendJsonResponse(ctx, 200, new JsonObject()
+                .put("games", list)
+        );
+
     }
 
     private void joinGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("joinGame");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+        String playerName = request.getPlayerNameFromBody();
+
+        service.joinGame(gameId, playerName);
+
+        String playerToken = tokenManager.createToken(
+                new MonopolyUser(gameId, playerName)
+        );
+        Response.sendJsonResponse(ctx, 200, new JsonObject()
+                .put("token", playerToken)
+        );
     }
 
     private void getGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGame");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+
+        // check if player who requested the game is authorized in game
+        if(!isPlayerAuthorizedInGame(request, gameId)){
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
+        }
+
+        Game game = service.getGame(gameId);
+        Response.sendJsonResponse(ctx, 200, game);
     }
 
     private void getDummyGame(RoutingContext ctx) {
@@ -286,5 +360,23 @@ public class MonopolyApiBridge {
                 .allowedMethod(HttpMethod.PATCH)
                 .allowedMethod(HttpMethod.DELETE)
                 .allowedMethod(HttpMethod.PUT);
+    }
+
+    // helpers
+    private boolean isGameValidAccordingToQueries(Game game, RequestParameter started, RequestParameter numberOfPlayers, RequestParameter prefix){
+        return (started == null || game.getStarted() == started.getBoolean()) &&
+                (numberOfPlayers == null || game.getNumberOfPlayers() == numberOfPlayers.getInteger()) &&
+                (prefix == null || game.getPrefix().equals(prefix.getString()));
+    }
+
+    private boolean isPlayerAuthorizedInGame(Request request, String gameId){
+        // check if player who requested the game is authorized in game
+        Map<String, Player> players = service.getGame(gameId).getPlayers();
+        for(Map.Entry<String, Player> entry : players.entrySet()){
+            if (request.isAuthorized(gameId, entry.getKey())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

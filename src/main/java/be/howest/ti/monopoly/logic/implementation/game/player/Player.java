@@ -1,4 +1,4 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
@@ -11,7 +11,7 @@ public class Player {
     private int money = 1500;
     private boolean bankrupt = false;
     private int getOutOfJailFreeCards = 0;
-    private final List<Property> properties;
+    //private final List<Property> properties;
 
 
     // CONSTRUCTOR
@@ -40,12 +40,12 @@ public class Player {
         money -= 50;
         setJailed(false);
     }
-    public void addProperty(Property property){
+    /*public void addProperty(Property property){
         properties.add(property);
     }
     public void removeProperty(Property property){
         properties.remove(property);
-    }
+    }*/
 
     // GETTERS
     public String getName() {
@@ -66,9 +66,9 @@ public class Player {
     public int getGetOutOfJailFreeCards() {
         return getOutOfJailFreeCards;
     }
-    public List<Property> getProperties() {
+    /*public List<Property> getProperties() {
         return properties;
-    }
+    }*/
 
     // SETTERS
     public void setCurrentTileWithPostition(int postition){
