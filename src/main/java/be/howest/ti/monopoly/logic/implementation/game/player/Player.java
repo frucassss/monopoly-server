@@ -89,6 +89,7 @@
         }
 
         public void sellHouse(Property property) {
+            checkIfYouHaveAHouse(property);
             //Todo checkers for selling a house
             collect((int) (property.getHousePrice() * 0.5));
             findPropertyInList(property).removeHouse();
@@ -114,6 +115,12 @@
         }
 
         // CHECKERS
+
+        private void checkIfYouHaveAHouse(Property property) {
+            if (findPropertyInList(property).getHouseCount() == 0){
+                throw new IllegalMonopolyActionException("You dont have a house on this property");
+            }
+        }
 
         private void checkWhileSellingAHotelIWontRunAhead(String streetColor){
             for (Property property : properties){
