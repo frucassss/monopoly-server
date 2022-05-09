@@ -90,8 +90,8 @@
 
         public void sellHouse(Property property) {
             //Todo checkers for selling a house
-            findPropertyInList(property).removeHouse();
             collect((int) (property.getHousePrice() * 0.5));
+            findPropertyInList(property).removeHouse();
         }
 
         public void buyHotel(Property property) {
@@ -104,6 +104,7 @@
         }
 
         public void sellHotel(Property property) {
+            checkIfYouHaveAHotel(property);
             //Todo checkrs for selling a house
             collect(property.getHousePrice());
             property.removeHotel();
@@ -113,6 +114,12 @@
         }
 
         // CHECKERS
+
+        private void checkIfYouHaveAHotel(Property property) {
+            if (findPropertyInList(property).getHotelCount() != 1){
+                throw new IllegalMonopolyActionException("You don't have a hotel to sell");
+            }
+        }
 
         private void checkIfEveryPropertyHasAValueOf4Houses(String streetColor){
             for (Property property : properties) {
