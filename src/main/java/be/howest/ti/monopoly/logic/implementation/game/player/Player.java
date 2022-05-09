@@ -105,7 +105,7 @@
 
         public void sellHotel(Property property) {
             checkIfYouHaveAHotel(property);
-            //Todo checkrs for selling a house
+            checkWhileSellingAHotelIWontRunAhead(property.getColor());
             collect(property.getHousePrice());
             property.removeHotel();
             for (int i = 0; i < 4; i++) {
@@ -114,6 +114,16 @@
         }
 
         // CHECKERS
+
+        private void checkWhileSellingAHotelIWontRunAhead(String streetColor){
+            for (Property property : properties){
+                if (property.getColor().equals(streetColor) &&
+                        (property.getHouseCount() != 0 && property.getHotelCount() == 1) &&
+                        (property.getHouseCount() != 4 && property.getHotelCount() == 0)){
+                    throw new IllegalMonopolyActionException("You need to sell all houses before you can sell a hotel");
+                }
+            }
+        }
 
         private void checkIfYouHaveAHotel(Property property) {
             if (findPropertyInList(property).getHotelCount() != 1){

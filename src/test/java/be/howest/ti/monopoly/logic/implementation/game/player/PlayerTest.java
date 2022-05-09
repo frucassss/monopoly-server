@@ -314,8 +314,8 @@ class PlayerTest {
 
         michiel.sellHouse(mediterraneanProperty);
 
-        assertEquals(2, michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
-        assertEquals(1, michiel.findPropertyInList(balticProperty).getHouseCount());
+        assertEquals(1, michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
+        assertEquals(2, michiel.findPropertyInList(balticProperty).getHouseCount());
     }
 
     @Test
