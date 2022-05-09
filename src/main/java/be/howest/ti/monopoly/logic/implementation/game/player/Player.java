@@ -115,21 +115,19 @@
         // CHECKERS
 
         private void checkIfEveryPropertyHasAValueOf4Houses(String streetColor){
-            for (int i = 0; i < properties.size(); i++) {
-                if (properties.get(i).getColor().equals(streetColor)){
-                    if (properties.get(i).getHouseCount() + (properties.get(i).getHotelCount() * 4) != 4){
-                        throw new IllegalMonopolyActionException("You need to improve other properties first");
-                    }
+            for (Property property : properties) {
+                if ((property.getColor().equals(streetColor)) &&
+                        (property.getHouseCount() + (property.getHotelCount() * 4) != 4)) {
+                    throw new IllegalMonopolyActionException("You need to improve other properties first");
                 }
 
             }
         }
 
         private void checkIfYouDontWanneRunAheadOnProperty(Property property) {
-            if (getHighestHouseCountFromStreet(property.getColor()) != getLowestHouseCountFromStreet(property.getColor())) {
-                if (property.getHouseCount() != getLowestHouseCountFromStreet(property.getColor())) {
+            if ((getHighestHouseCountFromStreet(property.getColor()) != getLowestHouseCountFromStreet(property.getColor())) &&
+                    (property.getHouseCount() != getLowestHouseCountFromStreet(property.getColor()))) {
                     throw new IllegalMonopolyActionException("You need to improve your other properties from this street first.");
-                }
             }
         }
 
