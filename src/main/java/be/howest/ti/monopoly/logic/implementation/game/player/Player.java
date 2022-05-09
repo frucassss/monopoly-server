@@ -83,7 +83,7 @@
         public void buyHouse(Property property) {
             checkIfYouOwnProperty(property);
             checkIfYouHaveAllNeededPropertiesForImprovement(property);
-            //todo in other branch -> checkers for buying house
+            checkIfYouDontWanneRunAheadOnProperty(property);
             this.money -= property.getHousePrice();
             findPropertyInList(property).addHouse();
         }
@@ -114,6 +114,33 @@
 
         // CHECKERS
 
+        private void checkIfYouDontWanneRunAheadOnProperty(Property property) {
+            if (getHighestHouseCountFromStreet(property.getColor()) != getLowestHouseCountFromStreet(property.getColor())) {
+                if (property.getHouseCount() != getLowestHouseCountFromStreet(property.getColor())) {
+                    throw new IllegalMonopolyActionException("You need to improve your other properties from this street first.");
+                }
+            }
+        }
+
+        private int getHighestHouseCountFromStreet(String streetColor) {
+            int highest = -1;
+            for (Property propertiesFromPlayer : properties) {
+                if (propertiesFromPlayer.getColor().equals(streetColor) && propertiesFromPlayer.getHouseCount() > highest) {
+                    highest = propertiesFromPlayer.getHouseCount();
+                }
+            }
+            return highest;
+        }
+
+        private int getLowestHouseCountFromStreet(String streetColor) {
+            int lowest = 5;
+            for (Property propertiesFromPlayer : properties) {
+                if (propertiesFromPlayer.getColor().equals(streetColor) && propertiesFromPlayer.getHouseCount() < lowest) {
+                    lowest = propertiesFromPlayer.getHouseCount();
+                }
+            }
+            return lowest;
+        }
         private void checkIfYouHaveAllNeededPropertiesForImprovement(Property property) {
             int counter = 0;
             for (Property propertiesFormPlayer : properties) {

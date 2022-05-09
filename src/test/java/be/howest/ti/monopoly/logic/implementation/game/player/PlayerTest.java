@@ -97,8 +97,17 @@ class PlayerTest {
         michiel.buyHotel(mediterraneanProperty);
         michiel.buyHotel(balticProperty);
 
-        assertEquals(0,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
-        assertEquals(0,michiel.findPropertyInList(balticProperty).getHouseCount());
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+
+        assertEquals(4,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
+        assertEquals(4,michiel.findPropertyInList(balticProperty).getHouseCount());
         assertEquals(1,michiel.findPropertyInList(balticProperty).getHotelCount());
         assertEquals(1, michiel.findPropertyInList(mediterraneanProperty).getHotelCount());
     }
@@ -134,7 +143,7 @@ class PlayerTest {
     }
 
     @Test
-    void testTryToBuyHouseWithHotel(){
+    void testTryToBuyHouseWithHotelAnd4Houses(){
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -155,8 +164,76 @@ class PlayerTest {
         michiel.buyHotel(mediterraneanProperty);
         michiel.buyHotel(balticProperty);
 
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+
         assertThrows(IllegalMonopolyActionException.class, ()->{
             michiel.buyHouse(mediterraneanProperty);
+        });
+    }
+
+    @Test
+    void testTryToBuyMultipleHotelOnProperty(){
+        Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
+        Player michiel = new Player("Michiel");
+        Property mediterraneanProperty = new Property(mediterraneanTile);
+        Property balticProperty = new Property(balticTile);
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+
+        michiel.buyHotel(mediterraneanProperty);
+        michiel.buyHotel(balticProperty);
+
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+
+        assertThrows(IllegalMonopolyActionException.class, ()->{
+            michiel.buyHotel(mediterraneanProperty);
+        });
+    }
+
+    @Test
+    void haveToFindGoodName(){
+        Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
+        Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
+        Player michiel = new Player("Michiel");
+        Property mediterraneanProperty = new Property(mediterraneanTile);
+        Property balticProperty = new Property(balticTile);
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+        michiel.buyHouse(balticProperty);
+        michiel.buyHouse(mediterraneanProperty);
+
+        assertThrows(IllegalMonopolyActionException.class,()->{
+            michiel.buyHotel(mediterraneanProperty);
         });
     }
 
