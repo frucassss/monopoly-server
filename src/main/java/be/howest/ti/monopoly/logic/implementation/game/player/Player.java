@@ -81,6 +81,8 @@
         }
 
         public void buyHouse(Property property) {
+            checkIfYouOwnProperty(property);
+            checkIfYouHaveAllNeededPropertiesForImprovement(property);
             //todo in other branch -> checkers for buying house
             this.money -= property.getHousePrice();
             findPropertyInList(property).addHouse();
@@ -111,6 +113,18 @@
         }
 
         // CHECKERS
+
+        private void checkIfYouHaveAllNeededPropertiesForImprovement(Property property) {
+            int counter = 0;
+            for (Property propertiesFormPlayer : properties) {
+                if (propertiesFormPlayer.getColor().equals(property.getColor())) {
+                    counter++;
+                }
+            }
+            if ((counter != property.getGroupSize())) {
+                throw new IllegalMonopolyActionException("you don't have all properties of this street, so you can't buy a house");
+            }
+        }
 
         private void checkIfAmountIsNotNegative(int amount){
             if (amount < 0){
