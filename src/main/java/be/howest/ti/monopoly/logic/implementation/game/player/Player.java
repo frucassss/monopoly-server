@@ -81,6 +81,7 @@
         }
 
         public void buyHouse(Property property) {
+            checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
             checkIfYouOwnProperty(property);
             checkIfYouHaveAllNeededPropertiesForImprovement(property);
             checkIfYouDontWanneRunAheadOnProperty(property);
@@ -95,6 +96,7 @@
         }
 
         public void buyHotel(Property property) {
+            checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
             checkIfEveryPropertyHasAValueOf4Houses(property.getColor());
             this.money -= property.getHousePrice();
             property.addHotel();
@@ -113,6 +115,12 @@
         }
 
         // CHECKERS
+
+        private void checkIfIHaveEnoughMoneyForImprovement(int improvementPrice) {
+            if (this.money < improvementPrice) {
+                throw new IllegalMonopolyActionException("You don't have enough money for this improvement");
+            }
+        }
 
         private void checkIfEveryPropertyHasAValueOf4Houses(String streetColor){
             for (int i = 0; i < properties.size(); i++) {
@@ -183,37 +191,37 @@
             }
         }
 
-        public void checkIfYouCanUseAGetOutOfJailFreeCard() {
+        private void checkIfYouCanUseAGetOutOfJailFreeCard() {
             if (this.getOutOfJailFreeCards == 0) {
                 throw new IllegalMonopolyActionException("You don't have an get out of jail card");
             }
         }
 
-        public void checkIfYouOwnProperty(Property property) {
+        private void checkIfYouOwnProperty(Property property) {
             if(!properties.contains(property)){
                 throw new IllegalMonopolyActionException("You don't own this property.");
             }
         }
 
-        public void checkIfPropertyIsNotMortgaged(Property property) {
+        private void checkIfPropertyIsNotMortgaged(Property property) {
             if (property.isMortgage()) {
                 throw new IllegalMonopolyActionException("It's already mortgaged");
             }
         }
 
-        public void checkIfPropertyIsMortgaged(Property property) {
+        private void checkIfPropertyIsMortgaged(Property property) {
             if (!property.isMortgage()) {
                 throw new IllegalMonopolyActionException("It's not mortgaged");
             }
         }
 
-        public void checkIfYouCanPayPrisonFine() {
+        private void checkIfYouCanPayPrisonFine() {
             if (money < 50) {
                 throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money");
             }
         }
 
-        public void checkIfYouHaveEnoughMoneyToUnMortgageProperty(Property property) {
+        private void checkIfYouHaveEnoughMoneyToUnMortgageProperty(Property property) {
             if (this.money < (int) (property.getMortgageValue() + (property.getMortgageValue() * 0.1))) {
                 throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
             }
