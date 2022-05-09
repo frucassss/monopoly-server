@@ -95,7 +95,7 @@
         }
 
         public void buyHotel(Property property) {
-            //Todo checkers for buying hotel in other branch
+            checkIfEveryPropertyHasAValueOf4Houses(property.getColor());
             this.money -= property.getHousePrice();
             property.addHotel();
             for (int i = 0; i < 4; i++) {
@@ -113,6 +113,17 @@
         }
 
         // CHECKERS
+
+        private void checkIfEveryPropertyHasAValueOf4Houses(String streetColor){
+            for (int i = 0; i < properties.size(); i++) {
+                if (properties.get(i).getColor().equals(streetColor)){
+                    if (properties.get(i).getHouseCount() + (properties.get(i).getHotelCount() * 4) != 4){
+                        throw new IllegalMonopolyActionException("You need to improve other properties first");
+                    }
+                }
+
+            }
+        }
 
         private void checkIfYouDontWanneRunAheadOnProperty(Property property) {
             if (getHighestHouseCountFromStreet(property.getColor()) != getLowestHouseCountFromStreet(property.getColor())) {
@@ -141,6 +152,7 @@
             }
             return lowest;
         }
+
         private void checkIfYouHaveAllNeededPropertiesForImprovement(Property property) {
             int counter = 0;
             for (Property propertiesFormPlayer : properties) {
