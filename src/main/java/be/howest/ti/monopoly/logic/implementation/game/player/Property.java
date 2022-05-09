@@ -33,28 +33,10 @@ public class Property {
         }
     }
 
-    public void checkIfTileTypeIsAtLeastAPropertyTile(Tile property) {
-        if (!(property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility"))) {
-            throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
-        }
-    }
-
     public void addHouse() {
         checkIfYouDontHaveMoreThen4HousesOnProperty();
         checkIfPropertyIsStreetTile();
         houseCount += 1;
-    }
-
-    public void checkIfYouDontHaveMoreThen4HousesOnProperty() {
-        if (houseCount == 4) {
-            throw new IllegalMonopolyActionException("You already have 4 houses on the property");
-        }
-    }
-
-    public void checkIfPropertyIsStreetTile() {
-        if (!this.property.getType().equals("street")) {
-            throw new IllegalMonopolyActionException("Your property isn't a streetTile");
-        }
     }
 
     public void removeHouse() {
@@ -63,36 +45,16 @@ public class Property {
         houseCount -= 1;
     }
 
-    public void checkIfYouCanRemoveHouse() {
-        if (houseCount == 0) {
-            throw new IllegalMonopolyActionException("You don't have houses to remove");
-        }
-    }
-
     public void addHotel() {
         checkIfYouCanAddHotel();
         checkIfPropertyIsStreetTile();
         hotelCount += 1;
     }
 
-    public void checkIfYouCanAddHotel() {
-        if (houseCount != 4) {
-            throw new IllegalMonopolyActionException("You can't buy an hotel because you don't have 4 houses");
-        } else if (hotelCount > 0) {
-            throw new IllegalMonopolyActionException("You can't buy an hotel because you already have one");
-        }
-    }
-
     public void removeHotel() {
         checkIfYouCanRemoveHotel();
         checkIfPropertyIsStreetTile();
         hotelCount -= 1;
-    }
-
-    public void checkIfYouCanRemoveHotel() {
-        if (hotelCount == 0) {
-            throw new IllegalMonopolyActionException("You can't remove a hotel you don't have");
-        }
     }
 
     public void mortgageProperty() {
@@ -117,10 +79,8 @@ public class Property {
         return propertyStreet.getGroupSize();
     }
 
-    public String getStreetColor(){
-        checkIfPropertyIsStreetTile();
-        StreetTile propertyStreet = (StreetTile) this.property;
-        return propertyStreet.getStreetColor();
+    public String getColor(){
+        return this.property.getColor();
     }
 
     public int getMortgageValue() {
@@ -141,6 +101,46 @@ public class Property {
 
     public int getHotelCount() {
         return hotelCount;
+    }
+
+    //checkers
+
+    public void checkIfYouCanRemoveHotel() {
+        if (hotelCount == 0) {
+            throw new IllegalMonopolyActionException("You can't remove a hotel you don't have");
+        }
+    }
+
+    public void checkIfYouCanRemoveHouse() {
+        if (houseCount == 0) {
+            throw new IllegalMonopolyActionException("You don't have houses to remove");
+        }
+    }
+
+    public void checkIfYouCanAddHotel() {
+        if (houseCount != 4) {
+            throw new IllegalMonopolyActionException("You can't buy an hotel because you don't have 4 houses");
+        } else if (hotelCount > 0) {
+            throw new IllegalMonopolyActionException("You can't buy an hotel because you already have one");
+        }
+    }
+
+    public void checkIfYouDontHaveMoreThen4HousesOnProperty() {
+        if (houseCount == 4) {
+            throw new IllegalMonopolyActionException("You already have 4 houses on the property");
+        }
+    }
+
+    public void checkIfPropertyIsStreetTile() {
+        if (!this.property.getType().equals("street")) {
+            throw new IllegalMonopolyActionException("Your property isn't a streetTile");
+        }
+    }
+
+    public void checkIfTileTypeIsAtLeastAPropertyTile(Tile property) {
+        if (!(property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility"))) {
+            throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
+        }
     }
 
     @Override
