@@ -22,13 +22,9 @@
 
         // METHODS
         public void pay(int amount) {
-            if (money >= amount) {
-                this.money -= amount;
-            } else if (money < 0){
-                throw new IllegalMonopolyActionException("Don't enter negative number");
-            } else {
-                throw new IllegalMonopolyActionException("You don't have enough money");
-            }
+            checkIfIHaveEnoughMoney(amount);
+            checkIfAmountIsNotNegative(amount);
+            this.money -= amount;
         }
 
         public Property findPropertyInList(Property property) {
@@ -41,11 +37,8 @@
         }
 
         public void collect(int amount) {
-            if (money < 0){
-                throw new IllegalMonopolyActionException("You can't enter a negative number");
-            } else {
-                this.money += amount;
-            }
+            checkIfAmountIsNotNegative(amount);
+            this.money += amount;
         }
 
         public void addGetOutOfJailFreeCard() {
@@ -118,6 +111,18 @@
         }
 
         // CHECKERS
+
+        private void checkIfAmountIsNotNegative(int amount){
+            if (amount < 0){
+                throw new IllegalMonopolyActionException("You're trying to pay a negative number?");
+            }
+        }
+
+        private void checkIfIHaveEnoughMoney(int amount){
+            if (amount > money){
+                throw new IllegalMonopolyActionException("You don't have enough money");
+            }
+        }
 
         private void checkIfYouCanAddGetOutOfJailFreeCard() {
             if (this.getOutOfJailFreeCards > 2) {
