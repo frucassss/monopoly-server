@@ -29,7 +29,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Map<String, Game> getGames(){
+    public Map<String, Game> getGamesFromService(){
         return games;
     }
 
