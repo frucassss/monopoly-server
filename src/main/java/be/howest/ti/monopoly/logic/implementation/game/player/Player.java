@@ -81,24 +81,22 @@
         }
 
         public void buyHouse(Property property) {
-            checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
             checkIfYouOwnProperty(property);
             checkIfYouHaveAllNeededPropertiesForImprovement(property);
             checkIfYouDontWanneRunAheadOnProperty(property);
-            this.money -= property.getHousePrice();
+            pay(property.getHousePrice());
             findPropertyInList(property).addHouse();
         }
 
         public void sellHouse(Property property) {
             //Todo checkers for selling a house
             findPropertyInList(property).removeHouse();
-            this.money += (property.getHousePrice() * 0.5);
+            collect((int) (property.getHousePrice() * 0.5));
         }
 
         public void buyHotel(Property property) {
-            checkIfIHaveEnoughMoneyForImprovement(property.getHousePrice());
             checkIfEveryPropertyHasAValueOf4Houses(property.getColor());
-            this.money -= property.getHousePrice();
+            pay(property.getHousePrice());
             property.addHotel();
             for (int i = 0; i < 4; i++) {
                 property.removeHouse();
@@ -107,7 +105,7 @@
 
         public void sellHotel(Property property) {
             //Todo checkrs for selling a house
-            this.money += property.getHousePrice();
+            collect(property.getHousePrice());
             property.removeHotel();
             for (int i = 0; i < 4; i++) {
                 property.addHouse();
@@ -115,12 +113,6 @@
         }
 
         // CHECKERS
-
-        private void checkIfIHaveEnoughMoneyForImprovement(int improvementPrice) {
-            if (this.money < improvementPrice) {
-                throw new IllegalMonopolyActionException("You don't have enough money for this improvement");
-            }
-        }
 
         private void checkIfEveryPropertyHasAValueOf4Houses(String streetColor){
             for (int i = 0; i < properties.size(); i++) {
