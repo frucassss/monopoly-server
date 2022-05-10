@@ -84,7 +84,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 
@@ -102,7 +102,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers, service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 
@@ -122,7 +122,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 
@@ -141,7 +141,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 
@@ -160,7 +160,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 
@@ -179,7 +179,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 
@@ -210,7 +210,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers);
+                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
             }
         });
 

@@ -236,6 +236,10 @@
         }
 
         // GETTERS
+        public Game getGameFromPlayer() {
+            return game;
+        }
+
         public String getName() {
             return name;
         }
