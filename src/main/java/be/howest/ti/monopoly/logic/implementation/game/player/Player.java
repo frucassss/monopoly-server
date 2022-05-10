@@ -167,6 +167,12 @@
         }
 
 
+        public void checkBankrupt() {
+            if (getBankrupt()){
+                throw new IllegalMonopolyActionException("you are already bankrupt");
+            }
+        }
+
 
         // GETTERS
         public String getName() {
@@ -207,8 +213,9 @@
             this.jailed = jailed;
         }
 
-        public void setBankrupt(boolean bankrupt) {
-            this.bankrupt = bankrupt;
+        public void makeBankrupt() {
+            checkBankrupt();
+            this.bankrupt = true;
         }
 
         // BUILT-IN
