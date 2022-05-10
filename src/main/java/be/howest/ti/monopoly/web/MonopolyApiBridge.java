@@ -258,6 +258,8 @@ public class MonopolyApiBridge {
 
         service.declareBankruptcy(gameId, playerName);
 
+        Response.sendOkResponse(ctx);
+
 
     }
 
