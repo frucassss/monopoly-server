@@ -32,4 +32,8 @@ public interface IService {
     void buyHotel(String gameId, String playerName, String propertyName);
 
     void declareBankruptcy(String gameId, String playerName);
+
+    void sellHouse(String gameId, String playerName, String propertyName);
+
+    void sellHotel(String gameId, String playerName, String propertyName);
 }

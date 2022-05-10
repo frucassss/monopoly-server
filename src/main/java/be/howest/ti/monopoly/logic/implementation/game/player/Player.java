@@ -7,8 +7,8 @@
     import java.util.*;
 
     public class Player {
-        private final String name;
         private final Game game;
+        private final String name;
         private Tile currentTile = new Tile("Go", 0, "Go");
         private boolean jailed = false;
         private int money = 1500;
@@ -143,11 +143,13 @@
             property.addHouse();
         }
 
+
         public void sellHouse(String propertyName) {
+            checkIfYouHaveAHouse(propertyName);
+            checkIfYouAreAllowedToSellHouse(propertyName);
             Property property = findPropertyInList(propertyName);
-            //Todo checkers for selling a house
-            property.removeHouse();
             collect((int) (property.getHousePrice() * 0.5));
+            property.removeHouse();
         }
 
         public void buyHotel(String propertyName) {
@@ -160,9 +162,11 @@
             }
         }
 
+
         public void sellHotel(String propertyName) {
+            checkIfYouHaveAHotel(propertyName);
+            checkWhileSellingAHotelIWontRunAhead(propertyName);
             Property property = findPropertyInList(propertyName);
-            //Todo checkrs for selling a house
             collect(property.getHousePrice());
             property.removeHotel();
             for (int i = 0; i < 4; i++) {
@@ -171,6 +175,45 @@
         }
 
         // CHECKERS
+
+        private void checkIfYouAreAllowedToSellHouse(String propertyName){
+            Property property = findPropertyInList(propertyName);
+            if ((getHighestHouseCountFromStreetExceptGivenProperty(propertyName) > property.getHouseCount()) ||
+                    (difference(getHighestHouseCountFromStreetExceptGivenProperty(propertyName),property.getHouseCount()) > 1)){
+                throw new IllegalMonopolyActionException("You need to sell other houses first");
+            }
+        }
+
+        private int difference(int x, int y){
+            int diff = x - y;
+            return Math.abs(diff);
+        }
+
+        private void checkIfYouHaveAHouse(String propertyName) {
+            int houseCount = findPropertyInList(propertyName).getHouseCount();
+            if (houseCount == 0){
+                throw new IllegalMonopolyActionException("You dont have a house on this property");
+            }
+        }
+
+        private void checkWhileSellingAHotelIWontRunAhead(String propertyName){
+            String streetColor = findPropertyInList(propertyName).getColor();
+            for (Property property : properties){
+                if (property.getColor().equals(streetColor) &&
+                        (property.getHouseCount() != 0 && property.getHotelCount() == 1) &&
+                        (property.getHouseCount() != 4 && property.getHotelCount() == 0)){
+                    throw new IllegalMonopolyActionException("You need to sell all houses before you can sell a hotel");
+                }
+            }
+        }
+
+        private void checkIfYouHaveAHotel(String propertyName) {
+            Property property = findPropertyInList(propertyName);
+            if (property.getHotelCount() != 1){
+                throw new IllegalMonopolyActionException("You don't have a hotel to sell");
+            }
+        }
+
 
         private void checkIfEveryPropertyHasAValueOf4Houses(String propertyName){
             String propertyColor = findPropertyInList(propertyName).getColor();
@@ -188,6 +231,17 @@
                     (property.getHouseCount() != getLowestHouseCountFromStreet(property.getPropertyName()))) {
                     throw new IllegalMonopolyActionException("You need to improve your other properties from this street first.");
             }
+        }
+
+        private int getHighestHouseCountFromStreetExceptGivenProperty(String propertyName){
+            Property property = findPropertyInList(propertyName);
+            int highest = -1;
+            for (Property propertiesFromPlayer : properties) {
+                if (propertiesFromPlayer.getColor().equals(property.getColor()) && propertiesFromPlayer.getHouseCount() > highest && !propertiesFromPlayer.equals(property)) {
+                    highest = propertiesFromPlayer.getHouseCount();
+                }
+            }
+            return highest;
         }
 
         private int getHighestHouseCountFromStreet(String propertyName) {
@@ -291,7 +345,8 @@
         }
 
         // GETTERS
-        public Game getGameFromPlayer() {
+
+        public Game receiveGame() {
             return game;
         }
 
