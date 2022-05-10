@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.game.player.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -36,7 +37,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game createGame(String prefix, int numberOfPlayers){
-        Game game = new Game(prefix, games.size(), numberOfPlayers);
+        Game game = new Game(prefix, games.size(), numberOfPlayers, getChance(),getCommunityChest(),getTiles());
         addGame(game.getId(), game);
         return game;
     }
@@ -167,6 +168,18 @@ public class MonopolyService extends ServiceAdapter {
             }
         }
         throw new MonopolyResourceNotFoundException("no such tile");
+    }
+
+    @Override
+    public void buyHouse(String gameId, String playerName, String propertyName) {
+        Player player = getGame(gameId).findPlayer(playerName);
+        player.buyHouse(propertyName);
+    }
+
+    @Override
+    public void buyHotel(String gameId, String playerName, String propertyName) {
+        Player player = getGame(gameId).findPlayer(playerName);
+        player.buyHotel(propertyName);
     }
 
     @Override

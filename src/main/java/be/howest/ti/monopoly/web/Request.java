@@ -92,4 +92,9 @@ public class Request {
     public String getPlayerNameFromPath() {
         return params.pathParameter("playerName").getString();
     }
+
+    public String getPropertyNameFromPath() {
+        return params.pathParameter("propertyName").getString();
+    }
+
 }

@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation.game;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 
@@ -14,9 +15,15 @@ public class Game {
     private int numberOfPlayers;
     private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
+    protected List<Tile> tiles;
+    protected List<String> chance;
+    protected List<String> communityChest;
 
-    public Game(String prefix, int sessionNumber, int numberOfPlayers) {
+    public Game(String prefix, int sessionNumber, int numberOfPlayers,List<String> chance, List<String> communityChest, List<Tile> tiles) {
         checkCharactersInString(prefix, "Prefix");
+        this.tiles = tiles;
+        this.communityChest = communityChest;
+        this.chance = chance;
         this.prefix = prefix;
         this.id = prefix + "_" + sessionNumber;
         setNumberOfPlayers(numberOfPlayers);
@@ -27,7 +34,7 @@ public class Game {
         checkCharactersInString(playerName, "Player name");
         checkIfPlayerIsInGame(playerName);
 
-        Player player = new Player(playerName);
+        Player player = new Player(playerName, this);
         players.put(playerName, player);
 
         if(players.size() == numberOfPlayers){
