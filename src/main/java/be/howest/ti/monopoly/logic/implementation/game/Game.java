@@ -33,7 +33,6 @@ public class Game {
         checkIfGameIsNotStarted();
         checkCharactersInString(playerName, "Player name");
         checkIfPlayerIsInGame(playerName);
-
         Player player = new Player(playerName, this);
         players.put(playerName, player);
 
