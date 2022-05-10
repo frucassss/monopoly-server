@@ -248,6 +248,7 @@ public class MonopolyApiBridge {
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
+        response.send
         throw new NotYetImplementedException("declareBankruptcy");
     }
 
