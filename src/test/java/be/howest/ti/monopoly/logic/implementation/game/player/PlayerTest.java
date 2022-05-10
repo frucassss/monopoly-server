@@ -23,8 +23,8 @@ class PlayerTest {
         michiel.addProperty(mediterraneanProperty);
         michiel.addProperty(balticProperty);
 
-        List<Property> wantedproperties = List.of(mediterraneanProperty,balticProperty);
-        assertEquals(wantedproperties,michiel.getProperties());
+        List<Property> wantedproperties = List.of(mediterraneanProperty, balticProperty);
+        assertEquals(wantedproperties, michiel.getProperties());
     }
 
     @Test
@@ -76,7 +76,7 @@ class PlayerTest {
     }
 
     @Test
-    void testFullyImproveStreet(){
+    void testFullyImproveStreet() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -106,14 +106,14 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
 
-        assertEquals(4,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
-        assertEquals(4,michiel.findPropertyInList(balticProperty).getHouseCount());
-        assertEquals(1,michiel.findPropertyInList(balticProperty).getHotelCount());
+        assertEquals(4, michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
+        assertEquals(4, michiel.findPropertyInList(balticProperty).getHouseCount());
+        assertEquals(1, michiel.findPropertyInList(balticProperty).getHotelCount());
         assertEquals(1, michiel.findPropertyInList(mediterraneanProperty).getHotelCount());
     }
 
     @Test
-    void testNotAllowedToBuyHotel(){
+    void testNotAllowedToBuyHotel() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -125,25 +125,25 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
 
-        assertThrows(IllegalMonopolyActionException.class,()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.buyHotel(mediterraneanProperty);
         });
     }
 
     @Test
-    void testNotAllowedToBuyHouse(){
+    void testNotAllowedToBuyHouse() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Player michiel = new Player("Michiel");
         Property mediterraneanProperty = new Property(mediterraneanTile);
         michiel.addProperty(mediterraneanProperty);
 
-        assertThrows(IllegalMonopolyActionException.class, ()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.buyHouse(mediterraneanProperty);
         });
     }
 
     @Test
-    void testTryToBuyHouseWithHotelAnd4Houses(){
+    void testTryToBuyHouseWithHotelAnd4Houses() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -173,13 +173,13 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
 
-        assertThrows(IllegalMonopolyActionException.class, ()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.buyHouse(mediterraneanProperty);
         });
     }
 
     @Test
-    void testTryToBuyMultipleHotelOnProperty(){
+    void testTryToBuyMultipleHotelOnProperty() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -209,13 +209,13 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
 
-        assertThrows(IllegalMonopolyActionException.class, ()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.buyHotel(mediterraneanProperty);
         });
     }
 
     @Test
-    void haveToFindGoodName(){
+    void haveToFindGoodName() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -232,13 +232,13 @@ class PlayerTest {
         michiel.buyHouse(balticProperty);
         michiel.buyHouse(mediterraneanProperty);
 
-        assertThrows(IllegalMonopolyActionException.class,()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.buyHotel(mediterraneanProperty);
         });
     }
 
     @Test
-    void testNotRunningAhead(){
+    void testNotRunningAhead() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -251,13 +251,13 @@ class PlayerTest {
         michiel.buyHouse(balticProperty);
 
         michiel.buyHouse(mediterraneanProperty);
-        assertThrows(IllegalMonopolyActionException.class, ()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.buyHouse(mediterraneanProperty);
         });
     }
 
     @Test
-    void testTryingToBuyHotelWithoutHaving4Houses(){
+    void testTryingToBuyHotelWithoutHaving4Houses() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -275,13 +275,13 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
 
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-           michiel.buyHotel(mediterraneanProperty);
+        assertThrows(IllegalMonopolyActionException.class, () -> {
+            michiel.buyHotel(mediterraneanProperty);
         });
     }
 
     @Test
-    void testBuyingPropertyWithoutHavingMoney(){
+    void testBuyingPropertyWithoutHavingMoney() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -292,13 +292,13 @@ class PlayerTest {
 
         michiel.pay(1500);
 
-        assertThrows(IllegalMonopolyActionException.class,()->{
-           michiel.buyHouse(mediterraneanProperty);
+        assertThrows(IllegalMonopolyActionException.class, () -> {
+            michiel.buyHouse(mediterraneanProperty);
         });
     }
 
     @Test
-    void testSellingAHouse(){
+    void testSellingAHouse() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -319,7 +319,7 @@ class PlayerTest {
     }
 
     @Test
-    void testSellingHotel(){
+    void testSellingHotel() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -341,11 +341,11 @@ class PlayerTest {
 
         michiel.sellHotel(mediterraneanProperty);
 
-        assertEquals(0,michiel.findPropertyInList(mediterraneanProperty).getHotelCount());
+        assertEquals(0, michiel.findPropertyInList(mediterraneanProperty).getHotelCount());
     }
 
     @Test
-    void testRunningAheadWithSellingHouse(){
+    void testRunningAheadWithSellingHouse() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -361,13 +361,13 @@ class PlayerTest {
 
         michiel.sellHouse(mediterraneanProperty);
 
-        assertThrows(IllegalMonopolyActionException.class, ()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.sellHouse(mediterraneanProperty);
         });
     }
 
     @Test
-    void testSellingAHouseWithAHotelOnOtherProperty(){
+    void testSellingAHouseWithAHotelOnOtherProperty() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -387,15 +387,15 @@ class PlayerTest {
 
         michiel.buyHotel(mediterraneanProperty);
 
-        assertEquals(0,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
+        assertEquals(0, michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
 
-        assertThrows(IllegalMonopolyActionException.class,()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.sellHouse(balticProperty);
         });
     }
 
     @Test
-    void testSellingAHouseWithAHotel(){
+    void testSellingAHouseWithAHotel() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -415,13 +415,13 @@ class PlayerTest {
 
         michiel.buyHotel(mediterraneanProperty);
 
-        assertThrows(IllegalMonopolyActionException.class,()->{
+        assertThrows(IllegalMonopolyActionException.class, () -> {
             michiel.sellHouse(mediterraneanProperty);
         });
     }
 
     @Test
-    void testSellingFullyImprovedStreet(){
+    void testSellingFullyImprovedStreet() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -479,7 +479,7 @@ class PlayerTest {
     }
 
     @Test
-    void testSellingAHotelWhileNotHavingOne(){
+    void testSellingAHotelWhileNotHavingOne() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
         Player michiel = new Player("Michiel");
@@ -497,6 +497,103 @@ class PlayerTest {
         michiel.buyHouse(mediterraneanProperty);
         michiel.buyHouse(balticProperty);
 
-        assertThrows(IllegalMonopolyActionException.class, ()->{michiel.sellHotel(mediterraneanProperty);});
+        assertThrows(IllegalMonopolyActionException.class, () -> {
+            michiel.sellHotel(mediterraneanProperty);
+        });
+    }
+
+    @Test
+    void testStreetWith4PropertiesFullyImproveAndFullySell() i{
+        Property SaintJames = new Property(new StreetTile("Saint James", 16, "street", 180, 90, 3, "ORANGE", 14, 70, 200, 550, 750, 950, 100, "ORANGE"));
+        Property Tennessee = new Property(new StreetTile("Tennessee", 18, "street", 180, 90, 3, "ORANGE", 14, 70, 200, 550, 750, 950, 100, "ORANGE"));
+        Property NewYork = new Property(new StreetTile("New York", 19, "street", 200, 100, 3, "ORANGE", 16, 80, 220, 600, 800, 1000, 100, "ORANGE"));
+
+        Player michiel = new Player("michiel");
+        michiel.collect(999999);
+
+
+        michiel.addProperty(SaintJames);
+        michiel.addProperty(Tennessee);
+        michiel.addProperty(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHotel(SaintJames);
+        michiel.buyHotel(Tennessee);
+        michiel.buyHotel(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.buyHouse(SaintJames);
+        michiel.buyHouse(Tennessee);
+        michiel.buyHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHotel(SaintJames);
+        michiel.sellHotel(Tennessee);
+        michiel.sellHotel(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        michiel.sellHouse(SaintJames);
+        michiel.sellHouse(Tennessee);
+        michiel.sellHouse(NewYork);
+
+        assertEquals(0 ,michiel.findPropertyInList(SaintJames).getHouseCount());
+        assertEquals(0 ,michiel.findPropertyInList(Tennessee).getHouseCount());
+        assertEquals(0 ,michiel.findPropertyInList(NewYork).getHouseCount());
+        assertEquals(0 ,michiel.findPropertyInList(SaintJames).getHotelCount());
+        assertEquals(0 ,michiel.findPropertyInList(Tennessee).getHotelCount());
+        assertEquals(0, michiel.findPropertyInList(NewYork).getHotelCount());
+
     }
 }
