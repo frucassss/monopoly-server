@@ -210,8 +210,9 @@
             this.jailed = jailed;
         }
 
-        public void setBankrupt(boolean bankrupt) {
-            this.bankrupt = bankrupt;
+        public void makeBankrupt() {
+            checkBankrupt();
+            this.bankrupt = true;
         }
 
         // BUILT-IN
