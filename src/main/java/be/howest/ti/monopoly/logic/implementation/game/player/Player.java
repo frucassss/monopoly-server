@@ -36,7 +36,7 @@
                     return property1;
                 }
             }
-            throw new IllegalMonopolyActionException("You dont have this property (finder fails)");
+            throw new IllegalMonopolyActionException("You dont have this property");
         }
 
         public void collect(int amount) {
@@ -73,7 +73,7 @@
             checkIfPropertyIsNotMortgaged(propertyName);
             Property property = findPropertyInList(propertyName);
             this.collect(property.getMortgageValue());
-            findPropertyInList(property.getPropertyName()).mortgageProperty();
+            property.mortgageProperty();
         }
 
         public void unMortgageProperty(String propertyName) {
@@ -91,7 +91,7 @@
             checkIfYouDontWanneRunAheadOnProperty(propertyName);
             Property property = findPropertyInList(propertyName);
             pay(property.getHousePrice());
-            findPropertyInList(property.getPropertyName()).addHouse();
+            property.addHouse();
         }
 
 
@@ -104,8 +104,8 @@
         }
 
         public void buyHotel(String propertyName) {
-            Property property = findPropertyInList(propertyName);
             checkIfEveryPropertyHasAValueOf4Houses(propertyName);
+            Property property = findPropertyInList(propertyName);
             pay(property.getHousePrice());
             property.addHotel();
             for (int i = 0; i < 4; i++) {
@@ -289,10 +289,15 @@
             }
         }
 
+        public void checkBankrupt() {
+            if (getBankrupt()){
+                throw new IllegalMonopolyActionException("you are already bankrupt");
+            }
+        }
+
         // GETTERS
 
-
-        public Game getGame() {
+        public Game getGameFromPlayer() {
             return game;
         }
 
@@ -333,8 +338,9 @@
             this.jailed = jailed;
         }
 
-        public void setBankrupt(boolean bankrupt) {
-            this.bankrupt = bankrupt;
+        public void makeBankrupt() {
+            checkBankrupt();
+            this.bankrupt = true;
         }
 
         // BUILT-IN

@@ -96,4 +96,5 @@ public class Request {
     public String getPropertyNameFromPath() {
         return params.pathParameter("propertyName").getString();
     }
+
 }

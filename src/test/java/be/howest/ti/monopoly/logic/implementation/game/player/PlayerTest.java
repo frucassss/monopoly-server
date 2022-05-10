@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.game.player;
 
+import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
@@ -8,6 +9,7 @@ import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +20,7 @@ class PlayerTest {
     void testAddingPropertyToPlayer() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -30,20 +32,21 @@ class PlayerTest {
 
     @Test
     void testMortgage() {
-        Player Michiel = new Player("Michiel",new Game("test",1,3));
-        Player Lucas = new Player("Lucas",new Game("test",1,3));
-        List<Player> players = List.of(Michiel, Lucas);
+
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        Player Lucas = new Player("Lucas", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        List<Player> players = List.of(michiel, Lucas);
         Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Property mediterraneanProperty = new Property(mediterranean);
-        Michiel.addProperty(mediterraneanProperty);
-        Michiel.mortgageProperty("Mediterranean");
-        assertEquals(1530, Michiel.getMoney());
+        michiel.addProperty(mediterraneanProperty);
+        michiel.mortgageProperty("Mediterranean");
+        assertEquals(1530, michiel.getMoney());
     }
 
     @Test
     void testUnMortgage() {
-        Player michiel = new Player("Michiel",new Game("test",1,3));
-        Player Lucas = new Player("Lucas",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        Player Lucas = new Player("Lucas", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         List<Player> players = List.of(michiel, Lucas);
         Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Property mediterraneanProperty = new Property(mediterranean);
@@ -55,12 +58,11 @@ class PlayerTest {
 
     @Test
     void testMortgageNoMoney() {
-        Player michiel = new Player("Michiel",new Game("test",1,3));
-        Player Lucas = new Player("Lucas",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        Player Lucas = new Player("Lucas", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         List<Player> players = List.of(michiel, Lucas);
         Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Property mediterraneanProperty = new Property(mediterranean);
-
         michiel.addProperty(mediterraneanProperty);
         michiel.mortgageProperty("Mediterranean");
         michiel.pay(1500);
@@ -69,19 +71,19 @@ class PlayerTest {
 
     @Test
     void testMortgageNotHavingTheProperty() {
-        Player Michiel = new Player("Michiel",new Game("test",1,3));
-        Player Lucas = new Player("Lucas",new Game("test",1,3));
-        List<Player> players = List.of(Michiel, Lucas);
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        Player Lucas = new Player("Lucas", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        List<Player> players = List.of(michiel, Lucas);
         Tile mediterranean = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Property mediterraneanProperty = new Property(mediterranean);
-        assertThrows(IllegalMonopolyActionException.class, () -> Michiel.mortgageProperty("Mediterranean"));
+        assertThrows(IllegalMonopolyActionException.class, () -> michiel.mortgageProperty("Mediterranean"));
     }
 
     @Test
     void testFullyImproveStreet() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -118,7 +120,7 @@ class PlayerTest {
     void testNotAllowedToBuyHotel() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -135,7 +137,7 @@ class PlayerTest {
     @Test
     void testNotAllowedToBuyHouse() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         michiel.addProperty(mediterraneanProperty);
 
@@ -148,7 +150,7 @@ class PlayerTest {
     void testTryToBuyHouseWithHotelAnd4Houses() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -184,7 +186,7 @@ class PlayerTest {
     void testTryToBuyMultipleHotelOnProperty() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -221,7 +223,7 @@ class PlayerTest {
     void haveToFindGoodName() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -244,7 +246,7 @@ class PlayerTest {
     void testNotRunningAhead() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -263,7 +265,7 @@ class PlayerTest {
     void testTryingToBuyHotelWithoutHaving4Houses() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -287,7 +289,7 @@ class PlayerTest {
     void testBuyingPropertyWithoutHavingMoney() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -304,7 +306,7 @@ class PlayerTest {
     void testSellingAHouse() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -325,7 +327,7 @@ class PlayerTest {
     void testSellingHotel() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -351,7 +353,7 @@ class PlayerTest {
     void testRunningAheadWithSellingHouse() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -373,7 +375,7 @@ class PlayerTest {
     void testSellingAHouseWithAHotelOnOtherProperty() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -401,7 +403,7 @@ class PlayerTest {
     void testSellingAHouseWithAHotel() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -427,7 +429,7 @@ class PlayerTest {
     void testSellingFullyImprovedStreet() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -485,7 +487,7 @@ class PlayerTest {
     void testSellingAHotelWhileNotHavingOne() {
         Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
         Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         Property mediterraneanProperty = new Property(mediterraneanTile);
         Property balticProperty = new Property(balticTile);
         michiel.addProperty(mediterraneanProperty);
@@ -511,7 +513,7 @@ class PlayerTest {
         Property Tennessee = new Property(new StreetTile("Tennessee", 18, "street", 180, 90, 3, "ORANGE", 14, 70, 200, 550, 750, 950, 100, "ORANGE"));
         Property NewYork = new Property(new StreetTile("New York", 19, "street", 200, 100, 3, "ORANGE", 16, 80, 220, 600, 800, 1000, 100, "ORANGE"));
 
-        Player michiel = new Player("Michiel",new Game("test",1,3));
+        Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         michiel.collect(999999);
 
 
