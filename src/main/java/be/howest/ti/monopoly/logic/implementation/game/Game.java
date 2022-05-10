@@ -22,7 +22,7 @@ public class Game {
         setNumberOfPlayers(numberOfPlayers);
     }
 
-    public void newPlayer(String playerName){
+    public void newPlayer(String playerName) {
         checkIfGameIsNotStarted();
         checkCharactersInString(playerName, "Player name");
         checkIfPlayerIsInGame(playerName);
@@ -30,19 +30,19 @@ public class Game {
         Player player = new Player(playerName);
         players.put(playerName, player);
 
-        if(players.size() == numberOfPlayers){
+        if (players.size() == numberOfPlayers) {
             started = true;
         }
 
     }
 
-    public Player findPlayer(String playerName){
+    public Player findPlayer(String playerName) {
         return players.get(playerName);
     }
 
     // SETTERS
 
-    public void setNumberOfPlayers(int numberOfPlayers){
+    public void setNumberOfPlayers(int numberOfPlayers) {
         checkNumberOfPlayers(numberOfPlayers);
         this.numberOfPlayers = numberOfPlayers;
     }
@@ -69,37 +69,41 @@ public class Game {
         return started;
     }
 
+
     // CHECKERS - Validate if applies to the rules
 
-    public void checkNumberOfPlayers(int numberOfPlayers){
-        if(numberOfPlayers < 2 || numberOfPlayers > 8){
+    public void checkNumberOfPlayers(int numberOfPlayers) {
+        if (numberOfPlayers < 2 || numberOfPlayers > 8) {
             throw new IllegalArgumentException("Invalid number of players: min. 2 & max. 8");
         }
     }
 
-    public void checkIfGameIsNotStarted(){
-        if(started) {
+    public void checkIfGameIsNotStarted() {
+        if (started) {
             throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. In this case, it is most likely that you tried to join a game which has already started, or you used a name that is already taken in this game.");
         }
     }
 
-    public void checkCharactersInString(String str, String type){
-        if(str == null){
+    public void checkCharactersInString(String str, String type) {
+        if (str == null) {
             throw new IllegalArgumentException(type + " cannot not be empty.");
-        }
-        else if(!str.matches("[a-zA-Z0-9]+") || str.length() > 14 || str.length() < 1){
+        } else if (!str.matches("[a-zA-Z0-9]+") || str.length() > 14 || str.length() < 1) {
             throw new IllegalArgumentException(type + " is invalid, " + type + " can have a max. length of 14 alphabetical and numeric characters");
         }
 
     }
 
-    public void checkIfPlayerIsInGame(String playerName){
-        if(players.containsKey(playerName)){
+    public void checkIfPlayerIsInGame(String playerName) {
+        if (players.containsKey(playerName)) {
             throw new ForbiddenAccessException("Player is already in game! Can only contain Alphabets.");
         }
     }
-    public void checkWinner(int numberOfBankruptPlayers){
-        if ( int numberOfBankruptplayers == (numberOfPlayers - 1))
+
+    public void checkWinner() {
+        for (Player p: getPlayers().values()) {
+            System.out.println(p);
+        }
+            
+  //      } ((Player p:getPlayers())
     }
-        else
 }

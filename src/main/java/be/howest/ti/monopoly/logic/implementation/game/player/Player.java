@@ -166,7 +166,7 @@
             }
         }
 
-        public void
+
 
         // GETTERS
         public String getName() {

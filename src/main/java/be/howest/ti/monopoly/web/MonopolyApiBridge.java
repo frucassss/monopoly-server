@@ -228,6 +228,7 @@ public class MonopolyApiBridge {
         }
 
         Game game = service.getGame(gameId);
+        game.checkWinner();
         Response.sendJsonResponse(ctx, 200, game);
     }
 
@@ -248,7 +249,6 @@ public class MonopolyApiBridge {
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        response.send
         throw new NotYetImplementedException("declareBankruptcy");
     }
 
