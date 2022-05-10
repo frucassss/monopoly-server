@@ -11,6 +11,8 @@ public class Player {
     private int money = 1500;
     private boolean bankrupt = false;
     private int getOutOfJailFreeCards = 0;
+    private final Random random = new Random();
+    private final int[] dices = new int[2];
     //private final List<Property> properties;
 
 
@@ -46,6 +48,15 @@ public class Player {
     public void removeProperty(Property property){
         properties.remove(property);
     }*/
+
+    public void roll(){
+        dices[0] = randomNumberBetween2Values(1,6);
+        dices[1] = randomNumberBetween2Values(1,6);
+    }
+
+    private int randomNumberBetween2Values(int min, int max){
+        return random.nextInt(max-min) + min;
+    }
 
     // GETTERS
     public String getName() {

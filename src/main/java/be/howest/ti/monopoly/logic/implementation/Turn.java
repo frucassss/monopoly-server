@@ -17,7 +17,7 @@ public class Turn {
 
     Turn(Player player, List<String> chance, List<String> communityChest, List<Tile> tiles){
         this.player = player;
-        this.tiles = tiles;
+        this.tiles = player.getGame();
         this.chance = chance;
         this.communityChest = communityChest;
         roll();
@@ -33,7 +33,6 @@ public class Turn {
     }
 
     public int randomNumberBetween2Values(int min, int max){
-        Random random = new Random();
         return random.nextInt(max-min) + min;
     }
 

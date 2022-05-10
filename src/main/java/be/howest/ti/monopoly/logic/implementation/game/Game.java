@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation.game;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
-import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 
 import java.util.*;
 
@@ -33,7 +32,6 @@ public class Game {
         if(players.size() == numberOfPlayers){
             started = true;
         }
-
     }
 
     public Player findPlayer(String playerName){

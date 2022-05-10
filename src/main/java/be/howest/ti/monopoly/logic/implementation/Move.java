@@ -10,6 +10,7 @@ import java.util.Random;
 public class Move {
     private final Tile tile;
     private String description;
+    private final Random random = new Random();
     protected List<Tile> tiles;
     protected List<String> chance;
     protected List<String> communityChest;
@@ -55,13 +56,11 @@ public class Move {
     }
 
     private String getRandomChance(){
-        Random random = new Random();
         int value = random.nextInt(chance.size() - 1) + 1;
         return chance.get(value);
     }
 
     private String getRandomCommunityChest(){
-        Random random = new Random();
         int value = random.nextInt(communityChest.size() - 1) + 1;
         return communityChest.get(value);
     }
