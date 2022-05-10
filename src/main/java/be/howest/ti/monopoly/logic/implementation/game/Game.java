@@ -27,7 +27,7 @@ public class Game {
         checkCharactersInString(playerName, "Player name");
         checkIfPlayerIsInGame(playerName);
 
-        Player player = new Player(playerName);
+        Player player = new Player(playerName, this);
         players.put(playerName, player);
 
         if(players.size() == numberOfPlayers){

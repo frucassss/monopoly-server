@@ -1,12 +1,14 @@
     package be.howest.ti.monopoly.logic.implementation.game.player;
 
     import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+    import be.howest.ti.monopoly.logic.implementation.game.Game;
     import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
     import java.util.*;
 
     public class Player {
         private final String name;
+        private final Game game;
         private Tile currentTile = new Tile("Go", 0, "Go");
         private boolean jailed = false;
         private int money = 1500;
@@ -16,8 +18,9 @@
 
 
         // CONSTRUCTOR
-        public Player(String name) {
+        public Player(String name, Game game) {
             this.name = name;
+            this.game = game;
         }
 
         // METHODS
