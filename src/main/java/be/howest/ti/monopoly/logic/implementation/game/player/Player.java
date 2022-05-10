@@ -30,13 +30,13 @@
             this.money -= amount;
         }
 
-        public Property findPropertyInList(Property property) {
-            for (Property propertyInProperties : properties) {
-                if (property.equals(propertyInProperties)) {
-                    return propertyInProperties;
+        public Property findPropertyInList(String propertyName) {
+            for (Property property1 : properties) {
+                if (propertyName.equals(property1.getPropertyName())){
+                    return property1;
                 }
             }
-            throw new IllegalMonopolyActionException("You dont have this property");
+            throw new IllegalMonopolyActionException("You dont have this property (finder fails)");
         }
 
         public void collect(int amount) {
@@ -68,38 +68,44 @@
             properties.remove(property);
         }
 
-        public void mortgageProperty(Property property) {
-            checkIfYouOwnProperty(property);
-            checkIfPropertyIsNotMortgaged(property);
+        public void mortgageProperty(String propertyName) {
+            checkIfYouOwnProperty(propertyName);
+            checkIfPropertyIsNotMortgaged(propertyName);
+            Property property = findPropertyInList(propertyName);
             this.collect(property.getMortgageValue());
-            findPropertyInList(property).mortgageProperty();
+            findPropertyInList(property.getPropertyName()).mortgageProperty();
         }
 
-        public void unMortgageProperty(Property property) {
-            checkIfYouHaveEnoughMoneyToUnMortgageProperty(property);
-            checkIfYouOwnProperty(property);
-            checkIfPropertyIsMortgaged(property);
+        public void unMortgageProperty(String propertyName) {
+            checkIfYouHaveEnoughMoneyToUnMortgageProperty(propertyName);
+            checkIfYouOwnProperty(propertyName);
+            checkIfPropertyIsMortgaged(propertyName);
+            Property property = findPropertyInList(propertyName);
             this.pay((int) (property.getMortgageValue() + (property.getMortgageValue() * 0.1)));
             property.unMortgageProperty();
         }
 
-        public void buyHouse(Property property) {
-            checkIfYouOwnProperty(property);
-            checkIfYouHaveAllNeededPropertiesForImprovement(property);
-            checkIfYouDontWanneRunAheadOnProperty(property);
+        public void buyHouse(String propertyName) {
+            checkIfYouOwnProperty(propertyName);
+            checkIfYouHaveAllNeededPropertiesForImprovement(propertyName);
+            checkIfYouDontWanneRunAheadOnProperty(propertyName);
+            Property property = findPropertyInList(propertyName);
             pay(property.getHousePrice());
-            findPropertyInList(property).addHouse();
+            findPropertyInList(property.getPropertyName()).addHouse();
         }
 
-        public void sellHouse(Property property) {
-            checkIfYouHaveAHouse(property);
-            checkIfYouAreAllowedToSellHouse(property);
+
+        public void sellHouse(String propertyName) {
+            checkIfYouHaveAHouse(propertyName);
+            checkIfYouAreAllowedToSellHouse(propertyName);
+            Property property = findPropertyInList(propertyName);
             collect((int) (property.getHousePrice() * 0.5));
-            findPropertyInList(property).removeHouse();
+            property.removeHouse();
         }
 
-        public void buyHotel(Property property) {
-            checkIfEveryPropertyHasAValueOf4Houses(property.getColor());
+        public void buyHotel(String propertyName) {
+            Property property = findPropertyInList(propertyName);
+            checkIfEveryPropertyHasAValueOf4Houses(propertyName);
             pay(property.getHousePrice());
             property.addHotel();
             for (int i = 0; i < 4; i++) {
@@ -107,9 +113,11 @@
             }
         }
 
-        public void sellHotel(Property property) {
-            checkIfYouHaveAHotel(property);
-            checkWhileSellingAHotelIWontRunAhead(property.getColor());
+
+        public void sellHotel(String propertyName) {
+            checkIfYouHaveAHotel(propertyName);
+            checkWhileSellingAHotelIWontRunAhead(propertyName);
+            Property property = findPropertyInList(propertyName);
             collect(property.getHousePrice());
             property.removeHotel();
             for (int i = 0; i < 4; i++) {
@@ -119,9 +127,10 @@
 
         // CHECKERS
 
-        private void checkIfYouAreAllowedToSellHouse(Property property){
-            if ((getHighestHouseCountFromStreetExceptGivenProperty(property) > property.getHouseCount()) ||
-                    (difference(getHighestHouseCountFromStreetExceptGivenProperty(property),property.getHouseCount()) > 1)){
+        private void checkIfYouAreAllowedToSellHouse(String propertyName){
+            Property property = findPropertyInList(propertyName);
+            if ((getHighestHouseCountFromStreetExceptGivenProperty(propertyName) > property.getHouseCount()) ||
+                    (difference(getHighestHouseCountFromStreetExceptGivenProperty(propertyName),property.getHouseCount()) > 1)){
                 throw new IllegalMonopolyActionException("You need to sell other houses first");
             }
         }
@@ -131,13 +140,15 @@
             return Math.abs(diff);
         }
 
-        private void checkIfYouHaveAHouse(Property property) {
-            if (findPropertyInList(property).getHouseCount() == 0){
+        private void checkIfYouHaveAHouse(String propertyName) {
+            int houseCount = findPropertyInList(propertyName).getHouseCount();
+            if (houseCount == 0){
                 throw new IllegalMonopolyActionException("You dont have a house on this property");
             }
         }
 
-        private void checkWhileSellingAHotelIWontRunAhead(String streetColor){
+        private void checkWhileSellingAHotelIWontRunAhead(String propertyName){
+            String streetColor = findPropertyInList(propertyName).getColor();
             for (Property property : properties){
                 if (property.getColor().equals(streetColor) &&
                         (property.getHouseCount() != 0 && property.getHotelCount() == 1) &&
@@ -147,30 +158,34 @@
             }
         }
 
-        private void checkIfYouHaveAHotel(Property property) {
-            if (findPropertyInList(property).getHotelCount() != 1){
+        private void checkIfYouHaveAHotel(String propertyName) {
+            Property property = findPropertyInList(propertyName);
+            if (property.getHotelCount() != 1){
                 throw new IllegalMonopolyActionException("You don't have a hotel to sell");
             }
         }
 
-        private void checkIfEveryPropertyHasAValueOf4Houses(String streetColor){
+
+        private void checkIfEveryPropertyHasAValueOf4Houses(String propertyName){
+            String propertyColor = findPropertyInList(propertyName).getColor();
             for (Property property : properties) {
-                if ((property.getColor().equals(streetColor)) &&
+                if ((property.getColor().equals(propertyColor)) &&
                         (property.getHouseCount() + (property.getHotelCount() * 4) != 4)) {
                     throw new IllegalMonopolyActionException("You need to improve other properties first");
                 }
-
             }
         }
 
-        private void checkIfYouDontWanneRunAheadOnProperty(Property property) {
-            if ((getHighestHouseCountFromStreet(property.getColor()) != getLowestHouseCountFromStreet(property.getColor())) &&
-                    (property.getHouseCount() != getLowestHouseCountFromStreet(property.getColor()))) {
+        private void checkIfYouDontWanneRunAheadOnProperty(String propertyName) {
+            Property property = findPropertyInList(propertyName);
+            if ((getHighestHouseCountFromStreet(property.getPropertyName()) != getLowestHouseCountFromStreet(property.getPropertyName())) &&
+                    (property.getHouseCount() != getLowestHouseCountFromStreet(property.getPropertyName()))) {
                     throw new IllegalMonopolyActionException("You need to improve your other properties from this street first.");
             }
         }
 
-        private int getHighestHouseCountFromStreetExceptGivenProperty(Property property){
+        private int getHighestHouseCountFromStreetExceptGivenProperty(String propertyName){
+            Property property = findPropertyInList(propertyName);
             int highest = -1;
             for (Property propertiesFromPlayer : properties) {
                 if (propertiesFromPlayer.getColor().equals(property.getColor()) && propertiesFromPlayer.getHouseCount() > highest && !propertiesFromPlayer.equals(property)) {
@@ -180,27 +195,31 @@
             return highest;
         }
 
-        private int getHighestHouseCountFromStreet(String streetColor) {
+        private int getHighestHouseCountFromStreet(String propertyName) {
+            String propertyColor = findPropertyInList(propertyName).getColor();
             int highest = -1;
             for (Property propertiesFromPlayer : properties) {
-                if (propertiesFromPlayer.getColor().equals(streetColor) && propertiesFromPlayer.getHouseCount() > highest) {
+                if (propertiesFromPlayer.getColor().equals(propertyColor) && propertiesFromPlayer.getHouseCount() > highest) {
                     highest = propertiesFromPlayer.getHouseCount();
                 }
             }
             return highest;
         }
 
-        private int getLowestHouseCountFromStreet(String streetColor) {
+        private int getLowestHouseCountFromStreet(String propertyName) {
+            String propertyColor = findPropertyInList(propertyName).getColor();
+
             int lowest = 5;
             for (Property propertiesFromPlayer : properties) {
-                if (propertiesFromPlayer.getColor().equals(streetColor) && propertiesFromPlayer.getHouseCount() < lowest) {
+                if (propertiesFromPlayer.getColor().equals(propertyColor) && propertiesFromPlayer.getHouseCount() < lowest) {
                     lowest = propertiesFromPlayer.getHouseCount();
                 }
             }
             return lowest;
         }
 
-        private void checkIfYouHaveAllNeededPropertiesForImprovement(Property property) {
+        private void checkIfYouHaveAllNeededPropertiesForImprovement(String propertyName) {
+            Property property = findPropertyInList(propertyName);
             int counter = 0;
             for (Property propertiesFormPlayer : properties) {
                 if (propertiesFormPlayer.getColor().equals(property.getColor())) {
@@ -236,19 +255,22 @@
             }
         }
 
-        private void checkIfYouOwnProperty(Property property) {
+        private void checkIfYouOwnProperty(String propertyName) {
+            Property property = findPropertyInList(propertyName);
             if(!properties.contains(property)){
                 throw new IllegalMonopolyActionException("You don't own this property.");
             }
         }
 
-        private void checkIfPropertyIsNotMortgaged(Property property) {
+        private void checkIfPropertyIsNotMortgaged(String propertyName) {
+            Property property = findPropertyInList(propertyName);
             if (property.isMortgage()) {
                 throw new IllegalMonopolyActionException("It's already mortgaged");
             }
         }
 
-        private void checkIfPropertyIsMortgaged(Property property) {
+        private void checkIfPropertyIsMortgaged(String propertyName) {
+            Property property = findPropertyInList(propertyName);
             if (!property.isMortgage()) {
                 throw new IllegalMonopolyActionException("It's not mortgaged");
             }
@@ -260,7 +282,8 @@
             }
         }
 
-        private void checkIfYouHaveEnoughMoneyToUnMortgageProperty(Property property) {
+        private void checkIfYouHaveEnoughMoneyToUnMortgageProperty(String propertyName) {
+            Property property = findPropertyInList(propertyName);
             if (this.money < (int) (property.getMortgageValue() + (property.getMortgageValue() * 0.1))) {
                 throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
             }
