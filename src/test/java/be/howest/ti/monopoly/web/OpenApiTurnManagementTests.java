@@ -1,5 +1,7 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.game.Game;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
@@ -28,11 +30,15 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
 
     @Test
     void declareBankruptcy(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void declareBankruptcy(String gameId, String playerName){}
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/bankruptcy",
                 "some-token",
-                response -> assertNotYetImplemented(response, "declareBankruptcy")
+                response -> assertOkResponse(response)
         );
     }
 

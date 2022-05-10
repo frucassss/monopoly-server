@@ -38,17 +38,17 @@ public class TestService implements IService {
     }
 
     @Override
-    public Game getGame(String gameId){
+    public Game getGame(String gameId) {
         return delegate.getGame(gameId);
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers){
+    public Game createGame(String prefix, int numberOfPlayers) {
         return delegate.createGame(prefix, numberOfPlayers);
     }
 
     @Override
-    public void joinGame(String gameId, String playerName){
+    public void joinGame(String gameId, String playerName) {
         delegate.joinGame(gameId, playerName);
     }
 
@@ -65,5 +65,20 @@ public class TestService implements IService {
     @Override
     public Tile getTile(String name) {
         return delegate.getTile(name);
+    }
+
+    @Override
+    public void buyHouse(String gameId, String playerName, String propertyName) {
+        delegate.buyHouse(gameId,playerName,propertyName);
+    }
+
+    @Override
+    public void buyHotel(String gameId, String playerName, String propertyName) {
+        delegate.buyHotel(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public void declareBankruptcy(String gameId, String playerName) {
+        delegate.declareBankruptcy(gameId, playerName);
     }
 }
