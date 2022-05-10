@@ -1,7 +1,7 @@
     package be.howest.ti.monopoly.logic.implementation.game.player;
 
     import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-q    import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+    import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
     import java.util.*;
 
