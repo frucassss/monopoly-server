@@ -98,4 +98,8 @@ public class Game {
             throw new ForbiddenAccessException("Player is already in game! Can only contain Alphabets.");
         }
     }
+    public void checkWinner(int numberOfBankruptPlayers){
+        if ( int numberOfBankruptplayers == (numberOfPlayers - 1))
+    }
+        else
 }
