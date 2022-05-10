@@ -14,6 +14,8 @@ public class Game {
     private int numberOfPlayers;
     private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
+    private boolean ended = false;
+    private String winner = null;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers) {
         checkCharactersInString(prefix, "Prefix");
@@ -46,6 +48,15 @@ public class Game {
         checkNumberOfPlayers(numberOfPlayers);
         this.numberOfPlayers = numberOfPlayers;
     }
+    public void setEnded(){
+        this.ended = true;
+    }
+
+    public void setWinner(String playerName) {
+        this.winner = playerName;
+    }
+
+
 
     // GETTERS
 
@@ -69,6 +80,13 @@ public class Game {
         return started;
     }
 
+    public boolean getEnded() {
+        return ended;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
 
     // CHECKERS - Validate if applies to the rules
 
@@ -100,10 +118,23 @@ public class Game {
     }
 
     public void checkWinner() {
-        for (Player p: getPlayers().values()) {
-            System.out.println(p);
+        int numberOfBankruptPlayers = 0;
+        for (Player p : getPlayers().values()) {
+            if (p.getBankrupt()) {
+                numberOfBankruptPlayers++;
+
+            }
         }
-            
-  //      } ((Player p:getPlayers())
+
+        if (numberOfBankruptPlayers == getNumberOfPlayers() - 1) {
+            for (Player p : getPlayers().values()) {
+                if (!p.getBankrupt()) {
+                    setWinner(p.getName());
+                    setEnded();
+
+
+                }
+            }
+        }
     }
 }
