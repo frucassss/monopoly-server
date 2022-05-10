@@ -30,4 +30,6 @@ public interface IService {
     void buyHouse(String gameId, String playerName, String propertyName);
 
     void buyHotel(String gameId, String playerName, String propertyName);
+
+    void declareBankruptcy(String gameId, String playerName);
 }

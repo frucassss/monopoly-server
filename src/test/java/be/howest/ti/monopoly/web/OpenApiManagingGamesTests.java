@@ -6,6 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 
@@ -102,7 +103,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers, service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 
@@ -122,7 +123,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 
@@ -141,7 +142,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 
@@ -160,7 +161,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 
@@ -179,7 +180,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 
@@ -210,7 +211,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGame(String prefix, int numberOfPlayers) {
-                return new Game(prefix,0, numberOfPlayers,service.getChance(),service.getCommunityChest(),service.getTiles());
+                return new Game(prefix,0, numberOfPlayers, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
             }
         });
 

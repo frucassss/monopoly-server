@@ -248,7 +248,19 @@ public class MonopolyApiBridge {
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        throw new NotYetImplementedException("declareBankruptcy");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+        String playerName = request.getPlayerNameFromPath();
+
+        if(!request.isAuthorized(gameId, playerName)){
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
+        }
+
+        service.declareBankruptcy(gameId, playerName);
+
+        Response.sendOkResponse(ctx);
+
+
     }
 
     private void buyProperty(RoutingContext ctx) {

@@ -74,6 +74,11 @@ public class TestService implements IService {
 
     @Override
     public void buyHotel(String gameId, String playerName, String propertyName) {
-        delegate.buyHotel(gameId,playerName,propertyName);
+        delegate.buyHotel(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public void declareBankruptcy(String gameId, String playerName) {
+        delegate.declareBankruptcy(gameId, playerName);
     }
 }

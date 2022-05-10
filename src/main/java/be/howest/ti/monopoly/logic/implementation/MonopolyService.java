@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
@@ -181,4 +182,11 @@ public class MonopolyService extends ServiceAdapter {
         player.buyHotel(propertyName);
     }
 
+    @Override
+    public void declareBankruptcy(String gameId, String playerName){
+        Game game = getGame(gameId);
+        Player player = game.getPlayers().get(playerName);
+
+        player.makeBankrupt();
+    }
 }
