@@ -79,6 +79,10 @@ public class Property {
         return propertyStreet.getGroupSize();
     }
 
+    public String getPropertyName(){
+        return property.getName();
+    }
+
     public String getColor(){
         return this.property.getColor();
     }
@@ -141,20 +145,5 @@ public class Property {
         if (!(property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility"))) {
             throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Property property1 = (Property) o;
-
-        return property != null ? property.equals(property1.property) : property1.property == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return property != null ? property.hashCode() : 0;
     }
 }
