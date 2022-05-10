@@ -130,7 +130,7 @@ public class MonopolyApiBridge {
     }
 
     private void getTiles(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx,200, service.getTiles());
+        Response.sendJsonResponse(ctx, 200, service.getTiles());
     }
 
     private void getTile(RoutingContext ctx) {
@@ -139,8 +139,7 @@ public class MonopolyApiBridge {
         if (request.hasTilePosition()) {
             int position = request.getTilePosition();
             tile = service.getTile(position);
-        }
-        else{
+        } else {
             String name = request.getTileName();
             tile = service.getTile(name);
         }
@@ -185,9 +184,9 @@ public class MonopolyApiBridge {
         Map<String, Game> games = service.getGamesFromService();
         List<JsonObject> list = new ArrayList<>();
 
-        for (Map.Entry<String, Game> entry : games.entrySet()){
+        for (Map.Entry<String, Game> entry : games.entrySet()) {
             Game game = entry.getValue();
-            if (isGameValidAccordingToQueries(game, started, numberOfPlayers, prefix)){
+            if (isGameValidAccordingToQueries(game, started, numberOfPlayers, prefix)) {
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.put("id", game.getId());
                 jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
@@ -223,7 +222,7 @@ public class MonopolyApiBridge {
         String gameId = request.getGameIdFromPath();
 
         // check if player who requested the game is authorized in game
-        if(!isPlayerAuthorizedInGame(request, gameId)){
+        if (!isPlayerAuthorizedInGame(request, gameId)) {
             throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
@@ -253,7 +252,7 @@ public class MonopolyApiBridge {
         String gameId = request.getGameIdFromPath();
         String playerName = request.getPlayerNameFromPath();
 
-        if(!request.isAuthorized(gameId, playerName)){
+        if (!request.isAuthorized(gameId, playerName)) {
             throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
@@ -294,12 +293,22 @@ public class MonopolyApiBridge {
             throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
-        service.buyHouse(gameId,playerName,propertyName);
+        service.buyHouse(gameId, playerName, propertyName);
         Response.sendOkResponse(ctx);
     }
 
     private void sellHouse(RoutingContext ctx) {
-        throw new NotYetImplementedException("sellHouse");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+        String playerName = request.getPlayerNameFromPath();
+        String propertyName = request.getPropertyNameFromPath();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
+        }
+
+        service.sellHouse(gameId, playerName, propertyName);
+        Response.sendOkResponse(ctx);
     }
 
     private void buyHotel(RoutingContext ctx) {
@@ -312,12 +321,22 @@ public class MonopolyApiBridge {
             throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
-        service.buyHotel(gameId,playerName,propertyName);
+        service.buyHotel(gameId, playerName, propertyName);
         Response.sendOkResponse(ctx);
     }
 
     private void sellHotel(RoutingContext ctx) {
-        throw new NotYetImplementedException("sellHotel");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+        String playerName = request.getPlayerNameFromPath();
+        String propertyName = request.getPropertyNameFromPath();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
+        }
+
+        service.sellHotel(gameId, playerName, propertyName);
+        Response.sendOkResponse(ctx);
     }
 
     private void getOutOfJailFine(RoutingContext ctx) {
@@ -396,16 +415,16 @@ public class MonopolyApiBridge {
     }
 
     // helpers
-    private boolean isGameValidAccordingToQueries(Game game, RequestParameter started, RequestParameter numberOfPlayers, RequestParameter prefix){
+    private boolean isGameValidAccordingToQueries(Game game, RequestParameter started, RequestParameter numberOfPlayers, RequestParameter prefix) {
         return (started == null || game.getStarted() == started.getBoolean()) &&
                 (numberOfPlayers == null || game.getNumberOfPlayers() == numberOfPlayers.getInteger()) &&
                 (prefix == null || game.getPrefix().equals(prefix.getString()));
     }
 
-    private boolean isPlayerAuthorizedInGame(Request request, String gameId){
+    private boolean isPlayerAuthorizedInGame(Request request, String gameId) {
         // check if player who requested the game is authorized in game
         Map<String, Player> players = service.getGame(gameId).getPlayers();
-        for(Map.Entry<String, Player> entry : players.entrySet()){
+        for (Map.Entry<String, Player> entry : players.entrySet()) {
             if (request.isAuthorized(gameId, entry.getKey())) {
                 return true;
             }
