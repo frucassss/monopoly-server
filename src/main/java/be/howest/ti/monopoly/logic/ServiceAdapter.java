@@ -63,4 +63,9 @@ public class ServiceAdapter implements IService {
     public Tile getTile(int position) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void buyHotel(String gameId, String playerName, String propertyName) {
+        throw new UnsupportedOperationException();
+    }
 }
