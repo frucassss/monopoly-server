@@ -172,6 +172,6 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public void buyHouse(String gameId, String playerName, String propertyName) {
         Player player = getGame(gameId).findPlayer(playerName);
-        Property property = player.findPropertyInList(propertyName);
+        player.buyHouse(propertyName);
     }
 }

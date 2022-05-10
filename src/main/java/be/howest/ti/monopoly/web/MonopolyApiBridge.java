@@ -282,7 +282,7 @@ public class MonopolyApiBridge {
         }
 
         service.buyHouse(gameId,playerName,propertyName);
-
+        Response.sendOkResponse(ctx);
     }
 
     private void sellHouse(RoutingContext ctx) {
