@@ -173,11 +173,8 @@ public class MonopolyService extends ServiceAdapter {
     public void declareBankruptcy(String gameId, String playerName){
         Game game = getGame(gameId);
         Player player = game.getPlayers().get(playerName);
-        if (player.getBankrupt()){
-            throw new IllegalMonopolyActionException("you are already bankrupt");
-        }
-        else{
-            player.setBankrupt(true);
-        }
+
+        player.checkBankrupt();
+        player.setBankrupt(true);
     }
 }

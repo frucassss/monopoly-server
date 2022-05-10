@@ -166,6 +166,12 @@
             }
         }
 
+        public void checkBankrupt() {
+            if (getBankrupt()){
+                throw new IllegalMonopolyActionException("you are already bankrupt");
+            }
+        }
+
         // GETTERS
         public String getName() {
             return name;
