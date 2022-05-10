@@ -165,6 +165,7 @@
                 throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
             }
         }
+
         public void
 
         // GETTERS
@@ -188,9 +189,6 @@
             return bankrupt;
         }
 
-        public boolean beTheWinner(){
-            return winner;
-        }
 
         public int getGetOutOfJailFreeCards() {
             return getOutOfJailFreeCards;
