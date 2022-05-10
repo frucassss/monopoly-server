@@ -27,4 +27,6 @@ public interface IService {
     Tile getTile(int position);
 
     Tile getTile(String name);
+
+    void declareBankruptcy(String gameId, String playerName);
 }
