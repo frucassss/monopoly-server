@@ -118,15 +118,15 @@ public class Game {
     }
 
     public void checkWinner() {
-        int numberOfBankruptPlayers = 0;
+        int i = 0;
         for (Player p : getPlayers().values()) {
             if (p.getBankrupt()) {
-                numberOfBankruptPlayers++;
+                i++;
 
             }
         }
 
-        if (numberOfBankruptPlayers == getNumberOfPlayers() - 1) {
+        if (i == getNumberOfPlayers() - 1) {
             for (Player p : getPlayers().values()) {
                 if (!p.getBankrupt()) {
                     setWinner(p.getName());
