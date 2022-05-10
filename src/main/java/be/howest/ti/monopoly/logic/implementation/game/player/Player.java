@@ -297,7 +297,7 @@
 
         // GETTERS
 
-        public Game receiveGameFromPlayer() {
+        public Game receiveGame() {
             return game;
         }
 
