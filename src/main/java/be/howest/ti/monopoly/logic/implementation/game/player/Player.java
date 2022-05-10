@@ -36,7 +36,7 @@
                     return property1;
                 }
             }
-            throw new IllegalMonopolyActionException("You dont have this property (finder fails)");
+            throw new IllegalMonopolyActionException("You dont have this property");
         }
 
         public void collect(int amount) {
@@ -69,41 +69,41 @@
         }
 
         public void mortgageProperty(String propertyName) {
-            Property property = findPropertyInList(propertyName);
             checkIfYouOwnProperty(propertyName);
             checkIfPropertyIsNotMortgaged(propertyName);
+            Property property = findPropertyInList(propertyName);
             this.collect(property.getMortgageValue());
-            findPropertyInList(property.getPropertyName()).mortgageProperty();
+            property.mortgageProperty();
         }
 
         public void unMortgageProperty(String propertyName) {
-            Property property = findPropertyInList(propertyName);
             checkIfYouHaveEnoughMoneyToUnMortgageProperty(propertyName);
             checkIfYouOwnProperty(propertyName);
             checkIfPropertyIsMortgaged(propertyName);
+            Property property = findPropertyInList(propertyName);
             this.pay((int) (property.getMortgageValue() + (property.getMortgageValue() * 0.1)));
             property.unMortgageProperty();
         }
 
         public void buyHouse(String propertyName) {
-            Property property = findPropertyInList(propertyName);
             checkIfYouOwnProperty(propertyName);
             checkIfYouHaveAllNeededPropertiesForImprovement(propertyName);
             checkIfYouDontWanneRunAheadOnProperty(propertyName);
+            Property property = findPropertyInList(propertyName);
             pay(property.getHousePrice());
-            findPropertyInList(property.getPropertyName()).addHouse();
+            property.addHouse();
         }
 
         public void sellHouse(String propertyName) {
             Property property = findPropertyInList(propertyName);
             //Todo checkers for selling a house
-            findPropertyInList(property.getPropertyName()).removeHouse();
+            property.removeHouse();
             collect((int) (property.getHousePrice() * 0.5));
         }
 
         public void buyHotel(String propertyName) {
+            checkIfEveryPropertyHasAValueOf4Houses(propertyName);
             Property property = findPropertyInList(propertyName);
-            checkIfEveryPropertyHasAValueOf4Houses(property.getPropertyName());
             pay(property.getHousePrice());
             property.addHotel();
             for (int i = 0; i < 4; i++) {
