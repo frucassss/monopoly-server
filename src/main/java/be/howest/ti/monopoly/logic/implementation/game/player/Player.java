@@ -267,6 +267,12 @@
         }
 
         // GETTERS
+
+
+        public Game getGame() {
+            return game;
+        }
+
         public String getName() {
             return name;
         }
