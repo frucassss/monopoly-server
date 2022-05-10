@@ -387,6 +387,8 @@ class PlayerTest {
 
         michiel.buyHotel(mediterraneanProperty);
 
+        assertEquals(0,michiel.findPropertyInList(mediterraneanProperty).getHouseCount());
+
         assertThrows(IllegalMonopolyActionException.class,()->{
             michiel.sellHouse(balticProperty);
         });

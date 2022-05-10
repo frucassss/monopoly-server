@@ -90,7 +90,7 @@
 
         public void sellHouse(Property property) {
             checkIfYouHaveAHouse(property);
-            //Todo checkers for selling a house
+            checkIfYouAreAllowedToSellHouse(property);
             collect((int) (property.getHousePrice() * 0.5));
             findPropertyInList(property).removeHouse();
         }
@@ -115,6 +115,18 @@
         }
 
         // CHECKERS
+
+        private void checkIfYouAreAllowedToSellHouse(Property property){
+            if ((getHighestHouseCountFromStreetExceptGivenProperty(property) > property.getHouseCount()) ||
+                    (difference(getHighestHouseCountFromStreetExceptGivenProperty(property),property.getHouseCount()) > 1)){
+                throw new IllegalMonopolyActionException("You need to sell other houses first");
+            }
+        }
+
+        private int difference(int x, int y){
+            int diff = x - y;
+            return Math.abs(diff);
+        }
 
         private void checkIfYouHaveAHouse(Property property) {
             if (findPropertyInList(property).getHouseCount() == 0){
@@ -153,6 +165,16 @@
                     (property.getHouseCount() != getLowestHouseCountFromStreet(property.getColor()))) {
                     throw new IllegalMonopolyActionException("You need to improve your other properties from this street first.");
             }
+        }
+
+        private int getHighestHouseCountFromStreetExceptGivenProperty(Property property){
+            int highest = -1;
+            for (Property propertiesFromPlayer : properties) {
+                if (propertiesFromPlayer.getColor().equals(property.getColor()) && propertiesFromPlayer.getHouseCount() > highest && !propertiesFromPlayer.equals(property)) {
+                    highest = propertiesFromPlayer.getHouseCount();
+                }
+            }
+            return highest;
         }
 
         private int getHighestHouseCountFromStreet(String streetColor) {
