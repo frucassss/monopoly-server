@@ -79,15 +79,15 @@ public class Game {
         return started;
     }
 
-    public List<Tile> getTiles() {
+    public List<Tile> receiveTiles() {
         return tiles;
     }
 
-    public List<String> getChance() {
+    public List<String> receiveChance() {
         return chance;
     }
 
-    public List<String> getCommunityChest() {
+    public List<String> receiveCommunityChest() {
         return communityChest;
     }
 

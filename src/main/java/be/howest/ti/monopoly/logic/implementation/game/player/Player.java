@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.*;
@@ -58,26 +59,6 @@ public class Player {
         checkIfYouCanPayPrisonFine();
         money -= 50;
         setJailed(false);
-    }
-
-    public void buyProperty(String propertyName) {
-        checkIfItIsMyTurn();
-        checkIfSomebodyHasProperty(propertyName);
-        checkIfYouTryToBuyAProperty(propertyName);
-        Property property = makePropertyFromTile(propertyName);
-        checkIfIHaveEnoughMoney(property.getCost());
-        checkIfImStandingOnProperty(property.getPosition());
-        this.pay(property.getCost());
-        properties.add(property);
-    }
-
-    private Property makePropertyFromTile(String propertyName) {
-        for (Tile tile : game.getTiles()) {
-            if (tile.getName().equals(propertyName)) {
-                return new Property(tile);
-            }
-        }
-        throw new IllegalMonopolyActionException("Couldn't find property in tiles");
     }
 
     public void addProperty(Property property) {
@@ -156,38 +137,9 @@ public class Player {
 
     // CHECKERS
 
-    private void checkIfImStandingOnProperty(int propertyPosition) {
-        if (propertyPosition != currentTile.getPosition()) {
-            throw new IllegalMonopolyActionException("You need to stand on property before you can buy it");
-        }
-    }
-
-    private void checkIfYouTryToBuyAProperty(String propertyName) {
-        for (Tile tile : game.getTiles()) {
-            if (tile.getName().equals(propertyName)) {
-                if (!(tile.getType().equals("street") || tile.getType().equals("railroad") || tile.getType().equals("utility"))) {
-                    throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
-                }
-            }
-        }
-    }
-
-    private void checkIfSomebodyHasProperty(String propertyName) {
-        for (String key : game.getPlayers().keySet()) {
-            Player player = game.getPlayers().get(key);
-            if (player.doIHaveProperty(propertyName)) {
-                if (player.getName().equals(this.name)) {
-                    throw new IllegalMonopolyActionException("You already have this property");
-                } else {
-                    throw new IllegalMonopolyActionException("Somebody already has this property");
-                }
-            }
-        }
-    }
-
-    private void checkIfItIsMyTurn() {
-        if (!game.getCurrentPlayer().equals(this.getName())){
-            throw new IllegalMonopolyActionException("It's not your turn!");
+    private void checkIfIHaveEnoughMoney(int amount) {
+        if (amount > this.money) {
+            throw new IllegalMonopolyActionException("You don't have enough money");
         }
     }
 
@@ -301,12 +253,6 @@ public class Player {
         }
     }
 
-    private void checkIfIHaveEnoughMoney(int amount) {
-        if (amount > money) {
-            throw new IllegalMonopolyActionException("You don't have enough money");
-        }
-    }
-
     private void checkIfYouCanAddGetOutOfJailFreeCard() {
         if (this.getOutOfJailFreeCards > 2) {
             throw new IllegalMonopolyActionException("You already have 2 get out of jail cars");
@@ -367,6 +313,10 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public Tile receiveCurrentTile(){
+        return this.currentTile;
     }
 
     public String getCurrentTile() {

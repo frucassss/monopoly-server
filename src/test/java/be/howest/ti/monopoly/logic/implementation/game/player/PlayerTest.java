@@ -1,11 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation.game.player;
 
-import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
-import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.game.player.Property;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import org.junit.jupiter.api.Test;
@@ -601,73 +599,5 @@ class PlayerTest {
         assertEquals(0 ,michiel.findPropertyInList("Tennessee").getHotelCount());
         assertEquals(0, michiel.findPropertyInList("New York").getHotelCount());
 
-    }
-
-    @Test
-    void testBuyingProperty(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
-        game.setCurrentPlayer("michiel");
-        game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        game.findPlayer("michiel").buyProperty("Mediterranean");
-
-        assertEquals("Mediterranean", game.findPlayer("michiel").findPropertyInList("Mediterranean").getPropertyName());
-        assertEquals(1500 - game.findPlayer("michiel").findPropertyInList("Mediterranean").getCost(),game.findPlayer("michiel").getMoney());
-    }
-
-    @Test
-    void testBuyPropertyWhileSomebodyElseHasTheProperty(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
-        game.setCurrentPlayer("michiel");
-        game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        game.findPlayer("michiel").buyProperty("Mediterranean");
-        game.setCurrentPlayer("thibo");
-        game.findPlayer("thibo").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        assertThrows(IllegalMonopolyActionException.class,()->{
-            game.findPlayer("thibo").buyProperty("Mediterranean");
-        });
-    }
-
-    @Test
-    void testBuyingPropertyWhileNotStandingOnIt(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
-        game.setCurrentPlayer("michiel");
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-            game.findPlayer("michiel").buyProperty("Mediterranean");
-        });
-    }
-
-    @Test
-    void testBuyingPropertyWhileNotHavingEnoughMoney(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
-        game.setCurrentPlayer("michiel");
-        game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        game.findPlayer("michiel").pay(1500);
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-            game.findPlayer("michiel").buyProperty("Mediterranean");
-        });
-    }
-
-    @Test
-    void testBuyingATileThatIsNotAProperty(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
-        game.setCurrentPlayer("michiel");
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-            game.findPlayer("michiel").buyProperty("Go");
-        });
     }
 }

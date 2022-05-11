@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
