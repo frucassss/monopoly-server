@@ -67,6 +67,14 @@ public class Property {
 
     // GETTERS
 
+    public int getPosition(){
+        return this.property.getPosition();
+    }
+
+    public int getCost(){
+        return this.property.getCost();
+    }
+
     public int getHousePrice() {
         checkIfPropertyIsStreetTile();
         StreetTile propertyStreet = (StreetTile) this.property;
