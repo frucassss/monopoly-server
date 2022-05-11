@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.game.Move;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
