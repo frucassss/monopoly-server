@@ -75,6 +75,16 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public void payPrisonFine(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void useGetOutOfJailFreeCard(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Tile getTile(int position) {
         throw new UnsupportedOperationException();
     }
