@@ -18,4 +18,34 @@ public class PlayerCheck {
             throw new IllegalMonopolyActionException("You don't own this property.");
         }
     }
+
+    public void checkIfIHaveEnoughMoney(int amount) {
+        if (amount > player.getMoney()) {
+            throw new IllegalMonopolyActionException("You don't have enough money");
+        }
+    }
+
+    public void checkIfAmountIsNotNegative(int amount) {
+        if (amount < 0) {
+            throw new IllegalMonopolyActionException("You're trying to pay a negative number?");
+        }
+    }
+
+    public void checkIfYouCanAddGetOutOfJailFreeCard() {
+        if (player.getGetOutOfJailFreeCards() > 2) {
+            throw new IllegalMonopolyActionException("You already have 2 get out of jail cars");
+        }
+    }
+
+    public void checkIfYouCanUseAGetOutOfJailFreeCard() {
+        if (player.getGetOutOfJailFreeCards() == 0) {
+            throw new IllegalMonopolyActionException("You don't have an get out of jail card");
+        }
+    }
+
+    public void checkBankrupt() {
+        if (player.getBankrupt()) {
+            throw new IllegalMonopolyActionException("you are already bankrupt");
+        }
+    }
 }

@@ -14,9 +14,10 @@ public class Game {
     private int numberOfPlayers;
     private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
-    protected List<Tile> tiles;
-    protected List<String> chance;
-    protected List<String> communityChest;
+    private String currentPlayer;
+    private List<Tile> tiles;
+    private List<String> chance;
+    private List<String> communityChest;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers,List<String> chance, List<String> communityChest, List<Tile> tiles) {
         checkCharactersInString(prefix, "Prefix");
@@ -51,6 +52,9 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
     }
 
+    public void setCurrentPlayer(String currentPlayer){
+        this.currentPlayer = currentPlayer;
+    }
     // GETTERS
 
     public String getPrefix() {
@@ -71,6 +75,22 @@ public class Game {
 
     public boolean getStarted() {
         return started;
+    }
+
+    public List<Tile> receiveTiles() {
+        return tiles;
+    }
+
+    public List<String> receiveChance() {
+        return chance;
+    }
+
+    public List<String> receiveCommunityChest() {
+        return communityChest;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 
     // CHECKERS - Validate if applies to the rules

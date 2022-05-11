@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+
 import be.howest.ti.monopoly.logic.implementation.checkers.player.property.PropertyCheck;
 import be.howest.ti.monopoly.logic.implementation.tile.*;
 
@@ -71,13 +72,21 @@ public class Property {
 
     // GETTERS
 
+    public int receivePosition() {
+        return this.propertyTile.getPosition();
+    }
+
+    public int receiveCost() {
+        return this.propertyTile.getCost();
+    }
+
     public int receiveHousePrice() {
         propertyCheck.checkIfPropertyIsStreetTile();
         StreetTile propertyStreet = (StreetTile) this.propertyTile;
         return propertyStreet.getHousePrice();
     }
 
-    public PropertyTile receivePropertyTile(){
+    public PropertyTile receivePropertyTile() {
         return propertyTile;
     }
 
@@ -85,13 +94,13 @@ public class Property {
         return mortgageValue;
     }
 
-    public int receiveGroupSize(){
+    public int receiveGroupSize() {
         propertyCheck.checkIfPropertyIsStreetTile();
         StreetTile propertyStreet = (StreetTile) this.propertyTile;
         return propertyStreet.getGroupSize();
     }
 
-    public String receiveColor(){
+    public String receiveColor() {
         return this.propertyTile.getColor();
     }
 
