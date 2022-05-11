@@ -9,7 +9,8 @@ public class MarketProperty {
     private Player player;
     private Game game;
     private String propertyName;
-    MarketProperty(Player player, Game game, String propertyName){
+
+    public MarketProperty(Player player, Game game, String propertyName){
         this.player = player;
         this.game = game;
         this.propertyName = propertyName;
