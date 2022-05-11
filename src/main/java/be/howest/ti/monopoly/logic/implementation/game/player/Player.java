@@ -62,7 +62,7 @@ public class Player {
 
     public void buyProperty(String propertyName) {
         checkIfItIsMyTurn();
-
+        checkIfSomebodyHasProperty(propertyName);
         Property property = makePropertyFromTile(propertyName);
         checkIfIHaveEnoughMoney(property.getCost());
         this.pay(property.getCost());
@@ -143,7 +143,29 @@ public class Player {
         }
     }
 
+    public boolean doIHaveProperty(String propertyName) {
+        for (Property property1 : properties) {
+            if (propertyName.equals(property1.getPropertyName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // CHECKERS
+
+    private void checkIfSomebodyHasProperty(String propertyName) {
+        for (String key : game.getPlayers().keySet()) {
+            Player player = game.getPlayers().get(key);
+            if (player.doIHaveProperty(propertyName)) {
+                if (player.getName().equals(this.name)) {
+                    throw new IllegalMonopolyActionException("You already have this property");
+                } else {
+                    throw new IllegalMonopolyActionException("Somebody already has this property");
+                }
+            }
+        }
+    }
 
     private void checkIfItIsMyTurn() {
         if (!game.getCurrentPlayer().equals(this.getName())){
