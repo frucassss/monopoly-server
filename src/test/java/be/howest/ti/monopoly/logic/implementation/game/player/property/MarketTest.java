@@ -4,14 +4,13 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import org.junit.jupiter.api.Test;
-import org.yaml.snakeyaml.error.Mark;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MarketPropertyTest {
+class MarketTest {
     MonopolyService monopolyService = new MonopolyService();
     Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-    MarketPropertyTest(){
+    MarketTest(){
         game.newPlayer("michiel");
         game.newPlayer("thibo");
     }
@@ -21,8 +20,8 @@ class MarketPropertyTest {
         game.setCurrentPlayer("michiel");
         game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
 
-        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-        marketPropertyMichielMediterranean.buyProperty();
+        Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
+        marketMichielMediterranean.buyProperty();
 
         assertEquals("Mediterranean", game.findPlayer("michiel").findProperty("Mediterranean").getProperty());
         assertEquals(1500 - game.findPlayer("michiel").findProperty("Mediterranean").receiveCost(),game.findPlayer("michiel").getMoney());
@@ -33,20 +32,20 @@ class MarketPropertyTest {
         game.setCurrentPlayer("michiel");
         game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
 
-        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-        marketPropertyMichielMediterranean.buyProperty();
+        Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
+        marketMichielMediterranean.buyProperty();
 
         game.setCurrentPlayer("thibo");
         game.findPlayer("thibo").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        MarketProperty marketPropertyThiboMediterranean = new MarketProperty(game.findPlayer("thibo"),game,"Mediterranean");
-        assertThrows(IllegalMonopolyActionException.class, marketPropertyThiboMediterranean::buyProperty);
+        Market marketThiboMediterranean = new Market(game.findPlayer("thibo"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketThiboMediterranean::buyProperty);
     }
 
     @Test
     void testBuyingPropertyWhileNotStandingOnIt(){
         game.setCurrentPlayer("michiel");
-        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-        assertThrows(IllegalMonopolyActionException.class, marketPropertyMichielMediterranean::buyProperty);
+        Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketMichielMediterranean::buyProperty);
     }
 
     @Test
@@ -54,14 +53,14 @@ class MarketPropertyTest {
         game.setCurrentPlayer("michiel");
         game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
         game.findPlayer("michiel").pay(1500);
-        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-        assertThrows(IllegalMonopolyActionException.class, marketPropertyMichielMediterranean::buyProperty);
+        Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketMichielMediterranean::buyProperty);
     }
 
     @Test
     void testBuyingATileThatIsNotAProperty(){
         game.setCurrentPlayer("michiel");
-        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-        assertThrows(IllegalMonopolyActionException.class, marketPropertyMichielMediterranean::buyProperty);
+        Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketMichielMediterranean::buyProperty);
     }
 }
