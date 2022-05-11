@@ -24,7 +24,7 @@ public class MarketProperty {
         checkIfIHaveEnoughMoney(property.getCost());
         checkIfImStandingOnProperty(property.getPosition());
         player.pay(property.getCost());
-        player.getProperties().add(property);
+        player.addProperty(property);
     }
 
     private void checkIfIHaveEnoughMoney(int amount) {
