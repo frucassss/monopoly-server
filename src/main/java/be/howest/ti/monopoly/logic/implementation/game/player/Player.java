@@ -28,8 +28,8 @@ public class Player {
 
     // METHODS
     public void pay(int amount) {
-        checkIfIHaveEnoughMoney(amount);
-        checkIfAmountIsNotNegative(amount);
+        playerCheck.checkIfIHaveEnoughMoney(amount);
+        playerCheck.checkIfAmountIsNotNegative(amount);
         this.money -= amount;
     }
 
@@ -43,22 +43,22 @@ public class Player {
     }
 
     public void collect(int amount) {
-        checkIfAmountIsNotNegative(amount);
+        playerCheck.checkIfAmountIsNotNegative(amount);
         this.money += amount;
     }
 
     public void addGetOutOfJailFreeCard() {
-        checkIfYouCanAddGetOutOfJailFreeCard();
+        playerCheck.checkIfYouCanAddGetOutOfJailFreeCard();
         this.getOutOfJailFreeCards += 1;
     }
 
     public void useGetOutOfJailFreeCard() {
-        checkIfYouCanUseAGetOutOfJailFreeCard();
+        playerCheck.checkIfYouCanUseAGetOutOfJailFreeCard();
         this.getOutOfJailFreeCards -= 1;
     }
 
     public void payPrisonFine() {
-        checkIfYouCanPayPrisonFine();
+        playerCheck.checkIfIHaveEnoughMoney(50);
         money -= 50;
         setJailed(false);
     }
@@ -69,45 +69,6 @@ public class Player {
 
     public void removeProperty(Property property) {
         properties.remove(property);
-    }
-
-
-    // CHECKERS
-
-    private void checkIfAmountIsNotNegative(int amount) {
-        if (amount < 0) {
-            throw new IllegalMonopolyActionException("You're trying to pay a negative number?");
-        }
-    }
-
-    private void checkIfIHaveEnoughMoney(int amount) {
-        if (amount > money) {
-            throw new IllegalMonopolyActionException("You don't have enough money");
-        }
-    }
-
-    private void checkIfYouCanAddGetOutOfJailFreeCard() {
-        if (this.getOutOfJailFreeCards > 2) {
-            throw new IllegalMonopolyActionException("You already have 2 get out of jail cars");
-        }
-    }
-
-    private void checkIfYouCanUseAGetOutOfJailFreeCard() {
-        if (this.getOutOfJailFreeCards == 0) {
-            throw new IllegalMonopolyActionException("You don't have an get out of jail card");
-        }
-    }
-
-    private void checkIfYouCanPayPrisonFine() {
-        if (money < 50) {
-            throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money");
-        }
-    }
-
-    public void checkBankrupt() {
-        if (getBankrupt()) {
-            throw new IllegalMonopolyActionException("you are already bankrupt");
-        }
     }
 
     // GETTERS
@@ -158,7 +119,7 @@ public class Player {
     }
 
     public void makeBankrupt() {
-        checkBankrupt();
+        playerCheck.checkBankrupt();
         this.bankrupt = true;
     }
 

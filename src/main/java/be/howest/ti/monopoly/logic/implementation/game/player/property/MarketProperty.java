@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.checkers.player.PlayerCheck;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -9,11 +10,13 @@ public class MarketProperty {
     private Player player;
     private Game game;
     private String propertyName;
+    private final PlayerCheck playerCheck;
 
     public MarketProperty(Player player, Game game, String propertyName){
         this.player = player;
         this.game = game;
         this.propertyName = propertyName;
+        this.playerCheck = new PlayerCheck(player);
     }
 
     public void buyProperty() {
