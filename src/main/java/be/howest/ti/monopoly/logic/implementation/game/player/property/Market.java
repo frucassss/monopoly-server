@@ -1,16 +1,16 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.checkers.player.PlayerCheck;
-import be.howest.ti.monopoly.logic.implementation.checkers.player.property.MarketCheck;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.player.property.MarketCheck;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 public class Market {
-    private Player player;
-    private Game game;
-    private String propertyName;
+    private final Player player;
+    private final Game game;
+    private final String propertyName;
     private final PlayerCheck playerCheck;
     private final MarketCheck marketCheck;
 
