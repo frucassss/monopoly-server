@@ -75,6 +75,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public void buyProperty(String gameId, String playerName, String propertyName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Tile getTile(int position) {
         throw new UnsupportedOperationException();
     }

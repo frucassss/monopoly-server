@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
@@ -201,5 +202,11 @@ public class MonopolyService extends ServiceAdapter {
         Player player = game.getPlayers().get(playerName);
 
         player.makeBankrupt();
+    }
+
+    @Override
+    public void buyProperty(String gameId, String playerName, String propertyName){
+        Market market = new Market(getGame(gameId).findPlayer(playerName),getGame(gameId),propertyName);
+        market.buyProperty();
     }
 }

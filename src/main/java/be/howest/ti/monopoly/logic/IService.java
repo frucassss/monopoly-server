@@ -36,4 +36,6 @@ public interface IService {
     void sellHouse(String gameId, String playerName, String propertyName);
 
     void sellHotel(String gameId, String playerName, String propertyName);
+
+    void buyProperty(String gameId, String playerName, String propertyName);
 }
