@@ -50,14 +50,23 @@
         }
 
         public void useGetOutOfJailFreeCard() {
+            checkIfPlayerIsInPrison();
             checkIfYouCanUseAGetOutOfJailFreeCard();
             this.getOutOfJailFreeCards -= 1;
+            setJailed(false);
         }
 
         public void payPrisonFine() {
-            checkIfYouCanPayPrisonFine();
-            money -= 50;
+            checkIfPlayerIsInPrison();
+            checkIfIHaveEnoughMoney(50);
+            pay(50);
             setJailed(false);
+        }
+
+        private void checkIfPlayerIsInPrison() {
+            if (!this.jailed){
+                throw new IllegalMonopolyActionException("You aren't in jail");
+            }
         }
 
         public void addProperty(Property property) {
@@ -273,12 +282,6 @@
             Property property = findPropertyInList(propertyName);
             if (!property.isMortgage()) {
                 throw new IllegalMonopolyActionException("It's not mortgaged");
-            }
-        }
-
-        private void checkIfYouCanPayPrisonFine() {
-            if (money < 50) {
-                throw new IllegalMonopolyActionException("You can't pay the fine, you don't have enough money");
             }
         }
 
