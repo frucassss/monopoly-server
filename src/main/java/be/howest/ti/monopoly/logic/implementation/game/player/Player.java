@@ -63,6 +63,7 @@ public class Player {
     public void buyProperty(String propertyName) {
         checkIfItIsMyTurn();
         checkIfSomebodyHasProperty(propertyName);
+        checkIfYouTryToBuyAProperty(propertyName);
         Property property = makePropertyFromTile(propertyName);
         checkIfIHaveEnoughMoney(property.getCost());
         this.pay(property.getCost());
@@ -153,6 +154,16 @@ public class Player {
     }
 
     // CHECKERS
+
+    private void checkIfYouTryToBuyAProperty(String propertyName) {
+        for (Tile tile : game.getTiles()) {
+            if (tile.getName().equals(propertyName)) {
+                if (!(tile.getType().equals("street") || tile.getType().equals("railroad") || tile.getType().equals("utility"))) {
+                    throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
+                }
+            }
+        }
+    }
 
     private void checkIfSomebodyHasProperty(String propertyName) {
         for (String key : game.getPlayers().keySet()) {
