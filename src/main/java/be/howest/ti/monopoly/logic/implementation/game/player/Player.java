@@ -66,6 +66,7 @@ public class Player {
         checkIfYouTryToBuyAProperty(propertyName);
         Property property = makePropertyFromTile(propertyName);
         checkIfIHaveEnoughMoney(property.getCost());
+        checkIfImStandingOnProperty(property.getPosition());
         this.pay(property.getCost());
         properties.add(property);
     }
@@ -154,6 +155,12 @@ public class Player {
     }
 
     // CHECKERS
+
+    private void checkIfImStandingOnProperty(int propertyPosition) {
+        if (propertyPosition != currentTile.getPosition()) {
+            throw new IllegalMonopolyActionException("You need to stand on property before you can buy it");
+        }
+    }
 
     private void checkIfYouTryToBuyAProperty(String propertyName) {
         for (Tile tile : game.getTiles()) {
