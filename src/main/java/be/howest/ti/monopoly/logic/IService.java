@@ -37,5 +37,10 @@ public interface IService {
 
     void sellHotel(String gameId, String playerName, String propertyName);
 
+    void payPrisonFine(String gameId, String playerName);
+
+    void useGetOutOfJailFreeCard(String gameId, String playerName);
+
     void buyProperty(String gameId, String playerName, String propertyName);
+
 }

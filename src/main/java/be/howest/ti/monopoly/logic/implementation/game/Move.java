@@ -3,9 +3,7 @@ package be.howest.ti.monopoly.logic.implementation.game;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Move {
     private final Tile tile;

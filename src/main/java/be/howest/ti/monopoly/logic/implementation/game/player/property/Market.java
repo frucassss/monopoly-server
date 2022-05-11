@@ -8,9 +8,9 @@ import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 public class Market {
-    private Player player;
-    private Game game;
-    private String propertyName;
+    private final Player player;
+    private final Game game;
+    private final String propertyName;
     private final PlayerCheck playerCheck;
     private final MarketCheck marketCheck;
 

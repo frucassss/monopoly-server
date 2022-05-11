@@ -48,4 +48,10 @@ public class PlayerCheck {
             throw new IllegalMonopolyActionException("you are already bankrupt");
         }
     }
+
+    public void checkIfPlayerIsInPrison() {
+        if (!player.getJailed()){
+            throw new IllegalMonopolyActionException("You aren't in jail");
+        }
+    }
 }

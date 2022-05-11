@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Turn {
+
     private final int[] dices = new int[2];
     private final Player player;
     private final Game game;
@@ -36,4 +37,5 @@ public class Turn {
     public List<Move> getMoves() {
         return moves;
     }
+
 }
