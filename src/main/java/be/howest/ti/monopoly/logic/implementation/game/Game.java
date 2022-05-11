@@ -1,11 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
-import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
-import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
-
 import java.util.*;
 
 public class Game {
@@ -13,15 +10,24 @@ public class Game {
     private final String prefix;
     private final String id;
     private int numberOfPlayers;
-    private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
-    private String currentPlayer;
-    private List<Tile> tiles;
-    private List<String> chance;
-    private List<String> communityChest;
+    private String directSale = null;
+    private String currentPlayer = null;
+    private boolean canRoll = false;
+    private boolean ended = false;
+    private String winner = null;
+    private int[] lastDiceRoll = {0, 0};
+    private final List<Turn> turns = new ArrayList<>();
+    private final Map<String, Player> players = new HashMap<>();
 
-    public Game(String prefix, int sessionNumber, int numberOfPlayers,List<String> chance, List<String> communityChest, List<Tile> tiles) {
-        checkCharactersInString(prefix, "Prefix");
+    private final List<Tile> tiles;
+    private final List<String> chance;
+    private final List<String> communityChest;
+    private final GameCheck gameCheck;
+
+    public Game(String prefix, int sessionNumber, int numberOfPlayers, List<String> chance, List<String> communityChest, List<Tile> tiles) {
+        gameCheck = new GameCheck(this);
+        gameCheck.checkCharactersInString(prefix, "Prefix");
         this.tiles = tiles;
         this.communityChest = communityChest;
         this.chance = chance;
@@ -31,32 +37,76 @@ public class Game {
     }
 
     public void newPlayer(String playerName){
-        checkIfGameIsNotStarted();
-        checkCharactersInString(playerName, "Player name");
-        checkIfPlayerIsInGame(playerName);
+        gameCheck.checkIfGameIsNotStarted();
+        gameCheck.checkCharactersInString(playerName, "Player name");
+        gameCheck.checkIfPlayerIsInGame(playerName);
         Player player = new Player(playerName, this);
         players.put(playerName, player);
 
         if(players.size() == numberOfPlayers){
-            started = true;
+            setStarted(true);
+            setCurrentPlayer(playerName);
+            setCanRoll(true);
         }
-
     }
 
     public Player findPlayer(String playerName){
         return players.get(playerName);
     }
 
+    public void addTurn(Turn turn){
+        turns.add(turn);
+    }
+
     // SETTERS
 
     public void setNumberOfPlayers(int numberOfPlayers){
-        checkNumberOfPlayers(numberOfPlayers);
+        gameCheck.checkNumberOfPlayers(numberOfPlayers);
         this.numberOfPlayers = numberOfPlayers;
     }
 
     public void setCurrentPlayer(String currentPlayer){
         this.currentPlayer = currentPlayer;
     }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public void setDirectSale(String directSale) {
+        this.directSale = directSale;
+    }
+
+    public void setCanRoll(boolean canRoll) {
+        this.canRoll = canRoll;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
+    public void setLastDiceRoll(int[] lastDiceRoll) {
+        this.lastDiceRoll = lastDiceRoll;
+    }
+
+    // RECEIVERS
+
+    public List<Tile> receiveTiles() {
+        return tiles;
+    }
+
+    public List<String> receiveChance() {
+        return chance;
+    }
+
+    public List<String> receiveCommunityChest() {
+        return communityChest;
+    }
+
     // GETTERS
 
     public String getPrefix() {
@@ -71,57 +121,39 @@ public class Game {
         return numberOfPlayers;
     }
 
-    public Map<String, Player> getPlayers() {
-        return players;
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public String getDirectSale() {
+        return directSale;
+    }
+
+    public boolean isCanRoll() {
+        return canRoll;
     }
 
     public boolean getStarted() {
         return started;
     }
 
-    public List<Tile> receiveTiles() {
-        return tiles;
+    public boolean isEnded() {
+        return ended;
     }
 
-    public List<String> receiveChance() {
-        return chance;
+    public String getWinner() {
+        return winner;
     }
 
-    public List<String> receiveCommunityChest() {
-        return communityChest;
+    public int[] getLastDiceRoll() {
+        return lastDiceRoll;
     }
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
+    public List<Turn> getTurns() {
+        return turns;
     }
 
-    // CHECKERS - Validate if applies to the rules
-
-    public void checkNumberOfPlayers(int numberOfPlayers){
-        if(numberOfPlayers < 2 || numberOfPlayers > 8){
-            throw new IllegalArgumentException("Invalid number of players: min. 2 & max. 8");
-        }
-    }
-
-    public void checkIfGameIsNotStarted(){
-        if(started) {
-            throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. In this case, it is most likely that you tried to join a game which has already started, or you used a name that is already taken in this game.");
-        }
-    }
-
-    public void checkCharactersInString(String str, String type){
-        if(str == null){
-            throw new IllegalArgumentException(type + " cannot not be empty.");
-        }
-        else if(!str.matches("[a-zA-Z0-9]+") || str.length() > 14 || str.length() < 1){
-            throw new IllegalArgumentException(type + " is invalid, " + type + " can have a max. length of 14 alphabetical and numeric characters");
-        }
-
-    }
-
-    public void checkIfPlayerIsInGame(String playerName){
-        if(players.containsKey(playerName)){
-            throw new ForbiddenAccessException("Player is already in game! Can only contain Alphabets.");
-        }
+    public Map<String, Player> getPlayers() {
+        return players;
     }
 }
