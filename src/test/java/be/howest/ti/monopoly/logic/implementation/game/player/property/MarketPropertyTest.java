@@ -9,18 +9,20 @@ import org.yaml.snakeyaml.error.Mark;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketPropertyTest {
+    MonopolyService monopolyService = new MonopolyService();
+    Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
+    MarketPropertyTest(){
+        game.newPlayer("michiel");
+        game.newPlayer("thibo");
+    }
 
     @Test
     void testBuyingProperty(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
         game.setCurrentPlayer("michiel");
         game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
 
-        MarketProperty marketProperty = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-        marketProperty.buyProperty();
+        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
+        marketPropertyMichielMediterranean.buyProperty();
 
         assertEquals("Mediterranean", game.findPlayer("michiel").findProperty("Mediterranean").getProperty());
         assertEquals(1500 - game.findPlayer("michiel").findProperty("Mediterranean").receiveCost(),game.findPlayer("michiel").getMoney());
@@ -28,10 +30,6 @@ class MarketPropertyTest {
 
     @Test
     void testBuyPropertyWhileSomebodyElseHasTheProperty(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
         game.setCurrentPlayer("michiel");
         game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
 
@@ -40,50 +38,30 @@ class MarketPropertyTest {
 
         game.setCurrentPlayer("thibo");
         game.findPlayer("thibo").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        assertThrows(IllegalMonopolyActionException.class,()->{
-            MarketProperty marketPropertyThiboMediterranean = new MarketProperty(game.findPlayer("thibo"),game,"Mediterranean");
-            marketPropertyThiboMediterranean.buyProperty();
-        });
+        MarketProperty marketPropertyThiboMediterranean = new MarketProperty(game.findPlayer("thibo"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketPropertyThiboMediterranean::buyProperty);
     }
 
     @Test
     void testBuyingPropertyWhileNotStandingOnIt(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
         game.setCurrentPlayer("michiel");
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-            MarketProperty marketProperty = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-            marketProperty.buyProperty();
-        });
+        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketPropertyMichielMediterranean::buyProperty);
     }
 
     @Test
     void testBuyingPropertyWhileNotHavingEnoughMoney(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
         game.setCurrentPlayer("michiel");
         game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
         game.findPlayer("michiel").pay(1500);
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-            MarketProperty marketProperty = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-            marketProperty.buyProperty();
-        });
+        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketPropertyMichielMediterranean::buyProperty);
     }
 
     @Test
     void testBuyingATileThatIsNotAProperty(){
-        MonopolyService monopolyService = new MonopolyService();
-        Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-        game.newPlayer("michiel");
-        game.newPlayer("thibo");
         game.setCurrentPlayer("michiel");
-        assertThrows(IllegalMonopolyActionException.class, ()->{
-            MarketProperty marketProperty = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
-            marketProperty.buyProperty();
-        });
+        MarketProperty marketPropertyMichielMediterranean = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, marketPropertyMichielMediterranean::buyProperty);
     }
 }
