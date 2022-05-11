@@ -1,11 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
-import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
-
 import java.util.*;
 
 public class Game {
@@ -13,9 +10,16 @@ public class Game {
     private final String prefix;
     private final String id;
     private int numberOfPlayers;
-    private final Map<String, Player> players = new HashMap<>();
     private boolean started = false;
-    private String currentPlayer;
+    private String directSale = null;
+    private String currentPlayer = null;
+    private boolean canRoll = false;
+    private boolean ended = false;
+    private String winner = null;
+    private int[] lastDiceRoll = {0, 0};
+    private final List<Turn> turns = new ArrayList<>();
+    private final Map<String, Player> players = new HashMap<>();
+
     private final List<Tile> tiles;
     private final List<String> chance;
     private final List<String> communityChest;
@@ -40,12 +44,18 @@ public class Game {
         players.put(playerName, player);
 
         if(players.size() == numberOfPlayers){
-            started = true;
+            setStarted(true);
+            setCurrentPlayer(playerName);
+            setCanRoll(true);
         }
     }
 
     public Player findPlayer(String playerName){
         return players.get(playerName);
+    }
+
+    public void addTurn(Turn turn){
+        turns.add(turn);
     }
 
     // SETTERS
@@ -59,7 +69,31 @@ public class Game {
         this.currentPlayer = currentPlayer;
     }
 
-    // GETTERS
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public void setDirectSale(String directSale) {
+        this.directSale = directSale;
+    }
+
+    public void setCanRoll(boolean canRoll) {
+        this.canRoll = canRoll;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
+    public void setLastDiceRoll(int[] lastDiceRoll) {
+        this.lastDiceRoll = lastDiceRoll;
+    }
+
+    // RECEIVERS
 
     public List<Tile> receiveTiles() {
         return tiles;
@@ -73,6 +107,8 @@ public class Game {
         return communityChest;
     }
 
+    // GETTERS
+
     public String getPrefix() {
         return prefix;
     }
@@ -85,16 +121,39 @@ public class Game {
         return numberOfPlayers;
     }
 
-    public Map<String, Player> getPlayers() {
-        return players;
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public String getDirectSale() {
+        return directSale;
+    }
+
+    public boolean isCanRoll() {
+        return canRoll;
     }
 
     public boolean getStarted() {
         return started;
     }
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
+    public boolean isEnded() {
+        return ended;
     }
 
+    public String getWinner() {
+        return winner;
+    }
+
+    public int[] getLastDiceRoll() {
+        return lastDiceRoll;
+    }
+
+    public List<Turn> getTurns() {
+        return turns;
+    }
+
+    public Map<String, Player> getPlayers() {
+        return players;
+    }
 }
