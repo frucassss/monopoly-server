@@ -61,6 +61,8 @@ public class Player {
     }
 
     public void buyProperty(String propertyName) {
+        checkIfItIsMyTurn();
+
         Property property = makePropertyFromTile(propertyName);
         checkIfIHaveEnoughMoney(property.getCost());
         this.pay(property.getCost());
@@ -142,6 +144,12 @@ public class Player {
     }
 
     // CHECKERS
+
+    private void checkIfItIsMyTurn() {
+        if (!game.getCurrentPlayer().equals(this.getName())){
+            throw new IllegalMonopolyActionException("It's not your turn!");
+        }
+    }
 
     private void checkIfYouAreAllowedToSellHouse(String propertyName) {
         Property property = findPropertyInList(propertyName);
