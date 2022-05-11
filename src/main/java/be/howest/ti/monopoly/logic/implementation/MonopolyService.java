@@ -1,19 +1,16 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.game.player.Property;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import be.howest.ti.monopoly.logic.implementation.tile.UtilityTile;
-import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
-import io.vertx.core.json.JsonObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,13 +170,30 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public void buyHouse(String gameId, String playerName, String propertyName) {
         Player player = getGame(gameId).findPlayer(playerName);
-        player.buyHouse(propertyName);
+        Improve improve = new Improve(player, propertyName);
+        improve.buyHouse();
     }
 
     @Override
     public void buyHotel(String gameId, String playerName, String propertyName) {
         Player player = getGame(gameId).findPlayer(playerName);
-        player.buyHotel(propertyName);
+        Improve improve = new Improve(player, propertyName);
+        improve.buyHotel();
+    }
+
+
+    @Override
+    public void sellHouse(String gameId, String playerName, String propertyName){
+        Player player = getGame(gameId).findPlayer(playerName);
+        Improve improve = new Improve(player, propertyName);
+        improve.sellHouse();
+    }
+
+    @Override
+    public void sellHotel(String gameId, String playerName, String propertyName){
+        Player player = getGame(gameId).findPlayer(playerName);
+        Improve improve = new Improve(player, propertyName);
+        improve.sellHotel();
     }
 
     @Override
@@ -191,15 +205,9 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public void sellHouse(String gameId, String playerName, String propertyName){
-        Player player = getGame(gameId).findPlayer(playerName);
-        player.sellHouse(propertyName);
-    }
-
-    @Override
-    public void sellHotel(String gameId, String playerName, String propertyName){
-        Player player = getGame(gameId).findPlayer(playerName);
-        player.sellHotel(propertyName);
+    public void buyProperty(String gameId, String playerName, String propertyName){
+        Market market = new Market(getGame(gameId).findPlayer(playerName),getGame(gameId),propertyName);
+        market.buyProperty();
     }
 
     @Override

@@ -99,6 +99,11 @@ public class TestService implements IService {
 
     @Override
     public void useGetOutOfJailFreeCard(String gameId, String playerName) {
-        delegate.useGetOutOfJailFreeCard(gameId,playerName);
+        delegate.useGetOutOfJailFreeCard(gameId, playerName);
+    }
+
+    @Override
+    public void buyProperty(String gameId, String playerName, String propertyName) {
+        delegate.buyProperty(gameId,playerName,propertyName);
     }
 }
