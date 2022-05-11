@@ -1,38 +1,29 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
-import be.howest.ti.monopoly.logic.implementation.game.Move;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.tile.Tile;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Turn {
     private final int[] dices = new int[2];
     private final Player player;
+    private final Game game;
     private final List<Move> moves = new ArrayList<>();
-    protected List<Tile> tiles;
-    protected List<String> chance;
-    protected List<String> communityChest;
+    private final Random random = new Random();
 
     public Turn(Game game, Player player){
         this.player = player;
-        this.tiles = player.getGame();
-        this.chance = chance;
-        this.communityChest = communityChest;
+        this.game = game;
         roll();
     }
 
-    public void roll(){
+    private void roll(){
         dices[0] = randomNumberBetween2Values(1,6);
         dices[1] = randomNumberBetween2Values(1,6);
     }
 
-    public int getDicesAddedUp(){
-        return dices[0] + dices[1];
-    }
-
-    public int randomNumberBetween2Values(int min, int max){
+    private int randomNumberBetween2Values(int min, int max){
         return random.nextInt(max-min) + min;
     }
 
@@ -44,9 +35,5 @@ public class Turn {
     }
     public List<Move> getMoves() {
         return moves;
-    }
-
-    public void addMove(Tile tile, String description){
-        //todo je moet controleren of de tile al van iemand is of niet, is dus misschien verstandigst om eerst de game classe te hebben.
     }
 }
