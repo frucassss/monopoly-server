@@ -1,4 +1,4 @@
-package be.howest.ti.monopoly.logic.implementation.checkers.player.property;
+package be.howest.ti.monopoly.logic.implementation.checkers.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;

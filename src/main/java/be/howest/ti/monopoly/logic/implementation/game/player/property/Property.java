@@ -2,7 +2,7 @@ package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 
-import be.howest.ti.monopoly.logic.implementation.checkers.player.property.PropertyCheck;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.player.property.PropertyCheck;
 import be.howest.ti.monopoly.logic.implementation.tile.*;
 
 public class Property {

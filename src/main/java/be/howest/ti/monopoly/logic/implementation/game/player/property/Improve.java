@@ -1,7 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
-import be.howest.ti.monopoly.logic.implementation.checkers.player.PlayerCheck;
-import be.howest.ti.monopoly.logic.implementation.checkers.player.property.ImproveCheck;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.player.property.ImproveCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 
 public class Improve {
