@@ -20,6 +20,7 @@ public class Player {
     private final PlayerCheck playerCheck = new PlayerCheck(this);
 
 
+
     // CONSTRUCTOR
     public Player(String name, Game game) {
         this.name = name;
@@ -53,11 +54,14 @@ public class Player {
     }
 
     public void useGetOutOfJailFreeCard() {
+        playerCheck.checkIfPlayerIsInPrison();
         playerCheck.checkIfYouCanUseAGetOutOfJailFreeCard();
         this.getOutOfJailFreeCards -= 1;
+        setJailed(false);
     }
 
     public void payPrisonFine() {
+        playerCheck.checkIfPlayerIsInPrison();
         playerCheck.checkIfIHaveEnoughMoney(50);
         money -= 50;
         setJailed(false);

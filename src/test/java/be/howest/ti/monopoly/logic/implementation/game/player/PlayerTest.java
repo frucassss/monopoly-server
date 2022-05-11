@@ -1,13 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
-import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
-import be.howest.ti.monopoly.logic.implementation.game.player.property.Mortgage;
-import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
-import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
-import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -32,4 +27,39 @@ class PlayerTest {
         });
     }
 
+    @Test
+    void testPayingMyWayOutOfJail(){
+        michiel.setJailed(true);
+        michiel.payPrisonFine();
+        assertEquals(1450,michiel.getMoney());
+        assertFalse(michiel.getJailed());
+    }
+
+    @Test
+    void testUsingAGetOutOfJailForFreeCardToGetOutOfJail(){
+        michiel.addGetOutOfJailFreeCard();
+        michiel.setJailed(true);
+        michiel.useGetOutOfJailFreeCard();
+        assertEquals(0,michiel.getGetOutOfJailFreeCards());
+        assertFalse(michiel.getJailed());
+    }
+
+    @Test
+    void testNotHavingTheMoneyToGetOutOfJail(){
+        michiel.setJailed(true);
+        michiel.pay(1451);
+        assertThrows(IllegalMonopolyActionException.class, michiel::payPrisonFine);
+    }
+
+    @Test
+    void testGettingOutOfJailWithCardWhileNotHavingACard(){
+        michiel.setJailed(true);
+        assertThrows(IllegalMonopolyActionException.class,michiel::useGetOutOfJailFreeCard);
+    }
+
+    @Test
+    void testTryingToGetOutOfJailWhileNotBeingInJail(){
+        assertThrows(IllegalMonopolyActionException.class,michiel::useGetOutOfJailFreeCard);
+        assertThrows(IllegalMonopolyActionException.class,michiel::payPrisonFine);
+    }
 }
