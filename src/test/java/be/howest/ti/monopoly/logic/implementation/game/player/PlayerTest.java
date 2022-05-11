@@ -2,7 +2,7 @@ package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
-import be.howest.ti.monopoly.logic.implementation.game.player.property.ImproveProperty;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -20,8 +20,8 @@ class PlayerTest {
     private final Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
     private final Property mediterraneanProperty = new Property(mediterraneanTile);
     private final Property balticProperty = new Property(balticTile);
-    ImproveProperty improveMediterranean = new ImproveProperty(michiel, "Mediterranean");
-    ImproveProperty improveBaltic = new ImproveProperty(michiel, "Baltic");
+    Improve improveMediterranean = new Improve(michiel, "Mediterranean");
+    Improve improveBaltic = new Improve(michiel, "Baltic");
 
 
     @Test
@@ -346,9 +346,9 @@ class PlayerTest {
         michiel.addProperty(Tennessee);
         michiel.addProperty(NewYork);
 
-        ImproveProperty improveSaintJames = new ImproveProperty(michiel, "Saint James");
-        ImproveProperty improveTennessee = new ImproveProperty(michiel, "Tennessee");
-        ImproveProperty improveNewYork = new ImproveProperty(michiel, "New York");
+        Improve improveSaintJames = new Improve(michiel, "Saint James");
+        Improve improveTennessee = new Improve(michiel, "Tennessee");
+        Improve improveNewYork = new Improve(michiel, "New York");
 
         for (int i = 0; i < 4; i++) {
             improveNewYork.buyHouse();
