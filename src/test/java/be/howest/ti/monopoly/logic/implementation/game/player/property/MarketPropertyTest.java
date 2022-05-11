@@ -22,8 +22,8 @@ class MarketPropertyTest {
         MarketProperty marketProperty = new MarketProperty(game.findPlayer("michiel"),game,"Mediterranean");
         marketProperty.buyProperty();
 
-        assertEquals("Mediterranean", game.findPlayer("michiel").findPropertyInList("Mediterranean").getPropertyName());
-        assertEquals(1500 - game.findPlayer("michiel").findPropertyInList("Mediterranean").getCost(),game.findPlayer("michiel").getMoney());
+        assertEquals("Mediterranean", game.findPlayer("michiel").findProperty("Mediterranean").getProperty());
+        assertEquals(1500 - game.findPlayer("michiel").findProperty("Mediterranean").receiveCost(),game.findPlayer("michiel").getMoney());
     }
 
     @Test

@@ -21,9 +21,9 @@ public class MarketProperty {
         checkIfSomebodyHasProperty(propertyName);
         checkIfYouTryToBuyAProperty(propertyName);
         Property property = makePropertyFromTile(propertyName);
-        checkIfIHaveEnoughMoney(property.getCost());
-        checkIfImStandingOnProperty(property.getPosition());
-        player.pay(property.getCost());
+        checkIfIHaveEnoughMoney(property.receiveCost());
+        checkIfImStandingOnProperty(property.receivePosition());
+        player.pay(property.receiveCost());
         player.addProperty(property);
     }
 

@@ -1,109 +1,114 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+
+import be.howest.ti.monopoly.logic.implementation.checkers.player.property.PropertyCheck;
 import be.howest.ti.monopoly.logic.implementation.tile.*;
 
 public class Property {
-    private PropertyTile property;
+    private PropertyTile propertyTile;
     private final int mortgageValue;
     private boolean mortgage = false;
     private int houseCount = 0;
     private int hotelCount = 0;
+    private final PropertyCheck propertyCheck;
 
-    public Property(Tile property) {
-        checkIfTileTypeIsAtLeastAPropertyTile(property);
-        makeRightTileTypeFromProperty(property);
-        this.mortgageValue = this.property.getMortgage();
+    public Property(Tile propertyTile) {
+        checkIfTileTypeIsAtLeastAPropertyTile(propertyTile);
+        makeRightTileTypeFromProperty(propertyTile);
+
+        propertyCheck = new PropertyCheck(this);
+        this.mortgageValue = this.propertyTile.getMortgage();
     }
 
-    public void makeRightTileTypeFromProperty(Tile property) {
+    private void makeRightTileTypeFromProperty(Tile property) {
         switch (property.getType()) {
             case "street":
-                this.property = (StreetTile) property;
+                this.propertyTile = (StreetTile) property;
                 break;
             case "railroad":
-                this.property = (RailroadTile) property;
+                this.propertyTile = (RailroadTile) property;
                 break;
             case "utility":
-                this.property = (UtilityTile) property;
+                this.propertyTile = (UtilityTile) property;
                 break;
             default:
-                this.property = (PropertyTile) property;
+                this.propertyTile = (PropertyTile) property;
                 break;
         }
     }
 
     public void addHouse() {
-        checkIfYouDontHaveMoreThen4HousesOnProperty();
-        checkIfPropertyIsStreetTile();
+        propertyCheck.checkIfYouDontHaveMoreThen4HousesOnProperty();
+        propertyCheck.checkIfPropertyIsStreetTile();
         houseCount += 1;
     }
 
     public void removeHouse() {
-        checkIfYouCanRemoveHouse();
-        checkIfPropertyIsStreetTile();
+        propertyCheck.checkIfYouCanRemoveHouse();
+        propertyCheck.checkIfPropertyIsStreetTile();
         houseCount -= 1;
     }
 
     public void addHotel() {
-        checkIfYouCanAddHotel();
-        checkIfPropertyIsStreetTile();
+        propertyCheck.checkIfYouCanAddHotel();
+        propertyCheck.checkIfPropertyIsStreetTile();
         hotelCount += 1;
     }
 
     public void removeHotel() {
-        checkIfYouCanRemoveHotel();
-        checkIfPropertyIsStreetTile();
+        propertyCheck.checkIfYouCanRemoveHotel();
+        propertyCheck.checkIfPropertyIsStreetTile();
         hotelCount -= 1;
     }
 
-    public void mortgageProperty() {
+    public void tookMortgage() {
         this.mortgage = true;
     }
 
-    public void unMortgageProperty() {
+    public void settledMortgage() {
         this.mortgage = false;
     }
 
     // GETTERS
 
-    public int getPosition(){
-        return this.property.getPosition();
+    public int receivePosition() {
+        return this.propertyTile.getPosition();
     }
 
-    public int getCost(){
-        return this.property.getCost();
+    public int receiveCost() {
+        return this.propertyTile.getCost();
     }
 
-    public int getHousePrice() {
-        checkIfPropertyIsStreetTile();
-        StreetTile propertyStreet = (StreetTile) this.property;
+    public int receiveHousePrice() {
+        propertyCheck.checkIfPropertyIsStreetTile();
+        StreetTile propertyStreet = (StreetTile) this.propertyTile;
         return propertyStreet.getHousePrice();
     }
 
-    public int getGroupSize(){
-        checkIfPropertyIsStreetTile();
-        StreetTile propertyStreet = (StreetTile) this.property;
-        return propertyStreet.getGroupSize();
+    public PropertyTile receivePropertyTile() {
+        return propertyTile;
     }
 
-    public String getPropertyName(){
-        return property.getName();
-    }
-
-    public String getColor(){
-        return this.property.getColor();
-    }
-
-    public int getMortgageValue() {
+    public int receiveMortgageValue() {
         return mortgageValue;
     }
 
-    public String getProperty() {
-        return property.getName();
+    public int receiveGroupSize() {
+        propertyCheck.checkIfPropertyIsStreetTile();
+        StreetTile propertyStreet = (StreetTile) this.propertyTile;
+        return propertyStreet.getGroupSize();
     }
 
-    public boolean isMortgage() {
+    public String receiveColor() {
+        return this.propertyTile.getColor();
+    }
+
+    public String getProperty() {
+        return propertyTile.getName();
+    }
+
+    public boolean getMortgage() {
         return mortgage;
     }
 
@@ -115,42 +120,9 @@ public class Property {
         return hotelCount;
     }
 
-    //checkers
-
-    public void checkIfYouCanRemoveHotel() {
-        if (hotelCount == 0) {
-            throw new IllegalMonopolyActionException("You can't remove a hotel you don't have");
-        }
-    }
-
-    public void checkIfYouCanRemoveHouse() {
-        if (houseCount == 0) {
-            throw new IllegalMonopolyActionException("You don't have houses to remove");
-        }
-    }
-
-    public void checkIfYouCanAddHotel() {
-        if (houseCount != 4) {
-            throw new IllegalMonopolyActionException("You can't buy an hotel because you don't have 4 houses");
-        } else if (hotelCount > 0) {
-            throw new IllegalMonopolyActionException("You can't buy an hotel because you already have one");
-        }
-    }
-
-    public void checkIfYouDontHaveMoreThen4HousesOnProperty() {
-        if (houseCount == 4) {
-            throw new IllegalMonopolyActionException("You already have 4 houses on the property");
-        }
-    }
-
-    public void checkIfPropertyIsStreetTile() {
-        if (!this.property.getType().equals("street")) {
-            throw new IllegalMonopolyActionException("Your property isn't a streetTile");
-        }
-    }
-
     public void checkIfTileTypeIsAtLeastAPropertyTile(Tile property) {
-        if (!(property.getType().equals("street") || property.getType().equals("railroad") || property.getType().equals("utility"))) {
+        String type = property.getType();
+        if (!(type.equals("street") || type.equals("railroad") || type.equals("utility"))) {
             throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
         }
     }
