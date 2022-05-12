@@ -200,7 +200,6 @@ public class MonopolyService extends ServiceAdapter {
     public void declareBankruptcy(String gameId, String playerName){
         Game game = getGame(gameId);
         Player player = game.findPlayer(playerName);
-
         player.makeBankrupt();
     }
 

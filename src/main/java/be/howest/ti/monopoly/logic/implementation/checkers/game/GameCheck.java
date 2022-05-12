@@ -45,8 +45,8 @@ public class GameCheck {
     }
 
     public void checkIfPlayerIsInGame(String playerName){
-        if(game.getPlayers().containsKey(playerName)){
-            throw new ForbiddenAccessException("Player is already in game! Can only contain Alphabets.");
+        if(game.findPlayer(playerName) != null){
+            throw new ForbiddenAccessException("Player is already in game!");
         }
     }
 }
