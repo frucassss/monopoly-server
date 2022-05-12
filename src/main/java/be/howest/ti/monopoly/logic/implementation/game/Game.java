@@ -45,7 +45,7 @@ public class Game {
 
         if(players.size() == numberOfPlayers){
             setStarted(true);
-            setCurrentPlayer(playerName);
+            setCurrentPlayer(players.get(0).getName());
             setCanRoll(true);
         }
     }
