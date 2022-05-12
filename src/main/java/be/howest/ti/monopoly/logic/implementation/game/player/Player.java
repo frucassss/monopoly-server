@@ -142,8 +142,8 @@ public class Player {
     }
 
     public boolean doIHaveProperty(String propertyName) {
-        for (Property property1 : properties) {
-            if (propertyName.equals(property1.getProperty())) {
+        for (Property property : properties) {
+            if (propertyName.equals(property.getProperty())) {
                 return true;
             }
         }

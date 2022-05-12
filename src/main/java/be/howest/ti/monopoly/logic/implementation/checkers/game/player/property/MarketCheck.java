@@ -22,23 +22,16 @@ public class MarketCheck {
 
     public void checkIfYouTryToBuyAProperty(String propertyName) {
         for (Tile tile : game.receiveTiles()) {
-            if (tile.getName().equals(propertyName)) {
-                if (!(tile.getType().equals("street") || tile.getType().equals("railroad") || tile.getType().equals("utility"))) {
-                    throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
-                }
+            if (tile.getName().equals(propertyName) && !doesTileQualifyAsAProperty(tile)) {
+                throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
             }
         }
     }
 
     public void checkIfSomebodyHasProperty(String propertyName) {
-        for (String key : game.getPlayers().keySet()) {
-            Player player = game.getPlayers().get(key);
-            if (player.doIHaveProperty(propertyName)) {
-                if (player.getName().equals(player.getName())) {
-                    throw new IllegalMonopolyActionException("You already have this property");
-                } else {
-                    throw new IllegalMonopolyActionException("Somebody already has this property");
-                }
+        for (Player other : game.getPlayers()) {
+            if (other.doIHaveProperty(propertyName)) {
+                throw new IllegalMonopolyActionException("Property is already owned by a player!");
             }
         }
     }
@@ -47,5 +40,9 @@ public class MarketCheck {
         if (!game.getCurrentPlayer().equals(player.getName())){
             throw new IllegalMonopolyActionException("It's not your turn!");
         }
+    }
+
+    private boolean doesTileQualifyAsAProperty(Tile tile){
+        return (tile.getType().equals("street") || tile.getType().equals("railroad") || tile.getType().equals("utility"));
     }
 }
