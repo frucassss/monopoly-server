@@ -7,6 +7,11 @@ import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 public class GameCheck {
 
     private final Game game;
+    private final int MAX_STRING_LENGTH = 14;
+    private final int MIN_STRING_LENGTH = 1;
+    private final String STRING_CONSTRAINTS = "[a-zA-Z0-9]+";
+    private final int MIN_PLAYERS = 2;
+    private final int MAX_PLAYERS = 8;
 
     public GameCheck(Game game){
         this.game = game;
@@ -16,13 +21,13 @@ public class GameCheck {
         if(str == null){
             throw new IllegalArgumentException(type + " cannot not be empty.");
         }
-        else if(!str.matches("[a-zA-Z0-9]+") || str.length() > 14 || str.length() < 1){
+        else if(!str.matches(STRING_CONSTRAINTS) || str.length() > MAX_STRING_LENGTH || str.length() < MIN_STRING_LENGTH){
             throw new IllegalArgumentException(type + " is invalid, " + type + " can have a max. length of 14 alphabetical and numeric characters");
         }
     }
 
     public void checkNumberOfPlayers(int numberOfPlayers){
-        if(numberOfPlayers < 2 || numberOfPlayers > 8){
+        if(numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS){
             throw new IllegalArgumentException("Invalid number of players: min. 2 & max. 8");
         }
     }
@@ -30,6 +35,12 @@ public class GameCheck {
     public void checkIfGameIsNotStarted(){
         if(game.getStarted()) {
             throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. In this case, it is most likely that you tried to join a game which has already started, or you used a name that is already taken in this game.");
+        }
+    }
+
+    public void checkIfGameStarted(){
+        if (!game.getStarted()){
+            throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Rolling the dice is not allowed when the game hasn't started yet.");
         }
     }
 
