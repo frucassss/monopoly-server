@@ -15,23 +15,28 @@ public class Turn {
     private final List<Move> moves = new ArrayList<>();
     private boolean finished = false;
 
+    private static int doubleCount = 0;
     private final Random random = new Random();
     private final TurnCheck turnCheck = new TurnCheck(this);
-    private final GameCheck gameCheck;
 
     public Turn(Game game, Player player){
+        GameCheck gameCheck = new GameCheck(game);
+        gameCheck.checkIfGameStarted();
+        gameCheck.checkIfGameIsNotEnded();
+
         this.player = player;
         this.game = game;
-        gameCheck = new GameCheck(game);
+
         roll();
     }
 
     private void roll(){
-        gameCheck.checkIfGameStarted();
-        gameCheck.checkIfGameIsNotEnded();
-
         dices[0] = randomNumberBetween2Values(1,6);
         dices[1] = randomNumberBetween2Values(1,6);
+        game.setLastDiceRoll(dices);
+        if(dices[0] == dices[1]){
+            doubleCount += 1;
+        }
     }
 
     private int randomNumberBetween2Values(int min, int max){
@@ -49,6 +54,10 @@ public class Turn {
         return player;
     }
 
+    public int receiveDoubleCount(){
+        return doubleCount;
+    }
+
 
     // SETTERS
 
@@ -56,6 +65,9 @@ public class Turn {
         finished = true;
     }
 
+    public void resetDoubleCount(){
+        doubleCount = 0;
+    }
 
     // GETTERS
 
