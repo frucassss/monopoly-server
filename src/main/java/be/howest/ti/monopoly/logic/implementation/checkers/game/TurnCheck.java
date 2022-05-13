@@ -22,7 +22,7 @@ public class TurnCheck {
         this.player = turn.receivePlayer();
         this.previousTurns = game.getTurns();
         this.lastTurn = previousTurns.get(previousTurns.size() - 1);
-        this.lastPlayer = game.findPlayer(game.getCurrentPlayer());
+        this.lastPlayer = game.receiveCurrentPlayer();
     }
 
     public void checkIfPlayerCanRoll(){

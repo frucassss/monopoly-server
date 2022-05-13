@@ -12,7 +12,7 @@ public class Game {
     private int numberOfPlayers;
     private boolean started = false;
     private String directSale = null;
-    private String currentPlayer = null;
+    private Player currentPlayer;
     private boolean canRoll = false;
     private boolean ended = false;
     private String winner = null;
@@ -45,7 +45,7 @@ public class Game {
 
         if(players.size() == numberOfPlayers){
             setStarted(true);
-            setCurrentPlayer(players.get(0).getName());
+            setCurrentPlayer(players.get(0));
             setCanRoll(true);
         }
     }
@@ -70,7 +70,7 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void setCurrentPlayer(String currentPlayer){
+    public void setCurrentPlayer(Player currentPlayer){
         this.currentPlayer = currentPlayer;
     }
 
@@ -112,6 +112,10 @@ public class Game {
         return communityChest;
     }
 
+    public Player receiveCurrentPlayer(){
+        return currentPlayer;
+    }
+
     // GETTERS
 
     public String getPrefix() {
@@ -127,7 +131,7 @@ public class Game {
     }
 
     public String getCurrentPlayer() {
-        return currentPlayer;
+        return currentPlayer.getName();
     }
 
     public String getDirectSale() {

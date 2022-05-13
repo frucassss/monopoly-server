@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 public class MarketCheck {
+
     private final Game game;
     private final Player player;
 
@@ -37,7 +38,7 @@ public class MarketCheck {
     }
 
     public void checkIfItIsMyTurn() {
-        if (!game.getCurrentPlayer().equals(player.getName())){
+        if (!game.receiveCurrentPlayer().equals(player)){
             throw new IllegalMonopolyActionException("It's not your turn!");
         }
     }
