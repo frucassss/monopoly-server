@@ -28,6 +28,7 @@ public class Turn {
 
     private void roll(){
         gameCheck.checkIfGameStarted();
+        gameCheck.checkIfGameIsNotEnded();
 
         dices[0] = randomNumberBetween2Values(1,6);
         dices[1] = randomNumberBetween2Values(1,6);
