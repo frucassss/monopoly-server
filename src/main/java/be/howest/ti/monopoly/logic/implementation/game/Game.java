@@ -142,7 +142,7 @@ public class Game {
         return started;
     }
 
-    public boolean isEnded() {
+    public boolean getEnded() {
         return ended;
     }
 
