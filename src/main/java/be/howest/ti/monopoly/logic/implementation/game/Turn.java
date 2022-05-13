@@ -13,6 +13,7 @@ public class Turn {
     private final Player player;
     private final Game game;
     private final List<Move> moves = new ArrayList<>();
+    private boolean finished = false;
 
     private final Random random = new Random();
     private final TurnCheck turnCheck = new TurnCheck(this);
@@ -27,6 +28,7 @@ public class Turn {
 
     private void roll(){
         gameCheck.checkIfGameStarted();
+
         dices[0] = randomNumberBetween2Values(1,6);
         dices[1] = randomNumberBetween2Values(1,6);
     }
@@ -47,6 +49,13 @@ public class Turn {
     }
 
 
+    // SETTERS
+
+    public void makeFinished(){
+        finished = true;
+    }
+
+
     // GETTERS
 
     public String getPlayer() {
@@ -61,4 +70,7 @@ public class Turn {
         return moves;
     }
 
+    public boolean getFinished() {
+        return finished;
+    }
 }
