@@ -30,9 +30,18 @@ class OpenApiGameInfoTests extends OpenApiTestsBase {
 
     @Test
     void getGameUnauthorized(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game getGame(String gameId){
+                Game game = new Game("Group",2,2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                game.newPlayer("Robin");
+                return game;
+            }
+        });
+
         get(
                 testContext,
-                "/games/game-id",
+                "/games/Group_2",
                 null,
                 response -> assertErrorResponse(response, 401)
         );
