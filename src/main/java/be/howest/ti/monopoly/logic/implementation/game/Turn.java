@@ -16,8 +16,10 @@ public class Turn {
     private boolean finished = false;
 
     private static int doubleCount = 0;
+    private static final int MAX_ROLL_DOUBLE_COUNT = 3;
     private final Random random = new Random();
-    private final TurnCheck turnCheck = new TurnCheck(this);
+    private static final int MAX_DICE_NUMBER = 6;
+    private static final int OFF_BY_ONE_ERROR_CORRECTION = 1;
 
     public Turn(Game game, Player player){
         GameCheck gameCheck = new GameCheck(game);
@@ -27,7 +29,10 @@ public class Turn {
         this.player = player;
         this.game = game;
         // check if given player is valid to throw;
+        TurnCheck turnCheck = new TurnCheck(this);
+        turnCheck.checkIfPlayerCanRoll();
         roll();
+        // set next inline current player
     }
 
     private void roll(){
@@ -48,14 +53,14 @@ public class Turn {
 
     private void rolledDouble(){
         doubleCount += 1;
-        if (doubleCount >= 3){
+        if (doubleCount >= MAX_ROLL_DOUBLE_COUNT){
             player.setJailed(true);
             resetDoubleCount();
         }
     }
 
     private int generateDiceNumber(){
-        return random.nextInt(6) + 1;
+        return random.nextInt(MAX_DICE_NUMBER) + OFF_BY_ONE_ERROR_CORRECTION;
     }
 
 
