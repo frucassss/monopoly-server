@@ -12,7 +12,7 @@ public class Game {
     private int numberOfPlayers;
     private boolean started = false;
     private String directSale = null;
-    private Player currentPlayer;
+    private Player currentPlayer = null;
     private boolean canRoll = false;
     private boolean ended = false;
     private String winner = null;
@@ -131,6 +131,9 @@ public class Game {
     }
 
     public String getCurrentPlayer() {
+        if(currentPlayer == null){
+            return null;
+        }
         return currentPlayer.getName();
     }
 
