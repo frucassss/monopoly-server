@@ -27,12 +27,31 @@ public class TurnCheck {
 
     public void checkIfPlayerCanRoll(){
         checkIfLastTurnIsOver();
+        checkIfPlayerIsCurrentPlayer();
+        checkIfPlayerShouldBeBankrupt();
     }
 
     private void checkIfLastTurnIsOver(){
         if (!lastTurn.getFinished()){
             throw new IllegalMonopolyActionException("Previous turn isn't finished yet.");
         }
+    }
+
+    private void checkIfPlayerIsCurrentPlayer(){
+        if (!game.receiveCurrentPlayer().equals(player)){
+            throw new IllegalMonopolyActionException("Player is not allowed to roll.");
+        }
+    }
+
+    private void checkIfPlayerShouldBeBankrupt(){
+        if (hasNegativeBalance()){
+            player.makeBankrupt();
+            throw new IllegalMonopolyActionException("Player is bankrupt. Player is not allowed to roll.");
+        }
+    }
+
+    private boolean hasNegativeBalance(){
+        return player.getMoney() < 0;
     }
 
 
@@ -56,15 +75,5 @@ public class TurnCheck {
         // check for how long he/she has been in jail?
         // used jail free card?
         // paid prison fine?
-
-    public void checkIfPlayerShouldBeBankrupt(){
-        if (hasNegativeBalance()){
-            player.makeBankrupt();
-        }
-    }
-
-    public boolean hasNegativeBalance(){
-        return player.getMoney() < 0;
-    }
 
 }
