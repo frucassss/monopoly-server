@@ -50,6 +50,7 @@ public class Game {
         }
     }
 
+
     public Player findPlayer(String playerName){
         for (Player player : players){
             if(player.getName().equals(playerName)){
@@ -62,6 +63,7 @@ public class Game {
     public void addTurn(Turn turn){
         turns.add(turn);
     }
+
 
     // SETTERS
 
