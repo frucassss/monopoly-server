@@ -7,11 +7,11 @@ import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 public class GameCheck {
 
     private final Game game;
-    private final int MAX_STRING_LENGTH = 14;
-    private final int MIN_STRING_LENGTH = 1;
-    private final String STRING_CONSTRAINTS = "[a-zA-Z0-9]+";
-    private final int MIN_PLAYERS = 2;
-    private final int MAX_PLAYERS = 8;
+    private static final int MAX_STRING_LENGTH = 14;
+    private static final int MIN_STRING_LENGTH = 1;
+    private static final String STRING_CONSTRAINTS = "[a-zA-Z0-9]+";
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 8;
 
     public GameCheck(Game game){
         this.game = game;
