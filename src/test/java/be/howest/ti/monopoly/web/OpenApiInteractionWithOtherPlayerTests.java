@@ -11,7 +11,7 @@ class OpenApiInteractionWithOtherPlayerTests extends OpenApiTestsBase {
     void collectDebt(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public void collectDept(String gameId, String playerName, String propertyName, String debtorName){}
+            public void collectDebt(String gameId, String playerName, String propertyName, String debtorName){}
         });
         delete(
                 testContext,

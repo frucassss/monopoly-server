@@ -222,7 +222,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public void collectDept(String gameId, String playerName, String propertyName, String debtorName) {
+    public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
 
     }
 }

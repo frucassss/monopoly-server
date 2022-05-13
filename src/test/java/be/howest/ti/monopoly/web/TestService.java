@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
-import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -108,7 +107,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public void collectDept(String gameId, String playerName, String propertyName, String debtorName) {
-        delegate.collectDept(gameId, playerName, propertyName, debtorName);
+    public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        delegate.collectDebt(gameId, playerName, propertyName, debtorName);
     }
 }

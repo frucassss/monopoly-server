@@ -90,7 +90,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public void collectDept(String gameId, String playerName, String propertyName, String debtorName) {
+    public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         throw new UnsupportedOperationException();
     }
 

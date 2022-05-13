@@ -279,7 +279,7 @@ public class MonopolyApiBridge {
             throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
         }
 
-        service.collectDept(gameId, playerName, propertyName, debtorName);
+        service.collectDebt(gameId, playerName, propertyName, debtorName);
         Response.sendOkResponse(ctx);
 
     }
