@@ -227,7 +227,6 @@ public class MonopolyApiBridge {
         }
 
         Game game = service.getGame(gameId);
-        game.checkWinner();
         Response.sendJsonResponse(ctx, 200, game);
     }
 
