@@ -90,6 +90,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Tile getTile(int position) {
         throw new UnsupportedOperationException();
     }

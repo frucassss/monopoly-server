@@ -43,4 +43,5 @@ public interface IService {
 
     void buyProperty(String gameId, String playerName, String propertyName);
 
+    void collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 }

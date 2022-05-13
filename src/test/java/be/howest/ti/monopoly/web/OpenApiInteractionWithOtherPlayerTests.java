@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
@@ -8,11 +9,15 @@ class OpenApiInteractionWithOtherPlayerTests extends OpenApiTestsBase {
 
     @Test
     void collectDebt(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void collectDebt(String gameId, String playerName, String propertyName, String debtorName){}
+        });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/visitors/Bob/rent",
-                "some-token",
-                response -> assertNotYetImplemented(response, "collectDebt")
+                "/games/group00/players/Alice/properties/property1/visitors/Bob/rent",
+                "group00-Alice",
+                response -> assertOkResponse(response)
         );
     }
 
