@@ -14,6 +14,7 @@ public class TurnCheck {
     private final Player player;
     private final List<Turn> previousTurns;
     private final Turn lastTurn;
+    private final Player lastPlayer;
 
     public TurnCheck(Turn turn){
         this.turn = turn;
@@ -21,6 +22,7 @@ public class TurnCheck {
         this.player = turn.receivePlayer();
         this.previousTurns = game.getTurns();
         this.lastTurn = previousTurns.get(previousTurns.size() - 1);
+        this.lastPlayer = game.findPlayer(game.getCurrentPlayer());
     }
 
     public void checkIfPlayerCanRoll(){
@@ -50,6 +52,14 @@ public class TurnCheck {
         // paid prison fine?
     // check if player has negative balance... Yes? Bankrupt.
 
+    public void checkIfPlayerShouldBeBankrupt(){
+        if (hasNegativeBalance()){
+            player.makeBankrupt();
+        }
+    }
 
+    public boolean hasNegativeBalance(){
+        return player.getMoney() < 0;
+    }
 
 }
