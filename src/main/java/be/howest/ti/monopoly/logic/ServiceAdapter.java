@@ -35,12 +35,12 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers){
+    public Game createGame(String prefix, int numberOfPlayers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void joinGame(String gameId, String playerName){
+    public void joinGame(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
@@ -71,6 +71,21 @@ public class ServiceAdapter implements IService {
 
     @Override
     public void sellHotel(String gameId, String playerName, String propertyName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void payPrisonFine(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void useGetOutOfJailFreeCard(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void buyProperty(String gameId, String playerName, String propertyName) {
         throw new UnsupportedOperationException();
     }
 
