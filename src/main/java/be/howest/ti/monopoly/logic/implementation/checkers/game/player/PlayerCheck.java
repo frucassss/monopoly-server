@@ -1,20 +1,23 @@
 package be.howest.ti.monopoly.logic.implementation.checkers.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
+import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
+
 
 public class PlayerCheck {
 
     private final Player player;
 
-    public PlayerCheck(Player player){
+    public PlayerCheck(Player player) {
         this.player = player;
     }
 
     public void checkIfYouOwnProperty(String propertyName) {
         Property property = player.findProperty(propertyName);
-        if(!player.getProperties().contains(property)){
+        if (!player.getProperties().contains(property)) {
             throw new IllegalMonopolyActionException("You don't own this property.");
         }
     }
@@ -50,8 +53,10 @@ public class PlayerCheck {
     }
 
     public void checkIfPlayerIsInPrison() {
-        if (!player.getJailed()){
+        if (!player.getJailed()) {
             throw new IllegalMonopolyActionException("You aren't in jail");
         }
     }
+
+
 }
