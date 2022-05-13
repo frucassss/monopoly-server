@@ -24,21 +24,19 @@ public class Market {
 
     public void buyProperty() {
         marketCheck.checkIfItIsMyTurn();
-        marketCheck.checkIfSomebodyHasProperty(propertyName);
         marketCheck.checkIfYouTryToBuyAProperty(propertyName);
-        Property property = makePropertyFromTile(propertyName);
+        marketCheck.checkIfSomebodyHasProperty(propertyName);
+
+        Property property = makePropertyFromTile();
+
         playerCheck.checkIfIHaveEnoughMoney(property.receiveCost());
         marketCheck.checkIfImStandingOnProperty(property.receivePosition());
         player.pay(property.receiveCost());
         player.addProperty(property);
     }
 
-    private Property makePropertyFromTile(String propertyName) {
-        for (Tile tile : game.receiveTiles()) {
-            if (tile.getName().equals(propertyName)) {
-                return new Property(tile);
-            }
-        }
-        throw new IllegalMonopolyActionException("Couldn't find property in tiles");
+    private Property makePropertyFromTile() {
+        Tile tile = game.receiveTile(propertyName);
+        return new Property(tile);
     }
 }

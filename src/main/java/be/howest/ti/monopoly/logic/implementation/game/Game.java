@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -102,6 +103,15 @@ public class Game {
 
     public List<Tile> receiveTiles() {
         return tiles;
+    }
+
+    public Tile receiveTile(String tileName){
+        for (Tile tile : tiles) {
+            if (tile.getName().equals(tileName)) {
+                return tile;
+            }
+        }
+        return null;
     }
 
     public List<String> receiveChance() {

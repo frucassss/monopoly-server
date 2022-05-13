@@ -21,11 +21,10 @@ public class MarketCheck {
         }
     }
 
-    public void checkIfYouTryToBuyAProperty(String propertyName) {
-        for (Tile tile : game.receiveTiles()) {
-            if (tile.getName().equals(propertyName) && !doesTileQualifyAsAProperty(tile)) {
-                throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
-            }
+    public void checkIfYouTryToBuyAProperty(String tileName) {
+        Tile tile = game.receiveTile(tileName);
+        if (!doesTileQualifyAsAProperty(tile)) {
+            throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
         }
     }
 
