@@ -26,21 +26,36 @@ public class Turn {
 
         this.player = player;
         this.game = game;
-
+        // check if given player is valid to throw;
         roll();
     }
 
     private void roll(){
-        dices[0] = randomNumberBetween2Values(1,6);
-        dices[1] = randomNumberBetween2Values(1,6);
+        dices[0] = generateDiceNumber();
+        dices[1] = generateDiceNumber();
         game.setLastDiceRoll(dices);
+        setDoubleRoll();
+    }
+
+    private void setDoubleRoll(){
         if(dices[0] == dices[1]){
-            doubleCount += 1;
+            rolledDouble();
+        }
+        else {
+            resetDoubleCount();
         }
     }
 
-    private int randomNumberBetween2Values(int min, int max){
-        return random.nextInt(max-min) + min;
+    private void rolledDouble(){
+        doubleCount += 1;
+        if (doubleCount >= 3){
+            player.setJailed(true);
+            resetDoubleCount();
+        }
+    }
+
+    private int generateDiceNumber(){
+        return random.nextInt(6) + 1;
     }
 
 
