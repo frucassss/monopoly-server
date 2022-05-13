@@ -220,4 +220,9 @@ public class MonopolyService extends ServiceAdapter {
         Player player  = getGame(gameId).findPlayer(playerName);
         player.useGetOutOfJailFreeCard();
     }
+
+    @Override
+    public void collectDept(String gameId, String playerName, String propertyName, String debtorName) {
+
+    }
 }

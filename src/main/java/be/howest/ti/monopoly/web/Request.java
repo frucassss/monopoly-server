@@ -97,4 +97,7 @@ public class Request {
         return params.pathParameter("propertyName").getString();
     }
 
+    public String getDebtorNameFromPath() {
+        return params.pathParameter("debtorName").getString();
+    }
 }

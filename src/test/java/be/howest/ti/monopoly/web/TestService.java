@@ -106,4 +106,9 @@ public class TestService implements IService {
     public void buyProperty(String gameId, String playerName, String propertyName) {
         delegate.buyProperty(gameId,playerName,propertyName);
     }
+
+    @Override
+    public void collectDept(String gameId, String playerName, String propertyName, String debtorName) {
+        delegate.collectDept(gameId, playerName, propertyName, debtorName);
+    }
 }
