@@ -49,4 +49,10 @@ public class GameCheck {
             throw new ForbiddenAccessException("Player is already in game!");
         }
     }
+
+    public void checkIfGameIsNotEnded(){
+        if (game.getEnded()){
+            throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Game already ended.");
+        }
+    }
 }
