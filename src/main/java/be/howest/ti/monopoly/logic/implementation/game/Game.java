@@ -18,7 +18,7 @@ public class Game {
     private String winner = null;
     private int[] lastDiceRoll = {0, 0};
     private final List<Turn> turns = new ArrayList<>();
-    private final Map<String, Player> players = new HashMap<>();
+    private final List<Player> players = new ArrayList<>();
 
     private final List<Tile> tiles;
     private final List<String> chance;
@@ -41,7 +41,7 @@ public class Game {
         gameCheck.checkCharactersInString(playerName, "Player name");
         gameCheck.checkIfPlayerIsInGame(playerName);
         Player player = new Player(playerName, this);
-        players.put(playerName, player);
+        players.add(player);
 
         if(players.size() == numberOfPlayers){
             setStarted(true);
@@ -51,7 +51,12 @@ public class Game {
     }
 
     public Player findPlayer(String playerName){
-        return players.get(playerName);
+        for (Player player : players){
+            if(player.getName().equals(playerName)){
+                return player;
+            }
+        }
+        return null;
     }
 
     public void addTurn(Turn turn){
@@ -153,7 +158,7 @@ public class Game {
         return turns;
     }
 
-    public Map<String, Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 }
