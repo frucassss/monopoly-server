@@ -16,7 +16,7 @@ public class TurnCheck {
         this.player = turn.receivePlayer();*/
     }
 
-    public void checkIfPlayerShouldBeBankrupt(String playerName){
+    /*public void checkIfPlayerShouldBeBankrupt(String playerName){
         Player p = game.findPlayer(playerName);
         if (checkNegativeBalance(p)){
             p.makeBankrupt();
@@ -26,6 +26,6 @@ public class TurnCheck {
 
     public boolean checkNegativeBalance(Player player){
         return player.getMoney() < 0;
-    }
+    }*/
 
 }
