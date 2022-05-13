@@ -36,8 +36,8 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/bankruptcy",
-                "some-token",
+                "/games/group00/players/Alice/bankruptcy",
+                "group00-Alice",
                 response -> assertOkResponse(response)
         );
     }
