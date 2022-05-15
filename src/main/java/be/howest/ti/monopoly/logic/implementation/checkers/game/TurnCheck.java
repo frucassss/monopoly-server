@@ -28,7 +28,7 @@ public class TurnCheck {
     }
 
     private void checkIfLastTurnIsOver(){
-        if (!lastTurn.getFinished()){
+        if (lastTurn != null && !lastTurn.getFinished()){
             throw new IllegalMonopolyActionException("Previous turn isn't finished yet.");
         }
     }
