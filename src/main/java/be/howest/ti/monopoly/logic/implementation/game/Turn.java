@@ -30,9 +30,7 @@ public class Turn {
         this.game = game;
 
         roll();
-        // set current player before roll, set next player after roll.
-        // set next inline current player
-            // check for players that are bankrupt
+        new Move(this);
         this.game.addTurn(this);
     }
 
