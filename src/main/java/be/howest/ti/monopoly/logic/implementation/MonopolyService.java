@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
@@ -224,5 +225,12 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
 
+    }
+
+    @Override
+    public void rollDice(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        new Turn(game, player);
     }
 }
