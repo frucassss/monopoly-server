@@ -47,7 +47,7 @@ public class Game {
         if(players.size() == numberOfPlayers){
             setStarted(true);
             setCurrentPlayer(players.get(0));
-            setCanRoll(true);
+            this.canRoll = true;
         }
     }
 
@@ -83,8 +83,11 @@ public class Game {
         this.directSale = directSale;
     }
 
-    public void setCanRoll(boolean canRoll) {
-        this.canRoll = canRoll;
+    public void setCanRoll() {
+        if (!turns.isEmpty()){
+            Turn lastTurn = turns.get(turns.size() - 1);
+            canRoll = lastTurn.getFinished();
+        }
     }
 
     public void setEnded(boolean ended) {
@@ -151,7 +154,8 @@ public class Game {
         return directSale;
     }
 
-    public boolean isCanRoll() {
+    public boolean getCanRoll() {
+        setCanRoll();
         return canRoll;
     }
 
