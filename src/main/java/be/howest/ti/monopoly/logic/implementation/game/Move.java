@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.*;
@@ -70,8 +71,7 @@ public class Move {
         processFreeParkingMove();
         processTaxIncomeMove();
         processLuxuryTaxMove();
-
-
+        processPropertyMove();
         processJailMove();
 
         player.setCurrentTile(tile);
@@ -149,6 +149,38 @@ public class Move {
             turn.addMove(new Move(this));
             player.pay(75);
         }
+    }
+
+    private void processPropertyMove(){
+        if (isTileAProperty()){
+
+            for (Player other : game.getPlayers()){
+                for (Property property : other.getProperties()) {
+
+                    if (property.getProperty().equals(tile.getName())){
+                        if (other.equals(player)) {
+                            description = "already owns this property";
+                        }
+                        else if (property.getMortgage()){
+                            description = "doesn't have to pay rent, property has mortgage";
+                        }
+                        else {
+                            description = "should pay rent";
+                        }
+                        turn.addMove(new Move(this));
+                        return;
+                    }
+                }
+            }
+
+            description = "can buy this property in direct sale";
+            turn.addMove(new Move(this));
+            game.setDirectSale(tile.getName());
+        }
+    }
+
+    private boolean isTileAProperty(){
+        return tile.getType().equals("street") || tile.getType().equals("railroad") || tile.getType().equals("utility");
     }
 
 
