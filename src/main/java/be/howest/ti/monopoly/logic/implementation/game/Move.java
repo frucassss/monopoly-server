@@ -65,6 +65,8 @@ public class Move {
     private void processMove(){
         processGoMove();
         processGoToJailMove();
+        processChanceMove();
+        processCommunityChestMove();
 
         processJailMove();
 
@@ -103,6 +105,22 @@ public class Move {
         else if (tile.getType().equals("Jail")) {
             description = "is just visiting jail";
             turn.addMove(new Move(this));
+        }
+    }
+
+    private void processChanceMove(){
+        if (tile.getType().equals("chance")){
+            description = receiveRandomChance();
+            turn.addMove(new Move(this));
+            // TODO: execute action of received chance card.
+        }
+    }
+
+    private void processCommunityChestMove(){
+        if (tile.getType().equals("community chest")){
+            description = receiveRandomCommunityChest();
+            turn.addMove(new Move(this));
+            // TODO: execute action of received community chest card.
         }
     }
 
