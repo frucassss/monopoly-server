@@ -81,13 +81,15 @@ public class Move {
         if (passedGo) {
             if (tile.getPosition() > GO_POSITION){
                 description = "passes 'GO!' and receives 200 for it";
+                turn.addMove(new Move(this));
+                player.collect(200);
             }
-            else {
+            else if (tile.getPosition() == GO_POSITION){
                 description = "landed on 'GO!' and receives 200 for it";
+                turn.addMove(new Move(this));
+                player.collect(200);
+                turn.makeFinished();
             }
-
-            player.collect(200);
-            turn.addMove(new Move(this));
             passedGo = false;
         }
     }
@@ -105,10 +107,12 @@ public class Move {
             tile = game.receiveTileOnName("Jail");
             description = "is stuck in jail";
             turn.addMove(new Move(this));
+            turn.makeFinished();
         }
         else if (tile.getType().equals("Jail")) {
             description = "is just visiting jail";
             turn.addMove(new Move(this));
+            turn.makeFinished();
         }
     }
 
@@ -117,6 +121,7 @@ public class Move {
             description = receiveRandomChance();
             turn.addMove(new Move(this));
             // TODO: execute action of received chance card.
+            turn.makeFinished(); // remove when chance is implemented, ask Thibo why!
         }
     }
 
@@ -125,6 +130,7 @@ public class Move {
             description = receiveRandomCommunityChest();
             turn.addMove(new Move(this));
             // TODO: execute action of received community chest card.
+            turn.makeFinished(); // remove when community chest is implemented, ask Thibo why!
         }
     }
 
@@ -132,6 +138,7 @@ public class Move {
         if (tile.getType().equals("Free Parking")){
             description = "has a free parking spot";
             turn.addMove(new Move(this));
+            turn.makeFinished();
         }
     }
 
@@ -140,6 +147,7 @@ public class Move {
             description = "has to pay 200 on taxes";
             turn.addMove(new Move(this));
             player.pay(200);
+            turn.makeFinished();
         }
     }
 
@@ -148,6 +156,7 @@ public class Move {
             description = "has to pay 75 on taxes";
             turn.addMove(new Move(this));
             player.pay(75);
+            turn.makeFinished();
         }
     }
 
@@ -168,6 +177,7 @@ public class Move {
                             description = "should pay rent";
                         }
                         turn.addMove(new Move(this));
+                        turn.makeFinished();
                         return;
                     }
                 }

@@ -32,6 +32,7 @@ public class Market {
         marketCheck.checkIfImStandingOnProperty(property.receivePosition());
         player.pay(property.receiveCost());
         player.addProperty(property);
+        game.receiveLastTurn().makeFinished();
     }
 
     private Property makePropertyFromTile() {
