@@ -28,11 +28,11 @@ public class Move {
         this.tile = move.receiveTile();
     }
 
-    public Move(Turn turn) {
+    public Move(Turn turn, Game game, Player player) {
         this.turn = turn;
         this.dices = turn.getRoll();
-        this.player = turn.receivePlayer();
-        this.game = turn.receiveGame();
+        this.game = game;
+        this.player = player;
 
         this.tiles = game.receiveTiles();
         this.chance = game.receiveChance();

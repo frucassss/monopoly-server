@@ -30,12 +30,12 @@ public class Turn {
         this.game = game;
 
         roll();
-        new Move(this);
+        new Move(this, game, player);
         this.game.addTurn(this);
     }
 
     private void roll(){
-        TurnCheck turnCheck = new TurnCheck(this);
+        TurnCheck turnCheck = new TurnCheck(game, player);
         turnCheck.checkIfPlayerCanRoll();
 
         dices[0] = generateDiceNumber();
@@ -100,20 +100,6 @@ public class Turn {
 
     public void addMove(Move move){
         this.moves.add(move);
-    }
-
-    // RECEIVERS
-
-    public Game receiveGame(){
-        return game;
-    }
-
-    public Player receivePlayer(){
-        return player;
-    }
-
-    public int receiveDoubleCount(){
-        return doubleCount;
     }
 
     // GETTERS
