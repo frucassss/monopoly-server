@@ -68,6 +68,8 @@ public class Move {
         processChanceMove();
         processCommunityChestMove();
         processFreeParkingMove();
+        processTaxIncomeMove();
+        processLuxuryTaxMove();
 
 
         processJailMove();
@@ -130,6 +132,22 @@ public class Move {
         if (tile.getType().equals("Free Parking")){
             description = "has a free parking spot";
             turn.addMove(new Move(this));
+        }
+    }
+
+    private void processTaxIncomeMove(){
+        if (tile.getType().equals("Tax Income")){
+            description = "has to pay 200 on taxes";
+            turn.addMove(new Move(this));
+            player.pay(200);
+        }
+    }
+
+    private void processLuxuryTaxMove(){
+        if (tile.getType().equals("Luxury Tax")){
+            description = "has to pay 75 on taxes";
+            turn.addMove(new Move(this));
+            player.pay(75);
         }
     }
 
