@@ -67,6 +67,8 @@ public class Move {
         processGoToJailMove();
         processChanceMove();
         processCommunityChestMove();
+        processFreeParkingMove();
+
 
         processJailMove();
 
@@ -123,6 +125,14 @@ public class Move {
             // TODO: execute action of received community chest card.
         }
     }
+
+    private void processFreeParkingMove(){
+        if (tile.getType().equals("Free Parking")){
+            description = "has a free parking spot";
+            turn.addMove(new Move(this));
+        }
+    }
+
 
     private String receiveRandomChance(){
         int value = random.nextInt(chance.size());
