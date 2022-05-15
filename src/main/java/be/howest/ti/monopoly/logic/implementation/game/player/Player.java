@@ -120,10 +120,6 @@ public class Player {
 
     public void setJailed(boolean jailed) {
         this.jailed = jailed;
-        if (jailed){
-            Tile currentTile = game.receiveTileOnName("Jail");
-            setCurrentTile(currentTile);
-        }
     }
 
     public void makeBankrupt() {
