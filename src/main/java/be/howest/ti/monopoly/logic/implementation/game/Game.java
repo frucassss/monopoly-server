@@ -85,7 +85,7 @@ public class Game {
 
     public void setCanRoll() {
         if (!turns.isEmpty()){
-            Turn lastTurn = turns.get(turns.size() - 1);
+            Turn lastTurn = receiveLastTurn();
             canRoll = lastTurn.getFinished();
         }
     }
@@ -127,6 +127,13 @@ public class Game {
 
     public Player receiveCurrentPlayer(){
         return currentPlayer;
+    }
+
+    public Turn receiveLastTurn(){
+        if (!turns.isEmpty()){
+            return turns.get(turns.size() - 1);
+        }
+        return null;
     }
 
     // GETTERS

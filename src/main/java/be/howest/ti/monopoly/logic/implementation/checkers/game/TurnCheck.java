@@ -12,17 +12,13 @@ public class TurnCheck {
     private final Turn turn;
     private final Game game;
     private final Player player;
-    private final List<Turn> previousTurns;
     private final Turn lastTurn;
-    private final Player lastPlayer;
 
     public TurnCheck(Turn turn){
         this.turn = turn;
         this.game = turn.receiveGame();
         this.player = turn.receivePlayer();
-        this.previousTurns = game.getTurns();
-        this.lastTurn = previousTurns.get(previousTurns.size() - 1);
-        this.lastPlayer = game.receiveCurrentPlayer();
+        this.lastTurn = game.receiveLastTurn();
     }
 
     public void checkIfPlayerCanRoll(){
