@@ -96,6 +96,13 @@ public class Turn {
         return random.nextInt(MAX_DICE_NUMBER) + OFF_BY_ONE_ERROR_CORRECTION;
     }
 
+    public void resetDoubleCount(){
+        doubleCount = 0;
+    }
+
+    public void addMove(Move move){
+        this.moves.add(move);
+    }
 
     // RECEIVERS
 
@@ -109,13 +116,6 @@ public class Turn {
 
     public int receiveDoubleCount(){
         return doubleCount;
-    }
-
-
-    // SETTERS
-
-    public void resetDoubleCount(){
-        doubleCount = 0;
     }
 
     // GETTERS
