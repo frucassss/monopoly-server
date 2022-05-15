@@ -28,14 +28,18 @@ public class Turn {
 
         this.player = player;
         this.game = game;
-        // check if given player is valid to throw;
-        TurnCheck turnCheck = new TurnCheck(this);
-        turnCheck.checkIfPlayerCanRoll();
+
         roll();
+        // set current player before roll, set next player after roll.
         // set next inline current player
+            // check for players that are bankrupt
+        this.game.addTurn(this);
     }
 
     private void roll(){
+        TurnCheck turnCheck = new TurnCheck(this);
+        turnCheck.checkIfPlayerCanRoll();
+
         dices[0] = generateDiceNumber();
         dices[1] = generateDiceNumber();
         game.setLastDiceRoll(dices);
@@ -59,6 +63,35 @@ public class Turn {
         }
     }
 
+    public void makeFinished(){
+        finished = true;
+        setNextPlayer();
+    }
+
+    private void setNextPlayer(){
+        if (doubleCount == 0){
+            Player nextPlayer = shiftToNextPlayer(player);
+
+            while (nextPlayer.getBankrupt()){
+                nextPlayer = shiftToNextPlayer(nextPlayer);
+            }
+
+            game.setCurrentPlayer(nextPlayer);
+        }
+    }
+
+    private Player shiftToNextPlayer(Player player){
+        List<Player> players = game.getPlayers();
+        int currentPlayerIdx = players.indexOf(player);
+        int nextPlayerIdx = currentPlayerIdx + 1;
+
+        if (nextPlayerIdx >= players.size()) {
+            nextPlayerIdx = 0;
+        }
+
+        return players.get(nextPlayerIdx);
+    }
+
     private int generateDiceNumber(){
         return random.nextInt(MAX_DICE_NUMBER) + OFF_BY_ONE_ERROR_CORRECTION;
     }
@@ -80,10 +113,6 @@ public class Turn {
 
 
     // SETTERS
-
-    public void makeFinished(){
-        finished = true;
-    }
 
     public void resetDoubleCount(){
         doubleCount = 0;
