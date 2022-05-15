@@ -1,66 +1,123 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.*;
 
 public class Move {
-    private final Tile tile;
+
     private String description;
+    private Tile tile;
+
+    private boolean passedGo = false;
+    static final int GO_POSITION = 0;
+
+    private int[] dices;
+    private Player player;
+    private Game game;
+    private Turn turn;
     private final Random random = new Random();
-    protected List<Tile> tiles;
-    protected List<String> chance;
-    protected List<String> communityChest;
+    private List<Tile> tiles;
+    private List<String> chance;
+    private List<String> communityChest;
 
-    Move(Tile tile, List<String> chance, List<String> communityChest,List<Tile> tiles){
-        this.tile = tile;
-        this.tiles = tiles;
-        this.chance = chance;
-        this.communityChest = communityChest;
-        switch (tile.getType()){
-            case "chance":
-                description = getRandomChance();
-                break;
-            case "community chest":
-                description = getRandomCommunityChest();
-                break;
-            case "Free Parking":
-                description = "does nothing special";
-                break;
-            case "Tax Income":
-                description = "has to pay 200 on taxes";
-                break;
-            case "Luxury Tax":
-                description = "has to pay 75 on taxes";
-                break;
-            case "Go":
-                break;
-            case "street":
-                break;
-            case "railroad":
-                break;
-            case "jail":
-                break;
-            case "utility":
-                break;
-            case "go to jail":
-                description = "has to go to jail";
-                break;
-            default:
-                throw new IllegalMonopolyActionException("This tile type doesn't exist?");
-        }
-
+    public Move(Move move){
+        this.description = move.getDescription();
+        this.tile = move.receiveTile();
     }
 
-    private String getRandomChance(){
-        int value = random.nextInt(chance.size() - 1) + 1;
+    public Move(Turn turn) {
+        this.turn = turn;
+        this.dices = turn.getRoll();
+        this.player = turn.receivePlayer();
+        this.game = turn.receiveGame();
+
+        this.tiles = game.receiveTiles();
+        this.chance = game.receiveChance();
+        this.communityChest = game.receiveCommunityChest();
+
+        processDiceRoll();
+        processMove();
+    }
+
+    private void processDiceRoll(){
+        int nextTilePosition = calculateNextTilePosition();
+        this.tile = game.receiveTileOnPosition(nextTilePosition);
+    }
+
+    private int calculateNextTilePosition(){
+        int currentTilePosition = player.receiveCurrentTile().getPosition();
+
+        if (!player.getJailed()){
+            int nextTilePosition = currentTilePosition + dices[0] + dices[1];
+
+            if (nextTilePosition >= tiles.size()){
+                nextTilePosition -= tiles.size();
+                passedGo = true;
+            }
+            return nextTilePosition;
+        }
+
+        return currentTilePosition;
+    }
+
+    private void processMove(){
+        processGoMove();
+        processGoToJailMove();
+
+        processJailMove();
+
+        player.setCurrentTile(tile);
+    }
+
+    private void processGoMove(){
+        if (passedGo) {
+            if (tile.getPosition() > GO_POSITION){
+                description = "passes 'GO!' and receives 200 for it";
+            }
+            else {
+                description = "landed on 'GO!' and receives 200 for it";
+            }
+
+            player.collect(200);
+            turn.addMove(new Move(this));
+            passedGo = false;
+        }
+    }
+
+    private void processGoToJailMove(){
+        if (tile.getType().equals("go to jail")){
+            description = "has to go to jail";
+            turn.addMove(new Move(this));
+            player.setJailed(true);
+        }
+    }
+
+    private void processJailMove(){
+        if (player.getJailed()) {
+            tile = game.receiveTileOnName("Jail");
+            description = "is stuck in jail";
+            turn.addMove(new Move(this));
+        }
+        else if (tile.getType().equals("Jail")) {
+            description = "is just visiting jail";
+            turn.addMove(new Move(this));
+        }
+    }
+
+    private String receiveRandomChance(){
+        int value = random.nextInt(chance.size());
         return chance.get(value);
     }
 
-    private String getRandomCommunityChest(){
-        int value = random.nextInt(communityChest.size() - 1) + 1;
+    private String receiveRandomCommunityChest(){
+        int value = random.nextInt(communityChest.size());
         return communityChest.get(value);
+    }
+
+    private Tile receiveTile(){
+        return tile;
     }
 
     public String getTile() {
