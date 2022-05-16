@@ -22,6 +22,7 @@ public class Rent {
     public void collectRent() {
         Property property = player.findProperty(this.propertyName);
         String propertyType = property.receivePropertyTile().getType();
+        checkIfDebtorIsOnPlayersTile(property);
         switch (propertyType) {
             case "street":
                 receiveStreetRent(property);
@@ -33,7 +34,7 @@ public class Rent {
                 receiveUtilityRent();
                 break;
             default:
-                throw new IllegalMonopolyActionException("you do not own this property");
+                throw new IllegalMonopolyActionException("You can not collect rent on this tile");
         }
         pay(player, debtor);
     }
@@ -62,6 +63,7 @@ public class Rent {
                 break;
             default:
                 totalRent = 25;
+                break;
         }
     }
 
@@ -149,5 +151,11 @@ public class Rent {
             }
         }
         return propertyCounter == property.receiveGroupSize();
+    }
+
+    private void checkIfDebtorIsOnPlayersTile(Property property){
+        if (!debtor.getCurrentTile().equals(property.getProperty())) {
+            throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Maybe your are not the owner of said property, or the other player did not land on your property? Also, you can only claim rent untill the next dice roll.");
+        }
     }
 }

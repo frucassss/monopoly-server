@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Rent;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -223,6 +224,10 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
-
+        Game game = getGame(gameId);
+        Player player  = game.findPlayer(playerName);
+        Player debtor = game.findPlayer(debtorName);
+        Rent rent = new Rent(player, game, propertyName, debtor);
+        rent.collectRent();
     }
 }
