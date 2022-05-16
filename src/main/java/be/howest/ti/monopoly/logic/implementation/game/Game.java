@@ -184,7 +184,7 @@ public class Game {
         return ended;
     }
 
-    public String checkWinner() {
+    public String getWinner() {
         return winner;
     }
 
