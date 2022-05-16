@@ -46,4 +46,8 @@ public interface IService {
     void collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 
     void rollDice(String gameId, String playerName);
+
+    void takeMortgage(String gameId, String playerName, String propertyName);
+
+    void settleMortgage(String gameId, String playerName, String propertyName);
 }
