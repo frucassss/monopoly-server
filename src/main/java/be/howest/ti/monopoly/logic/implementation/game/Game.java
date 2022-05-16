@@ -95,10 +95,6 @@ public class Game {
         this.ended = ended;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
-
     public void setLastDiceRoll(int[] lastDiceRoll) {
         this.lastDiceRoll = lastDiceRoll;
     }
@@ -185,7 +181,16 @@ public class Game {
     }
 
     public String getWinner() {
-        return winner;
+        List<Player> notBankruptPlayers = new ArrayList<>();
+        for (Player player : players){
+            if (!player.getBankrupt()){
+                notBankruptPlayers.add(player);
+            }
+        }
+        if (notBankruptPlayers.size() == 1){
+            return notBankruptPlayers.get(0).getName();
+        }
+        return null;
     }
 
     public int[] getLastDiceRoll() {
