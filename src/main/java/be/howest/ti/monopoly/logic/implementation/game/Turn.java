@@ -64,6 +64,7 @@ public class Turn {
     public void makeFinished(){
         finished = true;
         setNextPlayer();
+        game.setDirectSale(null);
     }
 
     private void setNextPlayer(){
