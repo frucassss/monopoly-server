@@ -123,4 +123,9 @@ public class TestService implements IService {
     public void settleMortgage(String gameId, String playerName, String propertyName) {
         delegate.settleMortgage(gameId, playerName, propertyName);
     }
+
+    @Override
+    public void dontBuyProperty(String gameId, String playerName, String propertyName) {
+        delegate.dontBuyProperty(gameId,playerName,propertyName);
+    }
 }

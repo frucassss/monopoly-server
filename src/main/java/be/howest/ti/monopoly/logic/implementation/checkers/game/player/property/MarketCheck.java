@@ -21,7 +21,7 @@ public class MarketCheck {
         }
     }
 
-    public void checkIfYouTryToBuyAProperty(String tileName) {
+    public void checkIfTileIsProperty(String tileName) {
         Tile tile = game.receiveTileOnName(tileName);
         if (!doesTileQualifyAsAProperty(tile)) {
             throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");

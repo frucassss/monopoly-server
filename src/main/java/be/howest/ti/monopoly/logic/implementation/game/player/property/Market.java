@@ -23,7 +23,7 @@ public class Market {
 
     public void buyProperty() {
         marketCheck.checkIfItIsMyTurn();
-        marketCheck.checkIfYouTryToBuyAProperty(propertyName);
+        marketCheck.checkIfTileIsProperty(propertyName);
         marketCheck.checkIfSomebodyHasProperty(propertyName);
 
         Property property = makePropertyFromTile();
@@ -32,6 +32,17 @@ public class Market {
         marketCheck.checkIfImStandingOnProperty(property.receivePosition());
         player.pay(property.receiveCost());
         player.addProperty(property);
+        game.receiveLastTurn().makeFinished();
+    }
+
+    public void dontBuyProperty(){
+        marketCheck.checkIfItIsMyTurn();
+        marketCheck.checkIfTileIsProperty(propertyName);
+        marketCheck.checkIfSomebodyHasProperty(propertyName);
+
+        Property property = makePropertyFromTile();
+
+        marketCheck.checkIfImStandingOnProperty(property.receivePosition());
         game.receiveLastTurn().makeFinished();
     }
 
