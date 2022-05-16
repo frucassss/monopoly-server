@@ -1,8 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 
 public class Rent {
@@ -10,7 +10,7 @@ public class Rent {
     private final Game game;
     private final String propertyName;
     private final Player debtor;
-    private int rent = 0;
+    private int totalRent = 0;
 
     public Rent(Player player, Game game, String propertyName, Player debtor) {
         this.player = player;
@@ -22,66 +22,71 @@ public class Rent {
     public void collectRent() {
         Property property = player.findProperty(this.propertyName);
         String propertyType = property.receivePropertyTile().getType();
-        switch (propertyType){
+        switch (propertyType) {
             case "street":
                 receiveStreetRent(property);
                 break;
             case "railroad":
-                receiveRailRoadRent(property);
+                receiveRailRoadRent();
                 break;
             case "utility":
-                //TODO
+                receiveUtilityRent();
                 break;
+            default:
+                throw new IllegalMonopolyActionException("you do not own this property");
         }
         pay(player, debtor);
     }
 
-    private void receiveRailRoadRent(Property property) {
-        RailroadTile tile = (RailroadTile) property.receivePropertyTile();
-        switch (railRoadCount()){
-            case 1:
-                rent = 25;
-                break;
+    private void receiveUtilityRent() {
+        int totalDiceNumber = game.getLastDiceRoll()[0] + game.getLastDiceRoll()[1];
+        if (utilityCount() == 1) {
+            totalRent = totalDiceNumber * 4;
+        } else if (utilityCount() == 2) {
+            totalRent = totalDiceNumber * 10;
+        }
+
+    }
+
+
+    private void receiveRailRoadRent() {
+        switch (railRoadCount()) {
             case 2:
-                rent = 50;
+                totalRent = 50;
                 break;
             case 3:
-                rent = 100;
+                totalRent = 100;
                 break;
             case 4:
-                rent = 200;
+                totalRent = 200;
                 break;
+            default:
+                totalRent = 25;
         }
     }
 
     private void pay(Player player, Player debtor) {
-        debtor.payRent(rent);
-        player.collectRent(rent);
+        debtor.payRent(totalRent);
+        player.collect(totalRent);
     }
 
     private void receiveStreetRent(Property property) {
         StreetTile tile = (StreetTile) property.receivePropertyTile();
 
-        if (doesPlayerOwnTheWholeStreet(property) && noHotelOnProperty(property) && noHousesOnProperty(property)){
-            rent =  2 * property.receivePropertyTile().receiveRent();
-        }
-        else if (!doesPlayerOwnTheWholeStreet(property) && noHotelOnProperty(property) && noHousesOnProperty(property)){
-            rent =  property.receivePropertyTile().receiveRent();
-        }
-        else if(oneHouseOnProperty(property)){
-            rent = tile.getRentWithOneHouse();
-        }
-        else if (twoHousesOnProperty(property)){
-            rent = tile.getRentWithTwoHouses();
-        }
-        else if (threeHousesOnProperty(property)){
-            rent = tile.getRentWithThreeHouses();
-        }
-        else if (fourHousesOnProperty(property)){
-            rent = tile.getRentWithFourHouses();
-        }
-        else if (oneHotelOnProperty(property)){
-            rent = tile.getRentWithHotel();
+        if (doesPlayerOwnTheWholeStreet(property) && noHotelOnProperty(property) && noHousesOnProperty(property)) {
+            totalRent = 2 * property.receivePropertyTile().receiveRent();
+        } else if (!doesPlayerOwnTheWholeStreet(property) && noHotelOnProperty(property) && noHousesOnProperty(property)) {
+            totalRent = property.receivePropertyTile().receiveRent();
+        } else if (oneHouseOnProperty(property)) {
+            totalRent = tile.getRentWithOneHouse();
+        } else if (twoHousesOnProperty(property)) {
+            totalRent = tile.getRentWithTwoHouses();
+        } else if (threeHousesOnProperty(property)) {
+            totalRent = tile.getRentWithThreeHouses();
+        } else if (fourHousesOnProperty(property)) {
+            totalRent = tile.getRentWithFourHouses();
+        } else if (oneHotelOnProperty(property)) {
+            totalRent = tile.getRentWithHotel();
         }
     }
 
@@ -116,36 +121,33 @@ public class Rent {
         return property.getHouseCount() == 4;
     }
 
-    private int railRoadCount(){
+    private int railRoadCount() {
         int i = 0;
-        for (Property p : player.getProperties()){
-            if (p.receivePropertyTile().getType() == "railroad"){
-                i++;
-            }
-        }
-        return  i;
-    }
-
-    private int utilityCount(){
-        int i = 0;
-        for (Property p : player.getProperties()){
-            if (p.receivePropertyTile().getType() == "utility"){
+        for (Property p : player.getProperties()) {
+            if (p.receivePropertyTile().getType().equals("railroad")) {
                 i++;
             }
         }
         return i;
     }
 
-    private boolean doesPlayerOwnTheWholeStreet(Property property){
+    private int utilityCount() {
+        int i = 0;
+        for (Property p : player.getProperties()) {
+            if (p.receivePropertyTile().getType().equals("utility")) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    private boolean doesPlayerOwnTheWholeStreet(Property property) {
         int propertyCounter = 0;
         for (Property propertiesFormPlayer : player.getProperties()) {
             if (propertiesFormPlayer.receiveColor().equals(property.receiveColor())) {
                 propertyCounter++;
             }
         }
-        if ((propertyCounter == property.receiveGroupSize())) {
-            return true;
-        }
-        return false;
+        return propertyCounter == property.receiveGroupSize();
     }
 }
