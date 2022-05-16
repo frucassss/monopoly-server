@@ -24,9 +24,15 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
 
     @Test
     void takeMortgageUnauthorized(final VertxTestContext testContext) {
+
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void takeMortgage(String gameId, String playerName, String propertyName){}
+        });
+
         post(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
+                "/games/group00/players/Alice/properties/some-property/mortgage",
                 null,
                 response -> assertErrorResponse(response, 401)
         );
@@ -34,22 +40,31 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
 
     @Test
     void settleMortgage(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void settleMortgage(String gameId, String playerName, String propertyName){}
+        });
+
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
-                "some-token",
-                response -> assertNotYetImplemented(response, "settleMortgage")
+                "/games/group00/players/Alice/properties/some-property/mortgage",
+                "group00-Alice",
+                response -> assertOkResponse(response)
         );
     }
 
     @Test
     void settleMortgageUnauthorized(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public void settleMortgage(String gameId, String playerName, String propertyName){}
+        });
+
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
+                "/games/group00/players/Alice/properties/some-property/mortgage",
                 null,
                 response -> assertErrorResponse(response, 401)
         );
     }
-
 }
