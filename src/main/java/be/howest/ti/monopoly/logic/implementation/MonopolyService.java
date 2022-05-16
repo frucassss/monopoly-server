@@ -241,4 +241,11 @@ public class MonopolyService extends ServiceAdapter {
         Mortgage mortgage = new Mortgage(player,propertyName);
         mortgage.takeMortgage();
     }
+    @Override
+    public void settleMortgage(String gameId, String playerName, String propertyName){
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        Mortgage mortgage = new Mortgage(player,propertyName);
+        mortgage.settleMortgage();
+    }
 }
