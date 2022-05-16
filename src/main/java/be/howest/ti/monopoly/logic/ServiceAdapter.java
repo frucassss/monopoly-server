@@ -108,4 +108,8 @@ public class ServiceAdapter implements IService {
     public void rollDice(String gameId, String playerName){
         throw new UnsupportedOperationException();
     }
+    @Override
+    public void takeMortgage(String gameId, String playerName, String propertyName){
+        throw new UnsupportedOperationException();
+    }
 }

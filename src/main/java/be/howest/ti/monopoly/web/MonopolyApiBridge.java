@@ -297,7 +297,17 @@ public class MonopolyApiBridge {
     }
 
     private void takeMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("takeMortgage");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+        String playerName = request.getPlayerNameFromPath();
+        String propertyName = request.getPropertyNameFromPath();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
+        }
+
+        service.takeMortgage(gameId, playerName, propertyName);
+        Response.sendOkResponse(ctx);
     }
 
     private void settleMortgage(RoutingContext ctx) {
