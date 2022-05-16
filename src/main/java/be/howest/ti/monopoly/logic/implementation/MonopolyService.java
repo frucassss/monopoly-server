@@ -207,13 +207,17 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public void buyProperty(String gameId, String playerName, String propertyName){
-        Market market = new Market(getGame(gameId).findPlayer(playerName),getGame(gameId),propertyName);
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        Market market = new Market(player,game,propertyName);
         market.buyProperty();
     }
 
     @Override
     public void dontBuyProperty(String gameId, String playerName, String propertyName){
-        Market market = new Market(getGame(gameId).findPlayer(playerName),getGame(gameId),propertyName);
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        Market market = new Market(player,game,propertyName);
         market.dontBuyProperty();
     }
 
