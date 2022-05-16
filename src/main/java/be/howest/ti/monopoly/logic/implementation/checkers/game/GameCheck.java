@@ -41,25 +41,25 @@ public class GameCheck {
         }
     }
 
-/*
+
    public void checkWinner() {
         
-        int i = 0;
+        int numberOfBankruptPlayers = 0;
         for (Player p : game.getPlayers()){
             if (p.getBankrupt()) {
-                i++;
+                numberOfBankruptPlayers++;
             }
         }
-        if (i == game.getNumberOfPlayers() - 1) {
+        if (numberOfBankruptPlayers == game.getNumberOfPlayers() - 1) {
             for (Player p : game.getPlayers()) {
                 if (!p.getBankrupt()) {
                     game.setWinner(p.getName());
-                    game.setEnded(game.isEnded());
+                    game.setEnded(game.getEnded());
                 }
             }
         }
     }
-*/
+
 
 
     public void checkIfGameStarted() {

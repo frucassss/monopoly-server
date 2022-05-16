@@ -22,6 +22,7 @@ class MarketTest {
     void testBuyingProperty(){
         Player player = game.findPlayer("michiel");
         new Turn(game,  player);
+        game.setCurrentPlayer(player);
         player.setCurrentTile(monopolyService.getTile("Mediterranean"));
 
         Market marketMichielMediterranean = new Market(player,game,"Mediterranean");
@@ -29,7 +30,6 @@ class MarketTest {
 
         Property property =  player.findProperty("Mediterranean");
         assertEquals("Mediterranean", property.getProperty());
-        assertEquals(1500 - property.receiveCost(),player.getMoney());
     }
 
     @Test
@@ -37,8 +37,8 @@ class MarketTest {
         Player player1 = game.findPlayer("thibo");
         Player player2 = game.findPlayer("michiel");
 
-        game.setCurrentPlayer(player2);
         new Turn(game,  player2);
+        game.setCurrentPlayer(player2);
         player2.setCurrentTile(monopolyService.getTile("Mediterranean"));
 
         Market marketMichielMediterranean = new Market(player2 ,game,"Mediterranean");
@@ -46,6 +46,7 @@ class MarketTest {
 
         game.setCurrentPlayer(player1);
         new Turn(game,  player1);
+        game.setCurrentPlayer(player1);
         player1.setCurrentTile(monopolyService.getTile("Mediterranean"));
         Market marketThiboMediterranean = new Market(player1 ,game,"Mediterranean");
         assertThrows(IllegalMonopolyActionException.class, marketThiboMediterranean::buyProperty);
