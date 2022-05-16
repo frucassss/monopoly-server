@@ -73,9 +73,14 @@ public class Turn {
             while (nextPlayer.getBankrupt()){
                 nextPlayer = shiftToNextPlayer(nextPlayer);
             }
+            if (player.equals(nextPlayer)){
+                game.setWinner(player.getName());
+                game.setEnded(true);
+            }
 
             game.setCurrentPlayer(nextPlayer);
         }
+
     }
 
     private Player shiftToNextPlayer(Player player){
