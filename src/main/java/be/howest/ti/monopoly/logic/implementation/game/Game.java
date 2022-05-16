@@ -25,6 +25,7 @@ public class Game {
     private final List<String> chance;
     private final List<String> communityChest;
     private final GameCheck gameCheck;
+    private static final int AMOUNT_OF_WINNERS = 1;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers, List<String> chance, List<String> communityChest, List<Tile> tiles) {
         gameCheck = new GameCheck(this);
@@ -149,10 +150,11 @@ public class Game {
                 counter++;
             }
         }
-        if (numberOfPlayers - 1 == counter) {
+        if (numberOfPlayers - AMOUNT_OF_WINNERS == counter) {
             for (Player player : players) {
                 if (!player.getBankrupt()) {
                     this.winner = player.getName();
+                    this.ended = true;
                 }
             }
         }
