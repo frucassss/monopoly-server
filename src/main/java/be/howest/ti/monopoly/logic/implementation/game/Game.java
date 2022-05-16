@@ -142,6 +142,19 @@ public class Game {
         return null;
     }
 
+    public String determineWinner(){
+        List<Player> notBankruptPlayers = new ArrayList<>();
+        for (Player player : players){
+            if (!player.getBankrupt()){
+                notBankruptPlayers.add(player);
+            }
+        }
+        if (notBankruptPlayers.size() == 1){
+            return notBankruptPlayers.get(0).getName();
+        }
+        return null;
+    }
+
     // GETTERS
 
     public String getPrefix() {
@@ -181,16 +194,7 @@ public class Game {
     }
 
     public String getWinner() {
-        List<Player> notBankruptPlayers = new ArrayList<>();
-        for (Player player : players){
-            if (!player.getBankrupt()){
-                notBankruptPlayers.add(player);
-            }
-        }
-        if (notBankruptPlayers.size() == 1){
-            return notBankruptPlayers.get(0).getName();
-        }
-        return null;
+        return determineWinner();
     }
 
     public int[] getLastDiceRoll() {
