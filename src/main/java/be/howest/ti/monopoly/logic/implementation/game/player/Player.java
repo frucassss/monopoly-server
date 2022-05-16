@@ -17,6 +17,7 @@ public class Player {
     private int getOutOfJailFreeCards = 0;
     private final List<Property> properties = new ArrayList<>();
 
+    private int numberOfRollsWhileInJail = 0;
     private final PlayerCheck playerCheck = new PlayerCheck(this);
 
 
@@ -74,12 +75,26 @@ public class Player {
         properties.remove(property);
     }
 
-    // GETTERS
+    public void incrementNumberOfRollsWhileInJail(){
+        numberOfRollsWhileInJail += 1;
+    }
+
+    public void resetNumberOfRollsWhileInJail(){
+        numberOfRollsWhileInJail = 0;
+    }
+
+    // RECEIVERS
 
     public Tile receiveCurrentTile() {
         return this.currentTile;
     }
 
+    public int receiveNumberOfRollsWhileInJail(){
+        return numberOfRollsWhileInJail;
+    }
+
+
+    // GETTERS
 
     public String getName() {
         return name;
