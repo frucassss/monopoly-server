@@ -2,8 +2,11 @@ package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
+
+import java.util.List;
 
 public class Rent {
     private final Player player;
@@ -23,6 +26,7 @@ public class Rent {
         Property property = player.findProperty(this.propertyName);
         String propertyType = property.receivePropertyTile().getType();
         checkIfDebtorIsOnPlayersTile(property);
+        checkIfPlayerCanCollectRent(property);
         switch (propertyType) {
             case "street":
                 receiveStreetRent(property);
@@ -157,5 +161,12 @@ public class Rent {
         if (!debtor.getCurrentTile().equals(property.getProperty())) {
             throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Maybe your are not the owner of said property, or the other player did not land on your property? Also, you can only claim rent untill the next dice roll.");
         }
+    }
+
+    private void checkIfPlayerCanCollectRent(Property property){
+        Turn turn = game.receiveLastTurn();
+         if (!debtor.getName().equals(turn.getPlayer()) || !debtor.getCurrentTile().equals(property.getProperty())){
+             throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Maybe your are not the owner of said property, or the other player did not land on your property? Also, you can only claim rent untill the next dice roll.");
+         }
     }
 }
