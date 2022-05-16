@@ -12,7 +12,7 @@ public class Game {
     private int numberOfPlayers;
     private boolean started = false;
     private String directSale = null;
-    private String currentPlayer = null;
+    private Player currentPlayer = null;
     private boolean canRoll = false;
     private boolean ended = false;
     private String winner = null;
@@ -45,8 +45,8 @@ public class Game {
 
         if(players.size() == numberOfPlayers){
             setStarted(true);
-            setCurrentPlayer(playerName);
-            setCanRoll(true);
+            setCurrentPlayer(players.get(0));
+            this.canRoll = true;
         }
     }
 
@@ -70,7 +70,7 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void setCurrentPlayer(String currentPlayer){
+    public void setCurrentPlayer(Player currentPlayer){
         this.currentPlayer = currentPlayer;
     }
 
@@ -82,8 +82,11 @@ public class Game {
         this.directSale = directSale;
     }
 
-    public void setCanRoll(boolean canRoll) {
-        this.canRoll = canRoll;
+    public void setCanRoll() {
+        if (!turns.isEmpty()){
+            Turn lastTurn = receiveLastTurn();
+            canRoll = lastTurn.getFinished();
+        }
     }
 
     public void setEnded(boolean ended) {
@@ -104,12 +107,41 @@ public class Game {
         return tiles;
     }
 
+    public Tile receiveTileOnName(String tileName){
+        for (Tile tile : tiles) {
+            if (tile.getName().equals(tileName)) {
+                return tile;
+            }
+        }
+        return null;
+    }
+
+    public Tile receiveTileOnPosition(int pos) {
+        for (Tile tile : tiles) {
+            if (tile.getPosition() == pos) {
+                return tile;
+            }
+        }
+        return null;
+    }
+
     public List<String> receiveChance() {
         return chance;
     }
 
     public List<String> receiveCommunityChest() {
         return communityChest;
+    }
+
+    public Player receiveCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    public Turn receiveLastTurn(){
+        if (!turns.isEmpty()){
+            return turns.get(turns.size() - 1);
+        }
+        return null;
     }
 
     // GETTERS
@@ -127,14 +159,18 @@ public class Game {
     }
 
     public String getCurrentPlayer() {
-        return currentPlayer;
+        if(currentPlayer == null){
+            return null;
+        }
+        return currentPlayer.getName();
     }
 
     public String getDirectSale() {
         return directSale;
     }
 
-    public boolean isCanRoll() {
+    public boolean getCanRoll() {
+        setCanRoll();
         return canRoll;
     }
 
@@ -142,7 +178,7 @@ public class Game {
         return started;
     }
 
-    public boolean isEnded() {
+    public boolean getEnded() {
         return ended;
     }
 

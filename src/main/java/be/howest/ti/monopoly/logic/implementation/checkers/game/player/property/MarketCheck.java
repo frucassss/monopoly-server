@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 public class MarketCheck {
+
     private final Game game;
     private final Player player;
 
@@ -20,11 +21,10 @@ public class MarketCheck {
         }
     }
 
-    public void checkIfYouTryToBuyAProperty(String propertyName) {
-        for (Tile tile : game.receiveTiles()) {
-            if (tile.getName().equals(propertyName) && !doesTileQualifyAsAProperty(tile)) {
-                throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
-            }
+    public void checkIfYouTryToBuyAProperty(String tileName) {
+        Tile tile = game.receiveTileOnName(tileName);
+        if (!doesTileQualifyAsAProperty(tile)) {
+            throw new IllegalMonopolyActionException("You aren't allowed to have a regular tile as a property");
         }
     }
 
@@ -37,7 +37,7 @@ public class MarketCheck {
     }
 
     public void checkIfItIsMyTurn() {
-        if (!game.getCurrentPlayer().equals(player.getName())){
+        if (!game.receiveCurrentPlayer().equals(player)){
             throw new IllegalMonopolyActionException("It's not your turn!");
         }
     }

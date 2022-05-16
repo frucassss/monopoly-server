@@ -1,6 +1,5 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.player.property.MarketCheck;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
@@ -24,21 +23,20 @@ public class Market {
 
     public void buyProperty() {
         marketCheck.checkIfItIsMyTurn();
-        marketCheck.checkIfSomebodyHasProperty(propertyName);
         marketCheck.checkIfYouTryToBuyAProperty(propertyName);
-        Property property = makePropertyFromTile(propertyName);
+        marketCheck.checkIfSomebodyHasProperty(propertyName);
+
+        Property property = makePropertyFromTile();
+
         playerCheck.checkIfIHaveEnoughMoney(property.receiveCost());
         marketCheck.checkIfImStandingOnProperty(property.receivePosition());
         player.pay(property.receiveCost());
         player.addProperty(property);
+        game.receiveLastTurn().makeFinished();
     }
 
-    private Property makePropertyFromTile(String propertyName) {
-        for (Tile tile : game.receiveTiles()) {
-            if (tile.getName().equals(propertyName)) {
-                return new Property(tile);
-            }
-        }
-        throw new IllegalMonopolyActionException("Couldn't find property in tiles");
+    private Property makePropertyFromTile() {
+        Tile tile = game.receiveTileOnName(propertyName);
+        return new Property(tile);
     }
 }
