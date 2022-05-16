@@ -42,7 +42,7 @@ public class Game {
         gameCheck.checkIfGameIsNotStarted();
         gameCheck.checkCharactersInString(playerName, "Player name");
         gameCheck.checkIfPlayerIsInGame(playerName);
-        Player player = new Player(playerName, this);
+        Player player = new Player(playerName);
         players.add(player);
 
         if (players.size() == numberOfPlayers) {
@@ -159,7 +159,7 @@ public class Game {
             for (Player player : players) {
                 if (!player.getBankrupt()) {
                     this.winner = player.getName();
-                    this.ended = true;
+                    setEnded(true);
                 }
             }
         }
