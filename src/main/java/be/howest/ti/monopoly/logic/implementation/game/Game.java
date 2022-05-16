@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation.game;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+
 import java.util.*;
 
 public class Game {
@@ -36,43 +37,42 @@ public class Game {
         setNumberOfPlayers(numberOfPlayers);
     }
 
-    public void newPlayer(String playerName){
+    public void newPlayer(String playerName) {
         gameCheck.checkIfGameIsNotStarted();
         gameCheck.checkCharactersInString(playerName, "Player name");
         gameCheck.checkIfPlayerIsInGame(playerName);
         Player player = new Player(playerName, this);
         players.add(player);
 
-        if(players.size() == numberOfPlayers){
+        if (players.size() == numberOfPlayers) {
             setStarted(true);
             setCurrentPlayer(players.get(0));
             this.canRoll = true;
         }
     }
 
-
-    public Player findPlayer(String playerName){
-        for (Player player : players){
-            if(player.getName().equals(playerName)){
+    public Player findPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
                 return player;
             }
         }
         return null;
     }
 
-    public void addTurn(Turn turn){
+    public void addTurn(Turn turn) {
         turns.add(turn);
     }
 
 
     // SETTERS
 
-    public void setNumberOfPlayers(int numberOfPlayers){
+    public void setNumberOfPlayers(int numberOfPlayers) {
         gameCheck.checkNumberOfPlayers(numberOfPlayers);
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void setCurrentPlayer(Player currentPlayer){
+    public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -85,7 +85,7 @@ public class Game {
     }
 
     public void setCanRoll() {
-        if (!turns.isEmpty()){
+        if (!turns.isEmpty()) {
             Turn lastTurn = receiveLastTurn();
             canRoll = lastTurn.getFinished();
         }
@@ -105,7 +105,7 @@ public class Game {
         return tiles;
     }
 
-    public Tile receiveTileOnName(String tileName){
+    public Tile receiveTileOnName(String tileName) {
         for (Tile tile : tiles) {
             if (tile.getName().equals(tileName)) {
                 return tile;
@@ -131,28 +131,31 @@ public class Game {
         return communityChest;
     }
 
-    public Player receiveCurrentPlayer(){
+    public Player receiveCurrentPlayer() {
         return currentPlayer;
     }
 
-    public Turn receiveLastTurn(){
-        if (!turns.isEmpty()){
+    public Turn receiveLastTurn() {
+        if (!turns.isEmpty()) {
             return turns.get(turns.size() - 1);
         }
         return null;
     }
 
-    public String determineWinner(){
-        List<Player> notBankruptPlayers = new ArrayList<>();
-        for (Player player : players){
-            if (!player.getBankrupt()){
-                notBankruptPlayers.add(player);
+    public void determineWinner() {
+        int counter = 0;
+        for (Player player : players) {
+            if (player.getBankrupt()) {
+                counter++;
             }
         }
-        if (notBankruptPlayers.size() == 1){
-            return notBankruptPlayers.get(0).getName();
+        if (numberOfPlayers - 1 == counter) {
+            for (Player player : players) {
+                if (!player.getBankrupt()) {
+                    this.winner = player.getName();
+                }
+            }
         }
-        return null;
     }
 
     // GETTERS
@@ -170,7 +173,7 @@ public class Game {
     }
 
     public String getCurrentPlayer() {
-        if(currentPlayer == null){
+        if (currentPlayer == null) {
             return null;
         }
         return currentPlayer.getName();
@@ -194,7 +197,8 @@ public class Game {
     }
 
     public String getWinner() {
-        return determineWinner();
+        determineWinner();
+        return winner;
     }
 
     public int[] getLastDiceRoll() {
