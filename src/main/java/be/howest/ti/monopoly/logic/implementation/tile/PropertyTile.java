@@ -31,4 +31,6 @@ public class PropertyTile extends Tile{
     public String getColor() {
         return color;
     }
+
+    public int receiveRent(){return rent;}
 }

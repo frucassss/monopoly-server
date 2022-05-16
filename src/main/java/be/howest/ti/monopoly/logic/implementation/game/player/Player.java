@@ -34,6 +34,13 @@ public class Player {
         this.money -= amount;
     }
 
+    public void payRent(int amount){
+        this.money -= amount;
+    }
+
+    public void collectRent(int amount){
+        this.money += amount;
+    }
     public Property findProperty(String propertyName) {
         for (Property property : properties) {
             if (propertyName.equals(property.getProperty())) {
