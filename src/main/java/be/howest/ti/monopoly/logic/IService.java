@@ -50,4 +50,6 @@ public interface IService {
     void takeMortgage(String gameId, String playerName, String propertyName);
 
     void settleMortgage(String gameId, String playerName, String propertyName);
+
+    void dontBuyProperty(String gameId, String playerName, String propertyName);
 }
