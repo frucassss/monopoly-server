@@ -8,6 +8,7 @@ import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
@@ -214,6 +215,7 @@ public class MonopolyApiBridge {
         }
 
         Game game = service.getGame(gameId);
+
         Response.sendJsonResponse(ctx, 200, game);
     }
 
@@ -459,7 +461,7 @@ public class MonopolyApiBridge {
 
     private boolean isPlayerAuthorizedInGame(Request request, String gameId) {
         Game game = service.getGame(gameId);
-        for (Player player: game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             if (request.isAuthorized(gameId, player.getName())) {
                 return true;
             }
@@ -467,7 +469,7 @@ public class MonopolyApiBridge {
         return false;
     }
 
-    private JsonObject retrieveBasicGameInfo(Game game){
+    private JsonObject retrieveBasicGameInfo(Game game) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.put("id", game.getId());
         jsonObject.put("numberOfPlayers", game.getNumberOfPlayers());
@@ -476,9 +478,9 @@ public class MonopolyApiBridge {
         return jsonObject;
     }
 
-    private List<String> retrievePlayerNames(Game game){
+    private List<String> retrievePlayerNames(Game game) {
         List<String> names = new ArrayList<>();
-        for(Player player : game.getPlayers()){
+        for (Player player : game.getPlayers()) {
             names.add(player.getName());
         }
         return names;
