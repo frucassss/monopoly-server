@@ -144,13 +144,13 @@ public class Game {
     }
 
     public void determineWinner() {
-        int counter = 0;
+        int amountOfBankruptPlayers = 0;
         for (Player player : players) {
             if (player.getBankrupt()) {
-                counter++;
+                amountOfBankruptPlayers++;
             }
         }
-        if (numberOfPlayers - AMOUNT_OF_WINNERS == counter) {
+        if (numberOfPlayers - AMOUNT_OF_WINNERS == amountOfBankruptPlayers) {
             for (Player player : players) {
                 if (!player.getBankrupt()) {
                     this.winner = player.getName();
