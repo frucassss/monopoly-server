@@ -35,6 +35,17 @@ public class Market {
         game.receiveLastTurn().makeFinished();
     }
 
+    public void dontBuyProperty(){
+        marketCheck.checkIfItIsMyTurn();
+        marketCheck.checkIfYouTryToBuyAProperty(propertyName);
+        marketCheck.checkIfSomebodyHasProperty(propertyName);
+
+        Property property = makePropertyFromTile();
+
+        marketCheck.checkIfImStandingOnProperty(property.receivePosition());
+        game.receiveLastTurn().makeFinished();
+    }
+
     private Property makePropertyFromTile() {
         Tile tile = game.receiveTileOnName(propertyName);
         return new Property(tile);
