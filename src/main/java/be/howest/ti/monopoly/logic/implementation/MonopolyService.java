@@ -3,10 +3,13 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Rent;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Mortgage;
+
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -229,5 +232,28 @@ public class MonopolyService extends ServiceAdapter {
         Player debtor = game.findPlayer(debtorName);
         Rent rent = new Rent(player, game, propertyName, debtor);
         rent.collectRent();
+    }
+
+    @Override
+    public void rollDice(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        new Turn(game, player);
+    }
+
+    @Override
+    public void takeMortgage(String gameId, String playerName, String propertyName){
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        Mortgage mortgage = new Mortgage(player,propertyName);
+        mortgage.takeMortgage();
+    }
+
+    @Override
+    public void settleMortgage(String gameId, String playerName, String propertyName){
+        Game game = getGame(gameId);
+        Player player = game.findPlayer(playerName);
+        Mortgage mortgage = new Mortgage(player,propertyName);
+        mortgage.settleMortgage();
     }
 }

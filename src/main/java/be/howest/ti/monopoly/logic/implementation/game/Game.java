@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation.game;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.GameCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+
 import java.util.*;
 
 public class Game {
@@ -12,7 +13,7 @@ public class Game {
     private int numberOfPlayers;
     private boolean started = false;
     private String directSale = null;
-    private String currentPlayer = null;
+    private Player currentPlayer = null;
     private boolean canRoll = false;
     private boolean ended = false;
     private String winner = null;
@@ -24,6 +25,7 @@ public class Game {
     private final List<String> chance;
     private final List<String> communityChest;
     private final GameCheck gameCheck;
+    private static final int AMOUNT_OF_WINNERS = 1;
 
     public Game(String prefix, int sessionNumber, int numberOfPlayers, List<String> chance, List<String> communityChest, List<Tile> tiles) {
         gameCheck = new GameCheck(this);
@@ -36,41 +38,42 @@ public class Game {
         setNumberOfPlayers(numberOfPlayers);
     }
 
-    public void newPlayer(String playerName){
+    public void newPlayer(String playerName) {
         gameCheck.checkIfGameIsNotStarted();
         gameCheck.checkCharactersInString(playerName, "Player name");
         gameCheck.checkIfPlayerIsInGame(playerName);
         Player player = new Player(playerName, this);
         players.add(player);
 
-        if(players.size() == numberOfPlayers){
+        if (players.size() == numberOfPlayers) {
             setStarted(true);
-            setCurrentPlayer(playerName);
-            setCanRoll(true);
+            setCurrentPlayer(players.get(0));
+            this.canRoll = true;
         }
     }
 
-    public Player findPlayer(String playerName){
-        for (Player player : players){
-            if(player.getName().equals(playerName)){
+    public Player findPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
                 return player;
             }
         }
         return null;
     }
 
-    public void addTurn(Turn turn){
+    public void addTurn(Turn turn) {
         turns.add(turn);
     }
 
+
     // SETTERS
 
-    public void setNumberOfPlayers(int numberOfPlayers){
+    public void setNumberOfPlayers(int numberOfPlayers) {
         gameCheck.checkNumberOfPlayers(numberOfPlayers);
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void setCurrentPlayer(String currentPlayer){
+    public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -82,16 +85,15 @@ public class Game {
         this.directSale = directSale;
     }
 
-    public void setCanRoll(boolean canRoll) {
-        this.canRoll = canRoll;
+    public void setCanRoll() {
+        if (!turns.isEmpty()) {
+            Turn lastTurn = receiveLastTurn();
+            canRoll = lastTurn.getFinished();
+        }
     }
 
     public void setEnded(boolean ended) {
         this.ended = ended;
-    }
-
-    public void setWinner(String winner) {
-        this.winner = winner;
     }
 
     public void setLastDiceRoll(int[] lastDiceRoll) {
@@ -104,12 +106,63 @@ public class Game {
         return tiles;
     }
 
+    public Tile receiveTileOnName(String tileName) {
+        for (Tile tile : tiles) {
+            if (tile.getName().equals(tileName)) {
+                return tile;
+            }
+        }
+        return null;
+    }
+
+    public Tile receiveTileOnPosition(int pos) {
+        for (Tile tile : tiles) {
+            if (tile.getPosition() == pos) {
+                return tile;
+            }
+        }
+        return null;
+    }
+
     public List<String> receiveChance() {
         return chance;
     }
 
     public List<String> receiveCommunityChest() {
         return communityChest;
+    }
+
+    public Player receiveCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Turn receiveLastTurn() {
+        if (!turns.isEmpty()) {
+            return turns.get(turns.size() - 1);
+        }
+        return null;
+    }
+
+    public int determineNumberOfBankruptPlayers(){
+        int amountOfBankruptPlayers = 0;
+        for (Player player : players) {
+            if (player.getBankrupt()) {
+                amountOfBankruptPlayers++;
+            }
+        }
+        return amountOfBankruptPlayers;
+    }
+
+    public void determineWinner() {
+        int amountOfBankruptPlayers = determineNumberOfBankruptPlayers();
+        if (numberOfPlayers - AMOUNT_OF_WINNERS == amountOfBankruptPlayers) {
+            for (Player player : players) {
+                if (!player.getBankrupt()) {
+                    this.winner = player.getName();
+                    this.ended = true;
+                }
+            }
+        }
     }
 
     // GETTERS
@@ -127,14 +180,18 @@ public class Game {
     }
 
     public String getCurrentPlayer() {
-        return currentPlayer;
+        if (currentPlayer == null) {
+            return null;
+        }
+        return currentPlayer.getName();
     }
 
     public String getDirectSale() {
         return directSale;
     }
 
-    public boolean isCanRoll() {
+    public boolean getCanRoll() {
+        setCanRoll();
         return canRoll;
     }
 
@@ -142,11 +199,12 @@ public class Game {
         return started;
     }
 
-    public boolean isEnded() {
+    public boolean getEnded() {
         return ended;
     }
 
     public String getWinner() {
+        determineWinner();
         return winner;
     }
 
