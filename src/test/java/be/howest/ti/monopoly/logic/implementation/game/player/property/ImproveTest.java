@@ -146,18 +146,6 @@ class ImproveTest {
     }
 
     @Test
-    void testBuyingPropertyWithoutHavingMoney() {
-        michiel.addProperty(mediterraneanProperty);
-        michiel.addProperty(balticProperty);
-
-        Improve improveMediterranean = new Improve(michiel, "Mediterranean");
-
-        michiel.pay(1500);
-
-        assertThrows(IllegalMonopolyActionException.class, improveMediterranean::buyHouse);
-    }
-
-    @Test
     void testSellingAHouse() {
         michiel.addProperty(mediterraneanProperty);
         michiel.addProperty(balticProperty);

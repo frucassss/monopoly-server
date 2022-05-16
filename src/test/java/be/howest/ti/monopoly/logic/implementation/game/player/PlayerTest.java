@@ -41,13 +41,6 @@ class PlayerTest {
     }
 
     @Test
-    void testNotHavingTheMoneyToGetOutOfJail(){
-        michiel.setJailed(true);
-        michiel.pay(1451);
-        assertThrows(IllegalMonopolyActionException.class, michiel::payPrisonFine);
-    }
-
-    @Test
     void testGettingOutOfJailWithCardWhileNotHavingACard(){
         michiel.setJailed(true);
         assertThrows(IllegalMonopolyActionException.class,michiel::useGetOutOfJailFreeCard);

@@ -59,14 +59,6 @@ class MarketTest {
     }
 
     @Test
-    void testBuyingPropertyWhileNotHavingEnoughMoney(){
-        game.findPlayer("michiel").setCurrentTile(monopolyService.getTile("Mediterranean"));
-        game.findPlayer("michiel").pay(1500);
-        Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
-        assertThrows(IllegalMonopolyActionException.class, marketMichielMediterranean::buyProperty);
-    }
-
-    @Test
     void testBuyingATileThatIsNotAProperty(){
         Market marketMichielMediterranean = new Market(game.findPlayer("michiel"),game,"Mediterranean");
         assertThrows(IllegalMonopolyActionException.class, marketMichielMediterranean::buyProperty);
