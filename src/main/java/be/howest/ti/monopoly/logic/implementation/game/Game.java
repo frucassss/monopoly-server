@@ -143,13 +143,18 @@ public class Game {
         return null;
     }
 
-    public void determineWinner() {
+    public int determineNumberOfBankruptPlayers(){
         int amountOfBankruptPlayers = 0;
         for (Player player : players) {
             if (player.getBankrupt()) {
                 amountOfBankruptPlayers++;
             }
         }
+        return amountOfBankruptPlayers;
+    }
+
+    public void determineWinner() {
+        int amountOfBankruptPlayers = determineNumberOfBankruptPlayers();
         if (numberOfPlayers - AMOUNT_OF_WINNERS == amountOfBankruptPlayers) {
             for (Player player : players) {
                 if (!player.getBankrupt()) {
