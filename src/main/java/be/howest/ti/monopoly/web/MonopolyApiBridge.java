@@ -232,7 +232,17 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
-        throw new NotYetImplementedException("rollDice");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameIdFromPath();
+        String playerName = request.getPlayerNameFromPath();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("This is a protected endpoint. Make sure the security-token you passed along is valid token for this game.");
+        }
+
+        service.rollDice(gameId, playerName);
+
+        Response.sendOkResponse(ctx);
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
