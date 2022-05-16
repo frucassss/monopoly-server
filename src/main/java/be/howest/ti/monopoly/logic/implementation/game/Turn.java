@@ -55,7 +55,12 @@ public class Turn {
 
     private void rolledDouble(){
         doubleCount += 1;
-        if (doubleCount >= MAX_ROLL_DOUBLE_COUNT){
+
+        if (player.getJailed()) {
+            player.setJailed(false);
+            resetDoubleCount();
+        }
+        else if (doubleCount >= MAX_ROLL_DOUBLE_COUNT){
             player.setJailed(true);
             resetDoubleCount();
         }
