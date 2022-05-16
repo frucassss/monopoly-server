@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.checkers.game;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
@@ -38,16 +39,17 @@ public class GameCheck {
             throw new ForbiddenAccessException("Player is already in game!");
         }
     }
-
-    public void checkWinner() {
+/*
+   public void checkWinner() {
+        
         int i = 0;
-        for (Player p : game.getPlayers().values ()){
+        for (Player p : game.getPlayers()){
             if (p.getBankrupt()) {
                 i++;
             }
         }
         if (i == game.getNumberOfPlayers() - 1) {
-            for (Player p : game.getPlayers().values()) {
+            for (Player p : game.getPlayers()) {
                 if (!p.getBankrupt()) {
                     game.setWinner(p.getName());
                     game.setEnded(game.isEnded());
@@ -55,6 +57,6 @@ public class GameCheck {
             }
         }
     }
-
+*/
 
 }
