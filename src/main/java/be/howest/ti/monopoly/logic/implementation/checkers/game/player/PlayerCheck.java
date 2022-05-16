@@ -22,12 +22,6 @@ public class PlayerCheck {
         }
     }
 
-    public void checkIfIHaveEnoughMoney(int amount) {
-        if (amount > player.getMoney()) {
-            throw new IllegalMonopolyActionException("You don't have enough money");
-        }
-    }
-
     public void checkIfAmountIsNotNegative(int amount) {
         if (amount < 0) {
             throw new IllegalMonopolyActionException("You're trying to pay a negative number?");

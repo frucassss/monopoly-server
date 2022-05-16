@@ -29,7 +29,6 @@ public class Player {
 
     // METHODS
     public void pay(int amount) {
-        playerCheck.checkIfIHaveEnoughMoney(amount);
         playerCheck.checkIfAmountIsNotNegative(amount);
         this.money -= amount;
     }
@@ -62,8 +61,7 @@ public class Player {
 
     public void payPrisonFine() {
         playerCheck.checkIfPlayerIsInPrison();
-        playerCheck.checkIfIHaveEnoughMoney(50);
-        money -= 50;
+        pay(50);
         setJailed(false);
     }
 
