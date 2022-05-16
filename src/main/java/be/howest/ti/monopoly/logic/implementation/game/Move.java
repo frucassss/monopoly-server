@@ -95,7 +95,7 @@ public class Move {
     }
 
     private void processGoToJailMove(){
-        if (tile.getType().equals("go to jail")){
+        if (tile.getType().equals("Go to Jail")){
             description = "has to go to jail";
             turn.addMove(new Move(this));
             player.setJailed(true);

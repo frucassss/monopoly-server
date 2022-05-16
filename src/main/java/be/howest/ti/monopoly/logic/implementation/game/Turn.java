@@ -16,7 +16,7 @@ public class Turn {
     private boolean finished = false;
 
     private static int doubleCount = 0;
-    private static final int MAX_ROLL_DOUBLE_COUNT = 3;
+    private static final int MAX_ROLL_COUNT = 3;
     private final Random random = new Random();
     private static final int MAX_DICE_NUMBER = 6;
     private static final int OFF_BY_ONE_ERROR_CORRECTION = 1;
@@ -41,7 +41,22 @@ public class Turn {
         dices[0] = generateDiceNumber();
         dices[1] = generateDiceNumber();
         game.setLastDiceRoll(dices);
+
         setDoubleRoll();
+        setPlayerFreeFromJailWhenRolled3Times();
+    }
+
+    public void setPlayerFreeFromJailWhenRolled3Times(){
+        if (player.getJailed()){
+            player.incrementNumberOfRollsWhileInJail();
+            if (player.receiveNumberOfRollsWhileInJail() >= MAX_ROLL_COUNT){
+                player.payPrisonFine();
+                player.resetNumberOfRollsWhileInJail();
+            }
+        }
+        else {
+            player.resetNumberOfRollsWhileInJail();
+        }
     }
 
     private void setDoubleRoll(){
@@ -55,7 +70,12 @@ public class Turn {
 
     private void rolledDouble(){
         doubleCount += 1;
-        if (doubleCount >= MAX_ROLL_DOUBLE_COUNT){
+
+        if (player.getJailed()) {
+            player.setJailed(false);
+            resetDoubleCount();
+        }
+        else if (doubleCount >= MAX_ROLL_COUNT){
             player.setJailed(true);
             resetDoubleCount();
         }

@@ -1,19 +1,16 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ImproveTest {
 
-    private final Player michiel = new Player("Michiel", new Game("hello",1,3, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+    private final Player michiel = new Player("Michiel");
     private final Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
     private final Tile balticTile = new StreetTile("Baltic", 3, "street", 60, 30, 2, "PURPLE", 4, 20, 60, 180, 320, 450, 50, "PURPLE");
     private final Property mediterraneanProperty = new Property(mediterraneanTile);
@@ -145,18 +142,6 @@ class ImproveTest {
         improveBaltic.buyHouse();
 
         improveMediterranean.buyHouse();
-        assertThrows(IllegalMonopolyActionException.class, improveMediterranean::buyHouse);
-    }
-
-    @Test
-    void testBuyingPropertyWithoutHavingMoney() {
-        michiel.addProperty(mediterraneanProperty);
-        michiel.addProperty(balticProperty);
-
-        Improve improveMediterranean = new Improve(michiel, "Mediterranean");
-
-        michiel.pay(1500);
-
         assertThrows(IllegalMonopolyActionException.class, improveMediterranean::buyHouse);
     }
 
