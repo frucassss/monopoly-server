@@ -42,26 +42,6 @@ public class GameCheck {
     }
 
 
-   public void checkWinner() {
-        
-        int numberOfBankruptPlayers = 0;
-        for (Player p : game.getPlayers()){
-            if (p.getBankrupt()) {
-                numberOfBankruptPlayers++;
-            }
-        }
-        if (numberOfBankruptPlayers == game.getNumberOfPlayers() - 1) {
-            for (Player p : game.getPlayers()) {
-                if (!p.getBankrupt()) {
-                    game.setWinner(p.getName());
-                    game.setEnded(game.getEnded());
-                }
-            }
-        }
-    }
-
-
-
     public void checkIfGameStarted() {
         if (!game.getStarted()) {
             throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Rolling the dice is not allowed when the game hasn't started yet.");
