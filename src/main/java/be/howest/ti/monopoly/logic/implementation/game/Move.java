@@ -125,9 +125,9 @@ public class Move {
                 tile = chance.getTile();
                 description = chance.getMoveDescription();
                 turn.addMove(new Move(this));
+            } else {
+                turn.makeFinished();
             }
-            // TODO: execute action of received chance card.
-            turn.makeFinished(); // remove when chance is implemented, ask Thibo why!
         }
     }
 
