@@ -1,17 +1,13 @@
 package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.game.Game;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    private final Player michiel = new Player("michiel", new Game("dummy", 1, 2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+    private final Player michiel = new Player("michiel");
 
     @Test
     void testPayingNegativeNumber() {
@@ -42,13 +38,6 @@ class PlayerTest {
         michiel.useGetOutOfJailFreeCard();
         assertEquals(0,michiel.getGetOutOfJailFreeCards());
         assertFalse(michiel.getJailed());
-    }
-
-    @Test
-    void testNotHavingTheMoneyToGetOutOfJail(){
-        michiel.setJailed(true);
-        michiel.pay(1451);
-        assertThrows(IllegalMonopolyActionException.class, michiel::payPrisonFine);
     }
 
     @Test

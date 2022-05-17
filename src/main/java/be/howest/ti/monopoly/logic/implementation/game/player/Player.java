@@ -2,14 +2,13 @@ package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
-import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.*;
 
 public class Player {
-    private final Game game;
+
     private final String name;
     private Tile currentTile = new Tile("Go", 0, "Go");
     private boolean jailed = false;
@@ -17,19 +16,19 @@ public class Player {
     private boolean bankrupt = false;
     private int getOutOfJailFreeCards = 0;
     private final List<Property> properties = new ArrayList<>();
+
+    private int numberOfRollsWhileInJail = 0;
     private final PlayerCheck playerCheck = new PlayerCheck(this);
 
 
 
     // CONSTRUCTOR
-    public Player(String name, Game game) {
+    public Player(String name) {
         this.name = name;
-        this.game = game;
     }
 
     // METHODS
     public void pay(int amount) {
-        playerCheck.checkIfIHaveEnoughMoney(amount);
         playerCheck.checkIfAmountIsNotNegative(amount);
         this.money -= amount;
     }
@@ -66,8 +65,7 @@ public class Player {
 
     public void payPrisonFine() {
         playerCheck.checkIfPlayerIsInPrison();
-        playerCheck.checkIfIHaveEnoughMoney(50);
-        money -= 50;
+        pay(50);
         setJailed(false);
     }
 
@@ -79,15 +77,26 @@ public class Player {
         properties.remove(property);
     }
 
-    // GETTERS
+    public void incrementNumberOfRollsWhileInJail(){
+        numberOfRollsWhileInJail += 1;
+    }
+
+    public void resetNumberOfRollsWhileInJail(){
+        numberOfRollsWhileInJail = 0;
+    }
+
+    // RECEIVERS
 
     public Tile receiveCurrentTile() {
         return this.currentTile;
     }
 
-    public Game receiveGame() {
-        return game;
+    public int receiveNumberOfRollsWhileInJail(){
+        return numberOfRollsWhileInJail;
     }
+
+
+    // GETTERS
 
     public String getName() {
         return name;
