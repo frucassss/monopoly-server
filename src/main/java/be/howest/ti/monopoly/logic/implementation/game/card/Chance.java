@@ -86,10 +86,10 @@ public class Chance extends Card {
         Tile waterWorksUtility = game.receiveTileOnPosition(12);
         Tile electricUtility = game.receiveTileOnPosition(28);
         int playerTilePosition = player.receiveCurrentTile().getPosition();
-        if (playerTilePosition < 20) {
+        if (playerTilePosition < MIDDLE_BOARD_POSITION) {
             moveTile = waterWorksUtility;
             moveDescription = "Has to go to Water Works";
-        } else if (playerTilePosition > 20) {
+        } else {
             moveTile = electricUtility;
             moveDescription = "Has to go to Electric Company";
         }
@@ -99,13 +99,13 @@ public class Chance extends Card {
     public void advanceToNearestRailroad() {
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < 7) {
-            moveTile = game.receiveTileOnPosition(5);
+            moveTile = game.receiveTileOnName("Reading RR");
         } else if (playerTilePosition < MIDDLE_BOARD_POSITION) {
-            moveTile = game.receiveTileOnPosition(15);
+            moveTile = game.receiveTileOnName("Pennsylvania RR");
         } else if (playerTilePosition < 30) {
-            moveTile = game.receiveTileOnPosition(25);
+            moveTile = game.receiveTileOnName("Baltimore and Ohio RR");
         } else {
-            moveTile = game.receiveTileOnPosition(35);
+            moveTile = game.receiveTileOnName("Short Line RR");
         }
         moveDescription = "Advanced to the nearest railroad: " + moveTile;
         // TODO: dubbel rent betalen als de RailRoad is owned bij iemand anders
