@@ -26,6 +26,11 @@ public class Rent {
         String propertyType = property.receivePropertyTile().getType();
         checkIfDebtorIsOnPlayersTile(property);
         checkIfPlayerCanCollectRent();
+        propertyTypeSwitch(propertyType, property);
+        pay(player, debtor);
+    }
+
+    public void propertyTypeSwitch(String propertyType, Property property){
         switch (propertyType) {
             case "street":
                 receiveStreetRent(property);
@@ -39,7 +44,6 @@ public class Rent {
             default:
                 throw new IllegalMonopolyActionException("You can not collect rent on this tile");
         }
-        pay(player, debtor);
     }
 
     private void receiveUtilityRent() {
@@ -130,23 +134,23 @@ public class Rent {
     }
 
     private int railRoadCount() {
-        int i = 0;
+        int railroadCardCounter = 0;
         for (Property p : player.getProperties()) {
             if (p.receivePropertyTile().getType().equals("railroad")) {
-                i++;
+                railroadCardCounter++;
             }
         }
-        return i;
+        return railroadCardCounter;
     }
 
     private int utilityCount() {
-        int i = 0;
+        int utilityCardCounter = 0;
         for (Property p : player.getProperties()) {
             if (p.receivePropertyTile().getType().equals("utility")) {
-                i++;
+                utilityCardCounter++;
             }
         }
-        return i;
+        return utilityCardCounter;
     }
 
     private boolean doesPlayerOwnTheWholeStreet(Property property) {
