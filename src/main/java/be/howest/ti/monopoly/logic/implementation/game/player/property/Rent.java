@@ -57,7 +57,7 @@ public class Rent {
     private void calculateUtilityRent() {
         int[] dices = game.getLastDiceRoll();
         int totalDiceNumber =  dices[0] + dices[1];
-        int utilityCount = countPropertiesFromDebtorWithSameType(this.propertyType);
+        int utilityCount = countPropertiesFromCreditorWithSameType(this.propertyType);
 
         if (utilityCount == 1) {
             rent = totalDiceNumber * RENT_MULTIPLIER_WHEN_CREDITOR_HAS_1_UTILITY;
@@ -69,7 +69,7 @@ public class Rent {
 
 
     private void calculateRailRoadRent() {
-        int railroadCount = countPropertiesFromDebtorWithSameType(this.propertyType);
+        int railroadCount = countPropertiesFromCreditorWithSameType(this.propertyType);
         rent = (int) Math.pow(2, railroadCount - 1) * MIN_RAILROAD_RENT;
     }
 
@@ -131,9 +131,9 @@ public class Rent {
         return property.getHouseCount() == 4;
     }
 
-    private int countPropertiesFromDebtorWithSameType(String propertyType) {
+    private int countPropertiesFromCreditorWithSameType(String propertyType) {
         int count = 0;
-        for (Property other : this.debtor.getProperties()) {
+        for (Property other : this.creditor.getProperties()) {
             if (other.receivePropertyTile().getType().equals(propertyType)) {
                 count++;
             }
