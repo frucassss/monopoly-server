@@ -117,7 +117,7 @@ public class Chance extends Card {
         if (playerCurrentPosition >= 3) {
             newPlayerPosition = playerCurrentPosition - 3;
         } else {
-            newPlayerPosition = (LAST_BOARD_POSITION - (3 - playerCurrentPosition));
+            newPlayerPosition = (LAST_BOARD_POSITION - (2 - playerCurrentPosition));
         }
         moveTile = game.receiveTileOnPosition(newPlayerPosition);
         moveDescription = "Had to go back 3 spaces and now you're standing on: " + moveTile;
