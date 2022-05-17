@@ -62,7 +62,7 @@ public class Chance {
                 advanceTo("Reading RR");
                 break;
             case "You have been elected Chairman of the Board. Pay each player $50":
-                payEachPlayer(50);
+                payEachPlayer();
                 break;
             case "Your building loan matures. Collect $150":
                 player.collect(150);
@@ -72,13 +72,13 @@ public class Chance {
         }
     }
 
-    private void payEachPlayer(int amount) {
+    private void payEachPlayer() {
         int amountOfPlayersInGameMinusMovePlayer = game.getNumberOfPlayers() - 1;
-        this.player.pay(amount * amountOfPlayersInGameMinusMovePlayer);
+        this.player.pay(50 * amountOfPlayersInGameMinusMovePlayer);
         List<Player> gamePlayers = game.getPlayers();
         for (Player gamePlayer : gamePlayers) {
             if (!(gamePlayer.equals(this.player))) {
-                gamePlayer.collect(amount);
+                gamePlayer.collect(50);
             }
         }
     }
