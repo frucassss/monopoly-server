@@ -7,9 +7,12 @@ import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.List;
 
-public class Chance extends Card{
+public class Chance extends Card {
     private static final int HOUSE_REPAIR_COST = 25;
     private static final int HOTEL_REPAIR_COST = 100;
+
+    private static final int LAST_BOARD_POSITION = 39;
+    private static final int MIDDLE_BOARD_POSITION = 20;
 
     public Chance(String chanceDescription, Player player, Game game, Move move) {
         super(player, game, move);
@@ -49,7 +52,7 @@ public class Chance extends Card{
                 goToJail();
                 break;
             case "Make general repairs on all your property. For each house pay $25. For each hotel pay $100":
-                generalRepair(HOUSE_REPAIR_COST,HOTEL_REPAIR_COST);
+                generalRepair(HOUSE_REPAIR_COST, HOTEL_REPAIR_COST);
                 break;
             case "Speeding fine $15":
                 player.pay(15);
@@ -97,11 +100,11 @@ public class Chance extends Card{
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < 7) {
             moveTile = game.receiveTileOnPosition(5);
-        } else if (playerTilePosition < 20) {
+        } else if (playerTilePosition < MIDDLE_BOARD_POSITION) {
             moveTile = game.receiveTileOnPosition(15);
         } else if (playerTilePosition < 30) {
             moveTile = game.receiveTileOnPosition(25);
-        } else if (playerTilePosition < 40) {
+        } else {
             moveTile = game.receiveTileOnPosition(35);
         }
         moveDescription = "Advanced to the nearest railroad: " + moveTile;
@@ -114,7 +117,7 @@ public class Chance extends Card{
         if (playerCurrentPosition >= 3) {
             newPlayerPosition = playerCurrentPosition - 3;
         } else {
-            newPlayerPosition = (40 - (3 - playerCurrentPosition));
+            newPlayerPosition = (LAST_BOARD_POSITION - (3 - playerCurrentPosition));
         }
         moveTile = game.receiveTileOnPosition(newPlayerPosition);
         moveDescription = "Had to go back 3 spaces and now you're standing on: " + moveTile;

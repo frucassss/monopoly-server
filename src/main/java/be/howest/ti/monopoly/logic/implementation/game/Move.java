@@ -65,10 +65,10 @@ public class Move {
     }
 
     private void processMove(){
-        processGoMove();
         processGoToJailMove();
         processChanceMove();
         processCommunityChestMove();
+        processGoMove();
         processFreeParkingMove();
         processTaxIncomeMove();
         processLuxuryTaxMove();
