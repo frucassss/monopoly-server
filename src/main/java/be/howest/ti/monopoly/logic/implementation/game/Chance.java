@@ -128,16 +128,15 @@ public class Chance {
     }
 
     private void advanceToNearestRailroad() {
-        List<Tile> railRoads = List.of(game.receiveTileOnPosition(5), game.receiveTileOnPosition(15), game.receiveTileOnPosition(25), game.receiveTileOnPosition(35));
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < 7){
-            newTile = railRoads.get(0);
+            newTile = game.receiveTileOnPosition(5);
         } else if (playerTilePosition < 20){
-            newTile = railRoads.get(1);
+            newTile = game.receiveTileOnPosition(15);
         } else if (playerTilePosition < 30){
-            newTile = railRoads.get(2);
+            newTile = game.receiveTileOnPosition(25);
         } else if (playerTilePosition < 40){
-            newTile = railRoads.get(3);
+            newTile = game.receiveTileOnPosition(35);
         }
         moveDescription = "You advanced to the nearest railroad: " + newTile;
         // TODO: dubbel rent betalen als de RailROad is owned bij iemand anders

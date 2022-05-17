@@ -123,8 +123,7 @@ public class Move {
             Chance chance = new Chance(description,player,game);
             if (chance.getTile() != null){
                 tile = chance.getTile();
-            }
-            if (chance.getMoveDescription() != null){
+            }if (chance.getMoveDescription() != null){
                 description = chance.getMoveDescription();
             }
             // TODO: execute action of received chance card.
