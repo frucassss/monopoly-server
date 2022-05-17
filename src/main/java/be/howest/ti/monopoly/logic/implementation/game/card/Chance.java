@@ -1,25 +1,17 @@
-package be.howest.ti.monopoly.logic.implementation.game;
+package be.howest.ti.monopoly.logic.implementation.game.card;
 
+import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.List;
 
-public class Chance {
-
-    private final Player player;
-    private final Game game;
-
-    private Tile newTile = null;
-    private String moveDescription = null;
-
+public class Chance extends Card{
     private static final int HOUSE_REPAIR_COST = 25;
     private static final int HOTEL_REPAIR_COST = 100;
 
     public Chance(String chanceDescription, Player player, Game game) {
-        this.player = player;
-        this.game = game;
+        super(player, game);
         processDifferentChanceCards(chanceDescription);
     }
 
@@ -56,7 +48,7 @@ public class Chance {
                 goToJail();
                 break;
             case "Make general repairs on all your property. For each house pay $25. For each hotel pay $100":
-                generalRepair();
+                generalRepair(HOUSE_REPAIR_COST,HOTEL_REPAIR_COST);
                 break;
             case "Speeding fine $15":
                 player.pay(15);
@@ -86,37 +78,36 @@ public class Chance {
         }
     }
 
-    private void goToJail() {
-        newTile = game.receiveTileOnName("Jail");
-        moveDescription = "Chance card made you go to jail";
-        player.setJailed(true);
-    }
-
-    private void generalRepair() {
-        int totalAmountToPay = 0;
-        List<Property> playerProperties = player.getProperties();
-        for (Property property : playerProperties) {
-            totalAmountToPay += (property.getHouseCount() * HOUSE_REPAIR_COST);
-            totalAmountToPay += (property.getHotelCount() * HOTEL_REPAIR_COST);
-        }
-        player.pay(totalAmountToPay);
-    }
-
-    private void advanceToNearestUtility() {
+    public void advanceToNearestUtility() {
         Tile waterWorksUtility = game.receiveTileOnPosition(12);
         Tile electricUtility = game.receiveTileOnPosition(28);
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < 20) {
-            newTile = waterWorksUtility;
+            moveTile = waterWorksUtility;
             moveDescription = "You have to go to Water Works";
         } else if (playerTilePosition > 20) {
-            newTile = electricUtility;
+            moveTile = electricUtility;
             moveDescription = "You have to go to Electric Company";
         }
         // TODO: dubbel rent betalen als de utility is owned bij iemand anders
     }
 
-    private void goBack3Spaces() {
+    public void advanceToNearestRailroad() {
+        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        if (playerTilePosition < 7) {
+            moveTile = game.receiveTileOnPosition(5);
+        } else if (playerTilePosition < 20) {
+            moveTile = game.receiveTileOnPosition(15);
+        } else if (playerTilePosition < 30) {
+            moveTile = game.receiveTileOnPosition(25);
+        } else if (playerTilePosition < 40) {
+            moveTile = game.receiveTileOnPosition(35);
+        }
+        moveDescription = "You advanced to the nearest railroad: " + moveTile;
+        // TODO: dubbel rent betalen als de RailRoad is owned bij iemand anders
+    }
+
+    public void goBack3Spaces() {
         int playerCurrentPosition = player.receiveCurrentTile().getPosition();
         int newPlayerPosition;
         if (playerCurrentPosition >= 3) {
@@ -124,32 +115,12 @@ public class Chance {
         } else {
             newPlayerPosition = (40 - (3 - playerCurrentPosition));
         }
-        newTile = game.receiveTileOnPosition(newPlayerPosition);
-        moveDescription = "You had to go back 3 spaces and now you're standing on: " + newTile;
-    }
-
-    private void advanceToNearestRailroad() {
-        int playerTilePosition = player.receiveCurrentTile().getPosition();
-        if (playerTilePosition < 7){
-            newTile = game.receiveTileOnPosition(5);
-        } else if (playerTilePosition < 20){
-            newTile = game.receiveTileOnPosition(15);
-        } else if (playerTilePosition < 30){
-            newTile = game.receiveTileOnPosition(25);
-        } else if (playerTilePosition < 40){
-            newTile = game.receiveTileOnPosition(35);
-        }
-        moveDescription = "You advanced to the nearest railroad: " + newTile;
-        // TODO: dubbel rent betalen als de RailRoad is owned bij iemand anders
-    }
-
-    private void advanceTo(String tileName) {
-        newTile = game.receiveTileOnName(tileName);
-        moveDescription = "You have to go to: " + tileName;
+        moveTile = game.receiveTileOnPosition(newPlayerPosition);
+        moveDescription = "You had to go back 3 spaces and now you're standing on: " + moveTile;
     }
 
     public Tile getTile() {
-        return newTile;
+        return moveTile;
     }
 
     public String getMoveDescription() {

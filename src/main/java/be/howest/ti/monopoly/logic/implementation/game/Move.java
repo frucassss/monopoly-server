@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
+import be.howest.ti.monopoly.logic.implementation.game.card.Chance;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
