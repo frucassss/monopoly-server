@@ -1,19 +1,22 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
+import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+import be.howest.ti.monopoly.logic.implementation.tile.UtilityTile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Chance {
 
-    private final String chanceDescription;
-    private final Move move;
     private final Player player;
     private final Game game;
 
-    public Chance(String chanceDescription, Move move, Player player, Game game) {
-        this.chanceDescription = chanceDescription;
-        this.move = move;
+    private Tile newTile = null;
+    private String description = null;
+
+    public Chance(String chanceDescription, Player player, Game game) {
         this.player = player;
         this.game = game;
         processDifferentChanceCards(chanceDescription);
@@ -73,20 +76,43 @@ public class Chance {
         int amountOfPlayersInGameMinusMovePlayer = game.getNumberOfPlayers() - 1;
         this.player.pay(amount * amountOfPlayersInGameMinusMovePlayer);
         List<Player> gamePlayers = game.getPlayers();
-        for (Player player : gamePlayers){
-            if (!(player.equals(this.player))){
+        for (Player player : gamePlayers) {
+            if (!(player.equals(this.player))) {
                 player.collect(amount);
             }
         }
     }
 
     private void goToJail() {
+        newTile = game.receiveTileOnName("Jail");
+        description = "Chance made you go to jail";
+        player.setJailed(true);
     }
 
     private void generalRepair() {
+        int houseRepairCost = 25;
+        int hotelRepairCost = 100;
+        int totalAmountToPay = 0;
+        List<Property> playerProperties = player.getProperties();
+        for (Property property : playerProperties) {
+            totalAmountToPay += (property.getHouseCount() * houseRepairCost);
+            totalAmountToPay += (property.getHotelCount() * hotelRepairCost);
+        }
+        player.pay(totalAmountToPay);
     }
 
     private void advanceToNearestUtility() {
+        Tile waterWorksUtility = game.receiveTileOnPosition(12);
+        Tile electricUtility = game.receiveTileOnPosition(28);
+        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        if (playerTilePosition < 20){
+            newTile = waterWorksUtility;
+            description = "You have to go to Water Works";
+        }
+        else if (playerTilePosition > 20){
+            newTile = electricUtility;
+            description = "You have to go to Electric Company";
+        }
     }
 
     private void goBack3Spaces() {
@@ -97,5 +123,13 @@ public class Chance {
 
     private void advanceTo(String propertyName) {
 
+    }
+
+    public Tile getTile() {
+        return newTile;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
