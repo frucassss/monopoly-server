@@ -88,7 +88,7 @@ public class Chance {
 
     private void goToJail() {
         newTile = game.receiveTileOnName("Jail");
-        moveDescription = "Chance made you go to jail";
+        moveDescription = "Chance card made you go to jail";
         player.setJailed(true);
     }
 
@@ -140,7 +140,7 @@ public class Chance {
             newTile = game.receiveTileOnPosition(35);
         }
         moveDescription = "You advanced to the nearest railroad: " + newTile;
-        // TODO: dubbel rent betalen als de RailROad is owned bij iemand anders
+        // TODO: dubbel rent betalen als de RailRoad is owned bij iemand anders
     }
 
     private void advanceTo(String tileName) {
