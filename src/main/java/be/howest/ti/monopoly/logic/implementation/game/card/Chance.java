@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game.card;
 
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import be.howest.ti.monopoly.logic.implementation.game.Move;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
@@ -10,8 +11,8 @@ public class Chance extends Card{
     private static final int HOUSE_REPAIR_COST = 25;
     private static final int HOTEL_REPAIR_COST = 100;
 
-    public Chance(String chanceDescription, Player player, Game game) {
-        super(player, game);
+    public Chance(String chanceDescription, Player player, Game game, Move move) {
+        super(player, game, move);
         processDifferentChanceCards(chanceDescription);
     }
 

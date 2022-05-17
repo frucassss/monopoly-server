@@ -121,7 +121,7 @@ public class Move {
         if (tile.getType().equals("chance")){
             description = receiveRandomChance();
             turn.addMove(new Move(this));
-            Chance chance = new Chance(description,player,game);
+            Chance chance = new Chance(description,player,game, this);
             if (chance.getTile() != null || chance.getMoveDescription() != null){
                 tile = chance.getTile();
                 description = chance.getMoveDescription();
