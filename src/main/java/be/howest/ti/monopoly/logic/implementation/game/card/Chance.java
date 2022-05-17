@@ -84,10 +84,10 @@ public class Chance extends Card{
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < 20) {
             moveTile = waterWorksUtility;
-            moveDescription = "You have to go to Water Works";
+            moveDescription = "Has to go to Water Works";
         } else if (playerTilePosition > 20) {
             moveTile = electricUtility;
-            moveDescription = "You have to go to Electric Company";
+            moveDescription = "Has to go to Electric Company";
         }
         // TODO: dubbel rent betalen als de utility is owned bij iemand anders
     }
@@ -103,7 +103,7 @@ public class Chance extends Card{
         } else if (playerTilePosition < 40) {
             moveTile = game.receiveTileOnPosition(35);
         }
-        moveDescription = "You advanced to the nearest railroad: " + moveTile;
+        moveDescription = "Advanced to the nearest railroad: " + moveTile;
         // TODO: dubbel rent betalen als de RailRoad is owned bij iemand anders
     }
 
@@ -116,7 +116,7 @@ public class Chance extends Card{
             newPlayerPosition = (40 - (3 - playerCurrentPosition));
         }
         moveTile = game.receiveTileOnPosition(newPlayerPosition);
-        moveDescription = "You had to go back 3 spaces and now you're standing on: " + moveTile;
+        moveDescription = "Had to go back 3 spaces and now you're standing on: " + moveTile;
     }
 
     public Tile getTile() {

@@ -222,4 +222,8 @@ public class Move {
     public String getDescription() {
         return description;
     }
+
+    public void setPassedGo(boolean passedGo){
+        this.passedGo = passedGo;
+    }
 }
