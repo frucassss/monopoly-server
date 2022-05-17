@@ -3,9 +3,7 @@ package be.howest.ti.monopoly.logic.implementation.game;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
-import be.howest.ti.monopoly.logic.implementation.tile.UtilityTile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Chance {
@@ -14,7 +12,7 @@ public class Chance {
     private final Game game;
 
     private Tile newTile = null;
-    private String description = null;
+    private String moveDescription = null;
 
     public Chance(String chanceDescription, Player player, Game game) {
         this.player = player;
@@ -76,16 +74,16 @@ public class Chance {
         int amountOfPlayersInGameMinusMovePlayer = game.getNumberOfPlayers() - 1;
         this.player.pay(amount * amountOfPlayersInGameMinusMovePlayer);
         List<Player> gamePlayers = game.getPlayers();
-        for (Player player : gamePlayers) {
-            if (!(player.equals(this.player))) {
-                player.collect(amount);
+        for (Player gamePlayer : gamePlayers) {
+            if (!(gamePlayer.equals(this.player))) {
+                gamePlayer.collect(amount);
             }
         }
     }
 
     private void goToJail() {
         newTile = game.receiveTileOnName("Jail");
-        description = "Chance made you go to jail";
+        moveDescription = "Chance made you go to jail";
         player.setJailed(true);
     }
 
@@ -107,11 +105,11 @@ public class Chance {
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < 20){
             newTile = waterWorksUtility;
-            description = "You have to go to Water Works";
+            moveDescription = "You have to go to Water Works";
         }
         else if (playerTilePosition > 20){
             newTile = electricUtility;
-            description = "You have to go to Electric Company";
+            moveDescription = "You have to go to Electric Company";
         }
     }
 
@@ -121,15 +119,17 @@ public class Chance {
     private void advanceToNearestRailroad() {
     }
 
-    private void advanceTo(String propertyName) {
-
+    private void advanceTo(String tile) {
+        Tile tileToAdvanceTo = game.receiveTileOnName(tile);
+        newTile = tileToAdvanceTo;
+        moveDescription = "You have to go to: " + tile;
     }
 
     public Tile getTile() {
         return newTile;
     }
 
-    public String getDescription() {
-        return description;
+    public String getMoveDescription() {
+        return moveDescription;
     }
 }

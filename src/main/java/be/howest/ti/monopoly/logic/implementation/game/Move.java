@@ -124,8 +124,8 @@ public class Move {
             if (chance.getTile() != null){
                 tile = chance.getTile();
             }
-            if (chance.getDescription() != null){
-                description = chance.getDescription();
+            if (chance.getMoveDescription() != null){
+                description = chance.getMoveDescription();
             }
             // TODO: execute action of received chance card.
             turn.makeFinished(); // remove when chance is implemented, ask Thibo why!
