@@ -14,6 +14,9 @@ public class Chance {
     private Tile newTile = null;
     private String moveDescription = null;
 
+    private static final int HOUSE_REPAIR_COST = 25;
+    private static final int HOTEL_REPAIR_COST = 100;
+
     public Chance(String chanceDescription, Player player, Game game) {
         this.player = player;
         this.game = game;
@@ -90,13 +93,11 @@ public class Chance {
     }
 
     private void generalRepair() {
-        int houseRepairCost = 25;
-        int hotelRepairCost = 100;
         int totalAmountToPay = 0;
         List<Property> playerProperties = player.getProperties();
         for (Property property : playerProperties) {
-            totalAmountToPay += (property.getHouseCount() * houseRepairCost);
-            totalAmountToPay += (property.getHotelCount() * hotelRepairCost);
+            totalAmountToPay += (property.getHouseCount() * HOUSE_REPAIR_COST);
+            totalAmountToPay += (property.getHotelCount() * HOTEL_REPAIR_COST);
         }
         player.pay(totalAmountToPay);
     }
