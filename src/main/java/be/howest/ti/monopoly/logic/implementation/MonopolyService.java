@@ -240,7 +240,7 @@ public class MonopolyService extends ServiceAdapter {
         Game game = getGame(gameId);
         Player player  = game.findPlayer(playerName);
         Player debtor = game.findPlayer(debtorName);
-        Rent rent = new Rent(player, game, propertyName, debtor);
+        Rent rent = new Rent(game, player, debtor, propertyName);
         rent.collectRent();
     }
 
