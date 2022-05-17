@@ -6,7 +6,6 @@ import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 
-import java.util.List;
 
 public class Rent {
     private final Player player;
@@ -26,7 +25,7 @@ public class Rent {
         Property property = player.findProperty(this.propertyName);
         String propertyType = property.receivePropertyTile().getType();
         checkIfDebtorIsOnPlayersTile(property);
-        checkIfPlayerCanCollectRent(property);
+        checkIfPlayerCanCollectRent();
         switch (propertyType) {
             case "street":
                 receiveStreetRent(property);
@@ -56,6 +55,9 @@ public class Rent {
 
     private void receiveRailRoadRent() {
         switch (railRoadCount()) {
+            case 1:
+                totalRent = 25;
+                break;
             case 2:
                 totalRent = 50;
                 break;
@@ -66,13 +68,13 @@ public class Rent {
                 totalRent = 200;
                 break;
             default:
-                totalRent = 25;
+                totalRent = 0;
                 break;
         }
     }
 
     private void pay(Player player, Player debtor) {
-        debtor.payRent(totalRent);
+        debtor.pay(totalRent);
         player.collect(totalRent);
     }
 
@@ -163,9 +165,9 @@ public class Rent {
         }
     }
 
-    private void checkIfPlayerCanCollectRent(Property property){
+    private void checkIfPlayerCanCollectRent(){
         Turn turn = game.receiveLastTurn();
-         if (!debtor.getName().equals(turn.getPlayer()) || !debtor.getCurrentTile().equals(property.getProperty())){
+         if (!debtor.getName().equals(turn.getPlayer())){
              throw new IllegalMonopolyActionException("You tried to do something which is against the rules of Monopoly. Maybe your are not the owner of said property, or the other player did not land on your property? Also, you can only claim rent untill the next dice roll.");
          }
     }
