@@ -13,6 +13,7 @@ public class Rent {
     private final String propertyName;
     private final Player debtor;
     private int totalRent = 0;
+    private static final int OF_BY_ONE_ERROR = 1;
 
     public Rent(Player player, Game game, String propertyName, Player debtor) {
         this.player = player;
@@ -58,23 +59,8 @@ public class Rent {
 
 
     private void receiveRailRoadRent() {
-        switch (railRoadCount()) {
-            case 1:
-                totalRent = 25;
-                break;
-            case 2:
-                totalRent = 50;
-                break;
-            case 3:
-                totalRent = 100;
-                break;
-            case 4:
-                totalRent = 200;
-                break;
-            default:
-                totalRent = 0;
-                break;
-        }
+        int railroadCountMinOne = railRoadCount() - OF_BY_ONE_ERROR;
+        totalRent = (int) Math.pow(2, railroadCountMinOne) * 25;
     }
 
     private void pay(Player player, Player debtor) {
