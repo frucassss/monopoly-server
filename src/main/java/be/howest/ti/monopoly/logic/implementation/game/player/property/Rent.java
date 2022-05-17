@@ -133,7 +133,7 @@ public class Rent {
 
     private int countPropertiesFromDebtorWithSameType(String propertyType) {
         int count = 0;
-        for (Property other : this.debtor.getProperties()) {
+        for (Property other : this.creditor.getProperties()) {
             if (other.receivePropertyTile().getType().equals(propertyType)) {
                 count++;
             }
