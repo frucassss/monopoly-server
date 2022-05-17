@@ -114,6 +114,15 @@ public class Chance {
     }
 
     private void goBack3Spaces() {
+        int playerCurrentPosition = player.receiveCurrentTile().getPosition();
+        int newPlayerPosition;
+        if (playerCurrentPosition >= 3){
+            newPlayerPosition = playerCurrentPosition - 3;
+        } else {
+            newPlayerPosition = 40 - (3 - playerCurrentPosition);
+        }
+        newTile = game.receiveTileOnPosition(newPlayerPosition);
+        moveDescription = "You had to go back 3 spaces and now you're standing on: " + newTile;
     }
 
     private void advanceToNearestRailroad() {
