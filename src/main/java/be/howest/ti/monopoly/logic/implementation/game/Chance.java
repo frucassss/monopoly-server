@@ -67,6 +67,8 @@ public class Chance {
             case "Your building loan matures. Collect $150":
                 player.collect(150);
                 break;
+            default:
+                break;
         }
     }
 
@@ -103,35 +105,47 @@ public class Chance {
         Tile waterWorksUtility = game.receiveTileOnPosition(12);
         Tile electricUtility = game.receiveTileOnPosition(28);
         int playerTilePosition = player.receiveCurrentTile().getPosition();
-        if (playerTilePosition < 20){
+        if (playerTilePosition < 20) {
             newTile = waterWorksUtility;
             moveDescription = "You have to go to Water Works";
-        }
-        else if (playerTilePosition > 20){
+        } else if (playerTilePosition > 20) {
             newTile = electricUtility;
             moveDescription = "You have to go to Electric Company";
         }
+        // TODO: dubbel rent betalen als de utility is owned bij iemand anders
     }
 
     private void goBack3Spaces() {
         int playerCurrentPosition = player.receiveCurrentTile().getPosition();
         int newPlayerPosition;
-        if (playerCurrentPosition >= 3){
+        if (playerCurrentPosition >= 3) {
             newPlayerPosition = playerCurrentPosition - 3;
         } else {
-            newPlayerPosition = 40 - (3 - playerCurrentPosition);
+            newPlayerPosition = (40 - (3 - playerCurrentPosition));
         }
         newTile = game.receiveTileOnPosition(newPlayerPosition);
         moveDescription = "You had to go back 3 spaces and now you're standing on: " + newTile;
     }
 
     private void advanceToNearestRailroad() {
+        List<Tile> railRoads = List.of(game.receiveTileOnPosition(5), game.receiveTileOnPosition(15), game.receiveTileOnPosition(25), game.receiveTileOnPosition(35));
+        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        if (playerTilePosition < 7){
+            newTile = railRoads.get(0);
+        } else if (playerTilePosition < 20){
+            newTile = railRoads.get(1);
+        } else if (playerTilePosition < 30){
+            newTile = railRoads.get(2);
+        } else if (playerTilePosition < 40){
+            newTile = railRoads.get(3);
+        }
+        moveDescription = "You advanced to the nearest railroad: " + newTile;
+        // TODO: dubbel rent betalen als de RailROad is owned bij iemand anders
     }
 
-    private void advanceTo(String tile) {
-        Tile tileToAdvanceTo = game.receiveTileOnName(tile);
-        newTile = tileToAdvanceTo;
-        moveDescription = "You have to go to: " + tile;
+    private void advanceTo(String tileName) {
+        newTile = game.receiveTileOnName(tileName);
+        moveDescription = "You have to go to: " + tileName;
     }
 
     public Tile getTile() {
