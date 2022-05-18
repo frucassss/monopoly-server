@@ -45,12 +45,4 @@ public class TurnCheck {
     private boolean hasNegativeBalance(){
         return player.getMoney() < 0;
     }
-
-
-    // TODO:
-    // check if player is in jail
-        // check for how long he/she has been in jail?
-        // used jail free card?
-        // paid prison fine?
-
 }

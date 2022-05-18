@@ -120,9 +120,9 @@ public class Move {
         if (tile.getType().equals("chance")) {
             description = receiveRandomChance();
             turn.addMove(new Move(this));
-            Chance chance = new Chance(description, player, game, this);
-            if (chance.getTile() != null) {
-                tile = chance.getTile();
+            Chance chanceInstance = new Chance(description, player, game, this);
+            if (chanceInstance.getTile() != null) {
+                tile = chanceInstance.getTile();
             } else {
                 turn.makeFinished();
             }
@@ -170,18 +170,10 @@ public class Move {
 
     private void processPropertyMove() {
         if (isTileAProperty()) {
-
             for (Player other : game.getPlayers()) {
                 for (Property property : other.getProperties()) {
-
                     if (property.getProperty().equals(tile.getName())) {
-                        if (other.equals(player)) {
-                            description = "already owns this property";
-                        } else if (property.getMortgage()) {
-                            description = "doesn't have to pay rent, property has mortgage";
-                        } else {
-                            description = "should pay rent";
-                        }
+                        determineDescriptionForOwnedProperty(other, property);
                         turn.addMove(new Move(this));
                         turn.makeFinished();
                         return;
@@ -192,6 +184,16 @@ public class Move {
             description = "can buy this property in direct sale";
             turn.addMove(new Move(this));
             game.setDirectSale(tile.getName());
+        }
+    }
+
+    private void determineDescriptionForOwnedProperty(Player other, Property property) {
+        if (other.equals(player)) {
+            description = "already owns this property";
+        } else if (property.getMortgage()) {
+            description = "doesn't have to pay rent, property has mortgage";
+        } else {
+            description = "should pay rent";
         }
     }
 
