@@ -123,7 +123,6 @@ public class Move {
             Chance chance = new Chance(description, player, game, this);
             if (chance.getTile() != null) {
                 tile = chance.getTile();
-                turn.addMove(new Move(this));
             } else {
                 turn.makeFinished();
             }
@@ -137,7 +136,6 @@ public class Move {
             CommunityChest communityChestMove = new CommunityChest(description, player, game, this);
             if (communityChestMove.getTile() != null) {
                 tile = communityChestMove.getTile();
-                turn.addMove(new Move(this));
             } else {
                 turn.makeFinished();
             }
