@@ -28,7 +28,7 @@ public class MonopolyService extends ServiceAdapter {
             "Tax Income",
             "railroad",
             "chance",
-            "jail",
+            "Jail",
             "utility",
             "Free Parking",
             "Go to Jail",
