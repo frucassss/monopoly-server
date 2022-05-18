@@ -29,7 +29,7 @@ import java.util.Objects;
  * you will need a second one with a different name.
  */
 public class Request {
-
+    private static final String TILE_ID_NAME = "tileId";
     private final RoutingContext ctx;
     private final RequestParameters params;
     private final MonopolyUser user;
@@ -74,15 +74,15 @@ public class Request {
     }
 
     public int getTilePosition() {
-        return params.pathParameter("tileId").getInteger();
+        return params.pathParameter(TILE_ID_NAME).getInteger();
     }
 
     public boolean hasTilePosition() {
-        return params.pathParameter("tileId").isNumber();
+        return params.pathParameter(TILE_ID_NAME).isNumber();
     }
 
     public String getTileName() {
-        return params.pathParameter("tileId").getString();
+        return params.pathParameter(TILE_ID_NAME).getString();
     }
 
     public RequestParameter getQueryParameter(String query) {
