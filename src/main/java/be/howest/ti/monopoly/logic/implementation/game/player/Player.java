@@ -135,6 +135,9 @@ public class Player {
     public void makeBankrupt() {
         playerCheck.checkBankrupt();
         this.bankrupt = true;
+        for (Property property : properties){
+            removeProperty(property);
+        }
     }
 
     // BUILT-IN
