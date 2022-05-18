@@ -51,4 +51,5 @@ public class StreetTile extends PropertyTile{
     public String getStreetColor() {
         return streetColor;
     }
+
 }

@@ -1,9 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.checkers.game;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
-import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 
 public class GameCheck {

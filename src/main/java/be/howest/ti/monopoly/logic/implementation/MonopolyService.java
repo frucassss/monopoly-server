@@ -21,30 +21,47 @@ import java.util.Map;
 
 
 public class MonopolyService extends ServiceAdapter {
+    private static final List<String> tileTypes = List.of(
+            "street",
+            "Go",
+            "community chest",
+            "Tax Income",
+            "railroad",
+            "chance",
+            "jail",
+            "utility",
+            "Free Parking",
+            "Go to Jail",
+            "Luxury Tax"
+    );
+    private static final List<String> tileColors = List.of(
+            "PURPLE", "BLACK", "LIGHTBLUE", "VIOLET", "WHITE", "ORANGE", "RED", "YELLOW", "DARKGREEN", "DARKBLUE"
+    );
+
 
     private final Map<String, Game> games = new HashMap<>();
 
-    public void addGame(String gameId, Game game){
-        if(games.containsKey(gameId)){
+    public void addGame(String gameId, Game game) {
+        if (games.containsKey(gameId)) {
             throw new IllegalArgumentException("You made a 'bad request'. First, verify if you supplied a body. This body can be empty, but it must be present. Then, verify if you set the \"Content-Type\"-header correctly to \"application/json\". Finnally, verify the content of the body. For the prefix, for instance, only simple names are allowed, i.e., no special characters such as spaces, pluses, or dashes, ... are allowed. For the number of players, mind to min and max number.");
         }
         games.put(gameId, game);
     }
 
     @Override
-    public Map<String, Game> getGamesFromService(){
+    public Map<String, Game> getGamesFromService() {
         return games;
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers){
-        Game game = new Game(prefix, games.size(), numberOfPlayers, getChance(),getCommunityChest(),getTiles());
+    public Game createGame(String prefix, int numberOfPlayers) {
+        Game game = new Game(prefix, games.size(), numberOfPlayers, getChance(), getCommunityChest(), getTiles());
         addGame(game.getId(), game);
         return game;
     }
 
     @Override
-    public void joinGame(String gameId, String playerName){
+    public void joinGame(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.newPlayer(playerName);
     }
@@ -57,46 +74,46 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<Tile> getTiles() {
         return List.of(
-                new Tile("Go",0,"Go"),
-                new StreetTile("Mediterranean",1,"street",60,30,2,"PURPLE",2,10,30,90,160,250,50,"PURPLE"),
-                new Tile("Community Chest I",2,"community chest"),
-                new StreetTile("Baltic",3,"street",60,30,2,"PURPLE",4,20,60,180,320,450,50,"PURPLE"),
-                new Tile("Tax Income",4,"Tax Income"),
-                new RailroadTile("Reading RR",5,"railroad",200,100,4,"BLACK",-1),
-                new StreetTile("Oriental",6,"street",100,50,3,"LIGHTBLUE",6,30,90,270,400,550,50,"LIGHTBLUE"),
-                new Tile("Chance I",7,"chance"),
-                new StreetTile("Vermont",8,"street",100,50,3,"LIGHTBLUE",6,30,90,270,400,550,50,"LIGHTBLUE"),
-                new StreetTile("Connecticut",9,"street",120,60,3,"LIGHTBLUE",8,40,100,300,450,600,50,"LIGHTBLUE"),
-                new Tile("Jail",10,"Jail"),
-                new StreetTile("Saint Charles Place",11,"street",140,70,3,"VIOLET",10,50,150,450,625,750,100,"VIOLET"),
-                new UtilityTile("Electric Company",12,"utility",150,75,2,"WHITE",-1),
-                new StreetTile("States",13,"street",140,70,3,"VIOLET",10,50,150,450,625,750,100,"VIOLET"),
-                new StreetTile("Virginia",14,"street",160,80,3,"VIOLET",12,60,180,500,700,900,100,"VIOLET"),
-                new RailroadTile("Pennsylvania RR",15,"railroad",200,100,4,"BLACK",-1),
-                new StreetTile("Saint James",16,"street",180,90,3,"ORANGE",14,70,200,550,750,950,100,"ORANGE"),
-                new Tile("Community Chest II",17,"community chest"),
-                new StreetTile("Tennessee",18,"street",180,90,3,"ORANGE",14,70,200,550,750,950,100,"ORANGE"),
-                new StreetTile("New York",19,"street",200,100,3,"ORANGE",16,80,220,600,800,1000,100,"ORANGE"),
-                new Tile("Free Parking",20,"Free Parking"),
-                new StreetTile("Kentucky Avenue",21,"street",220,110,3,"RED",18,90,250,700,875,1050,150,"RED"),
-                new Tile("Chance II",22,"chance"),
-                new StreetTile("Indiana Avenue",23,"street",220,110,3,"RED",18,90,250,700,875,1050,150,"RED"),
-                new StreetTile("Illinois Avenue",24,"street",240,120,3,"RED",20,100,300,750,925,1100,150,"RED"),
-                new RailroadTile("Baltimore and Ohio RR",25,"railroad",200,100,4,"BLACK",-1),
-                new StreetTile("Atlantic",26,"street",260,130,3,"YELLOW",22,110,330,800,975,1150,150,"YELLOW"),
-                new StreetTile("Ventnor",27,"street",260,130,3,"YELLOW",22,110,330,800,975,1150,150,"YELLOW"),
-                new UtilityTile("Water Works",28,"utility",150,75,2,"WHITE",-1),
-                new StreetTile("Marvin Gardens",29,"street",280,140,3,"YELLOW",24,120,360,850,1025,1200,150,"YELLOW"),
-                new Tile("Go to Jail",30,"Go to Jail"),
-                new StreetTile("Pacific",31,"street",300,150,3,"DARKGREEN",26,130,390,900,1100,1275,200,"DARKGREEN"),
-                new StreetTile("North Carolina",32,"street",300,150,3,"DARKGREEN",26,130,390,900,1100,1275,200,"DARKGREEN"),
-                new Tile("Community Chest III",33,"community chest"),
-                new StreetTile("Pennsylvania",34,"street",320,160,3,"DARKGREEN",28,150,450,1000,1200,1400,200,"DARKGREEN"),
-                new RailroadTile("Short Line RR",35,"railroad",200,100,4,"BLACK",-1),
-                new Tile("Chance III",36,"chance"),
-                new StreetTile("Park Place",37,"street",350,175,2,"DARKBLUE",35,175,500,1100,1300,1500,200,"DARKBLUE"),
-                new Tile("Luxury Tax",38,"Luxury Tax"),
-                new StreetTile("Boardwalk",39,"street",400,200,2,"DARKBLUE",50,200,600,1400,1700,2000,200,"DARKBLUE")
+                new Tile(tileTypes.get(1), 0, tileTypes.get(1)),
+                new StreetTile("Mediterranean", 1, tileTypes.get(0), 60, 30, 2, tileColors.get(0), 2, 10, 30, 90, 160, 250, 50, tileColors.get(0)),
+                new Tile("Community Chest I", 2, tileTypes.get(2)),
+                new StreetTile("Baltic", 3, tileTypes.get(0), 60, 30, 2, tileColors.get(0), 4, 20, 60, 180, 320, 450, 50, tileColors.get(0)),
+                new Tile(tileTypes.get(3), 4, tileTypes.get(3)),
+                new RailroadTile("Reading RR", 5, tileTypes.get(4), 200, 100, 4, tileColors.get(1), -1),
+                new StreetTile("Oriental", 6, tileTypes.get(0), 100, 50, 3, tileColors.get(2), 6, 30, 90, 270, 400, 550, 50, tileColors.get(2)),
+                new Tile("Chance I", 7, tileTypes.get(5)),
+                new StreetTile("Vermont", 8, tileTypes.get(0), 100, 50, 3, tileColors.get(2), 6, 30, 90, 270, 400, 550, 50, tileColors.get(2)),
+                new StreetTile("Connecticut", 9, tileTypes.get(0), 120, 60, 3, tileColors.get(2), 8, 40, 100, 300, 450, 600, 50, tileColors.get(2)),
+                new Tile(tileTypes.get(6), 10, tileTypes.get(6)),
+                new StreetTile("Saint Charles Place", 11, tileTypes.get(0), 140, 70, 3, tileColors.get(3), 10, 50, 150, 450, 625, 750, 100, tileColors.get(3)),
+                new UtilityTile("Electric Company", 12, tileTypes.get(7), 150, 75, 2, tileColors.get(4), -1),
+                new StreetTile("States", 13, tileTypes.get(0), 140, 70, 3, tileColors.get(3), 10, 50, 150, 450, 625, 750, 100, tileColors.get(3)),
+                new StreetTile("Virginia", 14, tileTypes.get(0), 160, 80, 3, tileColors.get(3), 12, 60, 180, 500, 700, 900, 100, tileColors.get(3)),
+                new RailroadTile("Pennsylvania RR", 15, tileTypes.get(4), 200, 100, 4, tileColors.get(1), -1),
+                new StreetTile("Saint James", 16, tileTypes.get(0), 180, 90, 3, tileColors.get(5), 14, 70, 200, 550, 750, 950, 100, tileColors.get(5)),
+                new Tile("Community Chest II", 17, tileTypes.get(2)),
+                new StreetTile("Tennessee", 18, tileTypes.get(0), 180, 90, 3, tileColors.get(5), 14, 70, 200, 550, 750, 950, 100, tileColors.get(5)),
+                new StreetTile("New York", 19, tileTypes.get(0), 200, 100, 3, tileColors.get(5), 16, 80, 220, 600, 800, 1000, 100, tileColors.get(5)),
+                new Tile(tileTypes.get(7), 20, tileTypes.get(7)),
+                new StreetTile("Kentucky Avenue", 21, tileTypes.get(0), 220, 110, 3, tileColors.get(6), 18, 90, 250, 700, 875, 1050, 150, tileColors.get(6)),
+                new Tile("Chance II", 22, tileTypes.get(5)),
+                new StreetTile("Indiana Avenue", 23, tileTypes.get(0), 220, 110, 3, tileColors.get(6), 18, 90, 250, 700, 875, 1050, 150, tileColors.get(6)),
+                new StreetTile("Illinois Avenue", 24, tileTypes.get(0), 240, 120, 3, tileColors.get(6), 20, 100, 300, 750, 925, 1100, 150, tileColors.get(6)),
+                new RailroadTile("Baltimore and Ohio RR", 25, tileTypes.get(4), 200, 100, 4, tileColors.get(1), -1),
+                new StreetTile("Atlantic", 26, tileTypes.get(0), 260, 130, 3, tileColors.get(7), 22, 110, 330, 800, 975, 1150, 150, tileColors.get(7)),
+                new StreetTile("Ventnor", 27, tileTypes.get(0), 260, 130, 3, tileColors.get(7), 22, 110, 330, 800, 975, 1150, 150, tileColors.get(7)),
+                new UtilityTile("Water Works", 28, tileTypes.get(7), 150, 75, 2, tileColors.get(4), -1),
+                new StreetTile("Marvin Gardens", 29, tileTypes.get(0), 280, 140, 3, tileColors.get(7), 24, 120, 360, 850, 1025, 1200, 150, tileColors.get(7)),
+                new Tile(tileTypes.get(8), 30, tileTypes.get(8)),
+                new StreetTile("Pacific", 31, tileTypes.get(0), 300, 150, 3, tileColors.get(8), 26, 130, 390, 900, 1100, 1275, 200, tileColors.get(8)),
+                new StreetTile("North Carolina", 32, tileTypes.get(0), 300, 150, 3, tileColors.get(8), 26, 130, 390, 900, 1100, 1275, 200, tileColors.get(8)),
+                new Tile("Community Chest III", 33, tileTypes.get(2)),
+                new StreetTile("Pennsylvania", 34, tileTypes.get(0), 320, 160, 3, tileColors.get(8), 28, 150, 450, 1000, 1200, 1400, 200, tileColors.get(8)),
+                new RailroadTile("Short Line RR", 35, tileTypes.get(4), 200, 100, 4, tileColors.get(1), -1),
+                new Tile("Chance III", 36, tileTypes.get(5)),
+                new StreetTile("Park Place", 37, tileTypes.get(0), 350, 175, 2, tileColors.get(9), 35, 175, 500, 1100, 1300, 1500, 200, tileColors.get(9)),
+                new Tile(tileTypes.get(9), 38, tileTypes.get(9)),
+                new StreetTile("Boardwalk", 39, tileTypes.get(0), 400, 200, 2, tileColors.get(9), 50, 200, 600, 1400, 1700, 2000, 200, tileColors.get(9))
         );
     }
 
@@ -153,8 +170,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(int position) {
-        for (Tile tile : getTiles()){
-            if (tile.getPosition() == position){
+        for (Tile tile : getTiles()) {
+            if (tile.getPosition() == position) {
                 return tile;
             }
         }
@@ -163,8 +180,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(String name) {
-        for (Tile tile: getTiles()){
-            if (tile.getName().equals(name)){
+        for (Tile tile : getTiles()) {
+            if (tile.getName().equals(name)) {
                 return tile;
             }
         }
@@ -187,58 +204,58 @@ public class MonopolyService extends ServiceAdapter {
 
 
     @Override
-    public void sellHouse(String gameId, String playerName, String propertyName){
+    public void sellHouse(String gameId, String playerName, String propertyName) {
         Player player = getGame(gameId).findPlayer(playerName);
         Improve improve = new Improve(player, propertyName);
         improve.sellHouse();
     }
 
     @Override
-    public void sellHotel(String gameId, String playerName, String propertyName){
+    public void sellHotel(String gameId, String playerName, String propertyName) {
         Player player = getGame(gameId).findPlayer(playerName);
         Improve improve = new Improve(player, propertyName);
         improve.sellHotel();
     }
 
     @Override
-    public void declareBankruptcy(String gameId, String playerName){
+    public void declareBankruptcy(String gameId, String playerName) {
         Game game = getGame(gameId);
         Player player = game.findPlayer(playerName);
         player.makeBankrupt();
     }
 
     @Override
-    public void buyProperty(String gameId, String playerName, String propertyName){
+    public void buyProperty(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
         Player player = game.findPlayer(playerName);
-        Market market = new Market(player,game,propertyName);
+        Market market = new Market(player, game, propertyName);
         market.buyProperty();
     }
 
     @Override
-    public void dontBuyProperty(String gameId, String playerName, String propertyName){
+    public void dontBuyProperty(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
         Player player = game.findPlayer(playerName);
-        Market market = new Market(player,game,propertyName);
+        Market market = new Market(player, game, propertyName);
         market.dontBuyProperty();
     }
 
     @Override
-    public void payPrisonFine(String gameId, String playerName){
-        Player player  = getGame(gameId).findPlayer(playerName);
+    public void payPrisonFine(String gameId, String playerName) {
+        Player player = getGame(gameId).findPlayer(playerName);
         player.payPrisonFine();
     }
 
     @Override
-    public void useGetOutOfJailFreeCard(String gameId, String playerName){
-        Player player  = getGame(gameId).findPlayer(playerName);
+    public void useGetOutOfJailFreeCard(String gameId, String playerName) {
+        Player player = getGame(gameId).findPlayer(playerName);
         player.useGetOutOfJailFreeCard();
     }
 
     @Override
     public void collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
-        Player player  = game.findPlayer(playerName);
+        Player player = game.findPlayer(playerName);
         Player debtor = game.findPlayer(debtorName);
         Rent rent = new Rent(game, player, debtor, propertyName);
         rent.collectRent();
@@ -252,18 +269,18 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public void takeMortgage(String gameId, String playerName, String propertyName){
+    public void takeMortgage(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
         Player player = game.findPlayer(playerName);
-        Mortgage mortgage = new Mortgage(player,propertyName);
+        Mortgage mortgage = new Mortgage(player, propertyName);
         mortgage.takeMortgage();
     }
 
     @Override
-    public void settleMortgage(String gameId, String playerName, String propertyName){
+    public void settleMortgage(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
         Player player = game.findPlayer(playerName);
-        Mortgage mortgage = new Mortgage(player,propertyName);
+        Mortgage mortgage = new Mortgage(player, propertyName);
         mortgage.settleMortgage();
     }
 }
