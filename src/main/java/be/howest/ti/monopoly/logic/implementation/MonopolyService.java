@@ -94,7 +94,7 @@ public class MonopolyService extends ServiceAdapter {
                 new Tile("Community Chest II", 17, tileTypes.get(2)),
                 new StreetTile("Tennessee", 18, tileTypes.get(0), 180, 90, 3, tileColors.get(5), 14, 70, 200, 550, 750, 950, 100, tileColors.get(5)),
                 new StreetTile("New York", 19, tileTypes.get(0), 200, 100, 3, tileColors.get(5), 16, 80, 220, 600, 800, 1000, 100, tileColors.get(5)),
-                new Tile(tileTypes.get(7), 20, tileTypes.get(7)),
+                new Tile(tileTypes.get(8), 20, tileTypes.get(8)),
                 new StreetTile("Kentucky Avenue", 21, tileTypes.get(0), 220, 110, 3, tileColors.get(6), 18, 90, 250, 700, 875, 1050, 150, tileColors.get(6)),
                 new Tile("Chance II", 22, tileTypes.get(5)),
                 new StreetTile("Indiana Avenue", 23, tileTypes.get(0), 220, 110, 3, tileColors.get(6), 18, 90, 250, 700, 875, 1050, 150, tileColors.get(6)),
