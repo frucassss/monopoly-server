@@ -122,12 +122,4 @@ public class Chance extends Card {
         moveTile = game.receiveTileOnPosition(newPlayerPosition);
         moveDescription = "Had to go back 3 spaces and now you're standing on: " + moveTile;
     }
-
-    public Tile getTile() {
-        return moveTile;
-    }
-
-    public String getMoveDescription() {
-        return moveDescription;
-    }
 }

@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
 import be.howest.ti.monopoly.logic.implementation.game.card.Chance;
+import be.howest.ti.monopoly.logic.implementation.game.card.CommunityChest;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -24,7 +25,7 @@ public class Move {
     private List<String> chance;
     private List<String> communityChest;
 
-    public Move(Move move){
+    public Move(Move move) {
         this.description = move.getDescription();
         this.tile = move.receiveTile();
     }
@@ -43,18 +44,18 @@ public class Move {
         processMove();
     }
 
-    private void processDiceRoll(){
+    private void processDiceRoll() {
         int nextTilePosition = calculateNextTilePosition();
         this.tile = game.receiveTileOnPosition(nextTilePosition);
     }
 
-    private int calculateNextTilePosition(){
+    private int calculateNextTilePosition() {
         int currentTilePosition = player.receiveCurrentTile().getPosition();
 
-        if (!player.getJailed()){
+        if (!player.getJailed()) {
             int nextTilePosition = currentTilePosition + dices[0] + dices[1];
 
-            if (nextTilePosition >= tiles.size()){
+            if (nextTilePosition >= tiles.size()) {
                 nextTilePosition -= tiles.size();
                 passedGo = true;
             }
@@ -64,7 +65,7 @@ public class Move {
         return currentTilePosition;
     }
 
-    private void processMove(){
+    private void processMove() {
         processGoToJailMove();
         processChanceMove();
         processCommunityChestMove();
@@ -78,14 +79,13 @@ public class Move {
         player.setCurrentTile(tile);
     }
 
-    private void processGoMove(){
+    private void processGoMove() {
         if (passedGo) {
-            if (tile.getPosition() > GO_POSITION){
+            if (tile.getPosition() > GO_POSITION) {
                 description = "passes 'GO!' and receives 200 for it";
                 turn.addMove(new Move(this));
                 player.collect(200);
-            }
-            else if (tile.getPosition() == GO_POSITION){
+            } else if (tile.getPosition() == GO_POSITION) {
                 description = "landed on 'GO!' and receives 200 for it";
                 turn.addMove(new Move(this));
                 player.collect(200);
@@ -95,34 +95,33 @@ public class Move {
         }
     }
 
-    private void processGoToJailMove(){
-        if (tile.getType().equals("Go to Jail")){
+    private void processGoToJailMove() {
+        if (tile.getType().equals("Go to Jail")) {
             description = "has to go to jail";
             turn.addMove(new Move(this));
             player.setJailed(true);
         }
     }
 
-    private void processJailMove(){
+    private void processJailMove() {
         if (player.getJailed()) {
             tile = game.receiveTileOnName("Jail");
             description = "is stuck in jail";
             turn.addMove(new Move(this));
             turn.makeFinished();
-        }
-        else if (tile.getType().equals("Jail")) {
+        } else if (tile.getType().equals("Jail")) {
             description = "is just visiting jail";
             turn.addMove(new Move(this));
             turn.makeFinished();
         }
     }
 
-    private void processChanceMove(){
-        if (tile.getType().equals("chance")){
+    private void processChanceMove() {
+        if (tile.getType().equals("chance")) {
             description = receiveRandomChance();
             turn.addMove(new Move(this));
-            Chance chance = new Chance(description,player,game, this);
-            if (chance.getTile() != null || chance.getMoveDescription() != null){
+            Chance chance = new Chance(description, player, game, this);
+            if (chance.getTile() != null || chance.getMoveDescription() != null) {
                 tile = chance.getTile();
                 description = chance.getMoveDescription();
                 turn.addMove(new Move(this));
@@ -132,25 +131,31 @@ public class Move {
         }
     }
 
-    private void processCommunityChestMove(){
-        if (tile.getType().equals("community chest")){
+    private void processCommunityChestMove() {
+        if (tile.getType().equals("community chest")) {
             description = receiveRandomCommunityChest();
             turn.addMove(new Move(this));
-            // TODO: execute action of received community chest card.
-            turn.makeFinished(); // remove when community chest is implemented, ask Thibo why!
+            CommunityChest communityChestMove = new CommunityChest(description, player, game, this);
+            if (communityChestMove.getTile() != null || communityChestMove.getMoveDescription() != null) {
+                tile = communityChestMove.getTile();
+                description = communityChestMove.getMoveDescription();
+                turn.addMove(new Move(this));
+            } else {
+                turn.makeFinished();
+            }
         }
     }
 
-    private void processFreeParkingMove(){
-        if (tile.getType().equals("Free Parking")){
+    private void processFreeParkingMove() {
+        if (tile.getType().equals("Free Parking")) {
             description = "has a free parking spot";
             turn.addMove(new Move(this));
             turn.makeFinished();
         }
     }
 
-    private void processTaxIncomeMove(){
-        if (tile.getType().equals("Tax Income")){
+    private void processTaxIncomeMove() {
+        if (tile.getType().equals("Tax Income")) {
             description = "has to pay 200 on taxes";
             turn.addMove(new Move(this));
             player.pay(200);
@@ -158,8 +163,8 @@ public class Move {
         }
     }
 
-    private void processLuxuryTaxMove(){
-        if (tile.getType().equals("Luxury Tax")){
+    private void processLuxuryTaxMove() {
+        if (tile.getType().equals("Luxury Tax")) {
             description = "has to pay 75 on taxes";
             turn.addMove(new Move(this));
             player.pay(75);
@@ -167,20 +172,18 @@ public class Move {
         }
     }
 
-    private void processPropertyMove(){
-        if (isTileAProperty()){
+    private void processPropertyMove() {
+        if (isTileAProperty()) {
 
-            for (Player other : game.getPlayers()){
+            for (Player other : game.getPlayers()) {
                 for (Property property : other.getProperties()) {
 
-                    if (property.getProperty().equals(tile.getName())){
+                    if (property.getProperty().equals(tile.getName())) {
                         if (other.equals(player)) {
                             description = "already owns this property";
-                        }
-                        else if (property.getMortgage()){
+                        } else if (property.getMortgage()) {
                             description = "doesn't have to pay rent, property has mortgage";
-                        }
-                        else {
+                        } else {
                             description = "should pay rent";
                         }
                         turn.addMove(new Move(this));
@@ -196,22 +199,22 @@ public class Move {
         }
     }
 
-    private boolean isTileAProperty(){
+    private boolean isTileAProperty() {
         return tile.getType().equals("street") || tile.getType().equals("railroad") || tile.getType().equals("utility");
     }
 
 
-    private String receiveRandomChance(){
+    private String receiveRandomChance() {
         int value = random.nextInt(chance.size());
         return chance.get(value);
     }
 
-    private String receiveRandomCommunityChest(){
+    private String receiveRandomCommunityChest() {
         int value = random.nextInt(communityChest.size());
         return communityChest.get(value);
     }
 
-    private Tile receiveTile(){
+    private Tile receiveTile() {
         return tile;
     }
 
@@ -223,7 +226,7 @@ public class Move {
         return description;
     }
 
-    public void setPassedGo(boolean passedGo){
+    public void setPassedGo(boolean passedGo) {
         this.passedGo = passedGo;
     }
 }

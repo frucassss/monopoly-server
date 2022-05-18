@@ -47,4 +47,12 @@ public class Card {
             move.setPassedGo(true);
         }
     }
+
+    public Tile getTile() {
+        return moveTile;
+    }
+
+    public String getMoveDescription() {
+        return moveDescription;
+    }
 }
