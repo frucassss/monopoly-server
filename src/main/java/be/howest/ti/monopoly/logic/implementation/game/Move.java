@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 public class Move {
@@ -20,7 +21,7 @@ public class Move {
     private Player player;
     private Game game;
     private Turn turn;
-    private final Random random = new Random();
+    private final SecureRandom random = new SecureRandom();
     private List<Tile> tiles;
     private List<String> chance;
     private List<String> communityChest;

@@ -5,7 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.checkers.game.TurnCheck;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.security.SecureRandom;
 
 public class Turn {
 
@@ -17,7 +17,7 @@ public class Turn {
 
     private static int doubleCount = 0;
     private static final int MAX_ROLL_COUNT = 3;
-    private final Random random = new Random();
+    private final SecureRandom random = new SecureRandom();
     private static final int MAX_DICE_NUMBER = 6;
     private static final int OFF_BY_ONE_ERROR_CORRECTION = 1;
 
