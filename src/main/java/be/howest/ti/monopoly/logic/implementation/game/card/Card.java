@@ -12,7 +12,6 @@ public class Card {
     protected final Move move;
 
     protected Tile moveTile = null;
-    protected String moveDescription = null;
 
     public Card(Player player, Game game, Move move) {
         this.player = player;
@@ -36,7 +35,6 @@ public class Card {
 
     public void advanceTo(String tileName) {
         moveTile = game.receiveTileOnName(tileName);
-        moveDescription = "has to go to: " + tileName;
         determineIfYouPassedGo(moveTile);
     }
 
@@ -50,9 +48,5 @@ public class Card {
 
     public Tile getTile() {
         return moveTile;
-    }
-
-    public String getMoveDescription() {
-        return moveDescription;
     }
 }

@@ -121,10 +121,8 @@ public class Move {
             description = receiveRandomChance();
             turn.addMove(new Move(this));
             Chance chance = new Chance(description, player, game, this);
-            if (chance.getTile() != null || chance.getMoveDescription() != null) {
+            if (chance.getTile() != null) {
                 tile = chance.getTile();
-                description = chance.getMoveDescription();
-                turn.addMove(new Move(this));
             } else {
                 turn.makeFinished();
             }
@@ -136,10 +134,8 @@ public class Move {
             description = receiveRandomCommunityChest();
             turn.addMove(new Move(this));
             CommunityChest communityChestMove = new CommunityChest(description, player, game, this);
-            if (communityChestMove.getTile() != null || communityChestMove.getMoveDescription() != null) {
+            if (communityChestMove.getTile() != null) {
                 tile = communityChestMove.getTile();
-                description = communityChestMove.getMoveDescription();
-                turn.addMove(new Move(this));
             } else {
                 turn.makeFinished();
             }
