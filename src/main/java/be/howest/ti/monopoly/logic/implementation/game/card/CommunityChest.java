@@ -40,7 +40,7 @@ public class CommunityChest extends Card{
                 player.collect(20);
                 break;
             case "It is your birthday. Collect $10 from every player":
-                collectMoneyFromEachPlayer();
+                collectMoneyFromEachPlayers();
                 break;
             case "Life insurance matures. Collect $100":
                 player.collect(100);
@@ -68,7 +68,7 @@ public class CommunityChest extends Card{
         }
     }
 
-    private void collectMoneyFromEachPlayer() {
+    private void collectMoneyFromEachPlayers() {
         int totalAmountToCollect = 10 * (game.getNumberOfPlayers()-1);
         player.collect(totalAmountToCollect);
         for (Player gamePlayer : game.getPlayers()){
