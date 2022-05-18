@@ -134,9 +134,9 @@ public class MonopolyService extends ServiceAdapter {
                 "Income tax refund. Collect $20",
                 "It is your birthday. Collect $10 from every player",
                 "Life insurance matures. Collect $100",
-                "Pay hospital fees of $100 ",
+                "Pay hospital fees of $100",
                 "Pay school fees of $50",
-                "Receive $25 consultancy fee ",
+                "Receive $25 consultancy fee",
                 "You are assessed for street repair. $40 per house. $115 per hotel",
                 "You have won second prize in a beauty contest. Collect $10",
                 "You inherit $100"
