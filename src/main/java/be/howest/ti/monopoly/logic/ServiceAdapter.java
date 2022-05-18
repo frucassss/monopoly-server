@@ -2,7 +2,6 @@ package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
-import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.Map;

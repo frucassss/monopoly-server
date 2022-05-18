@@ -14,7 +14,7 @@ public class Rent {
     private final Game game;
     private final Property property;
 
-    private int rent = 0;
+    private int total = 0;
     private final String propertyType;
     private static final int RENT_MULTIPLIER_WHEN_CREDITOR_HAS_1_UTILITY = 4;
     private static final int RENT_MULTIPLIER_WHEN_CREDITOR_HAS_BOTH_UTILITIES = 10;
@@ -34,8 +34,8 @@ public class Rent {
         rentCheck.checkIfPlayerCanCollectRent();
 
         calculateRent();
-        debtor.pay(rent);
-        creditor.collect(rent);
+        debtor.pay(total);
+        creditor.collect(total);
     }
 
     public void calculateRent(){
@@ -60,9 +60,9 @@ public class Rent {
         int utilityCount = countPropertiesFromCreditorWithSameType(this.propertyType);
 
         if (utilityCount == 1) {
-            rent = totalDiceNumber * RENT_MULTIPLIER_WHEN_CREDITOR_HAS_1_UTILITY;
+            total = totalDiceNumber * RENT_MULTIPLIER_WHEN_CREDITOR_HAS_1_UTILITY;
         } else if (utilityCount == 2) {
-            rent = totalDiceNumber * RENT_MULTIPLIER_WHEN_CREDITOR_HAS_BOTH_UTILITIES;
+            total = totalDiceNumber * RENT_MULTIPLIER_WHEN_CREDITOR_HAS_BOTH_UTILITIES;
         }
 
     }
@@ -70,7 +70,7 @@ public class Rent {
 
     private void calculateRailRoadRent() {
         int railroadCount = countPropertiesFromCreditorWithSameType(this.propertyType);
-        rent = (int) Math.pow(2, railroadCount - 1) * MIN_RAILROAD_RENT;
+        total = (int) Math.pow(2, (railroadCount - 1)) * MIN_RAILROAD_RENT;
     }
 
 
@@ -78,25 +78,25 @@ public class Rent {
         StreetTile tile = (StreetTile) property.receivePropertyTile();
 
         if (doesCreditorOwnTheWholeStreet() && noHotelOnProperty() && noHousesOnProperty()) {
-            rent = 2 * property.receivePropertyTile().receiveRent();
+            total = 2 * property.receivePropertyTile().receiveRent();
         }
         else if (!doesCreditorOwnTheWholeStreet() && noHotelOnProperty() && noHousesOnProperty()) {
-            rent = property.receivePropertyTile().receiveRent();
+            total = property.receivePropertyTile().receiveRent();
         }
         else if (oneHouseOnProperty()) {
-            rent = tile.getRentWithOneHouse();
+            total = tile.getRentWithOneHouse();
         }
         else if (twoHousesOnProperty()) {
-            rent = tile.getRentWithTwoHouses();
+            total = tile.getRentWithTwoHouses();
         }
         else if (threeHousesOnProperty()) {
-            rent = tile.getRentWithThreeHouses();
+            total = tile.getRentWithThreeHouses();
         }
         else if (fourHousesOnProperty()) {
-            rent = tile.getRentWithFourHouses();
+            total = tile.getRentWithFourHouses();
         }
         else if (oneHotelOnProperty()) {
-            rent = tile.getRentWithHotel();
+            total = tile.getRentWithHotel();
         }
     }
 
