@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.game;
 
+import be.howest.ti.monopoly.logic.implementation.game.card.Chance;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -64,10 +65,10 @@ public class Move {
     }
 
     private void processMove(){
-        processGoMove();
         processGoToJailMove();
         processChanceMove();
         processCommunityChestMove();
+        processGoMove();
         processFreeParkingMove();
         processTaxIncomeMove();
         processLuxuryTaxMove();
@@ -120,8 +121,14 @@ public class Move {
         if (tile.getType().equals("chance")){
             description = receiveRandomChance();
             turn.addMove(new Move(this));
-            // TODO: execute action of received chance card.
-            turn.makeFinished(); // remove when chance is implemented, ask Thibo why!
+            Chance chance = new Chance(description,player,game, this);
+            if (chance.getTile() != null || chance.getMoveDescription() != null){
+                tile = chance.getTile();
+                description = chance.getMoveDescription();
+                turn.addMove(new Move(this));
+            } else {
+                turn.makeFinished();
+            }
         }
     }
 
@@ -214,5 +221,9 @@ public class Move {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setPassedGo(boolean passedGo){
+        this.passedGo = passedGo;
     }
 }
