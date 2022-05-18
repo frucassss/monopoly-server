@@ -22,6 +22,7 @@ public class CommunityChest extends Card{
                 player.collect(200);
                 break;
             case "Doctor's fee. Pay $50":
+            case "Pay school fees of $50":
                 player.pay(50);
                 break;
             case "From sale of stock you get $50":
@@ -34,6 +35,8 @@ public class CommunityChest extends Card{
                 goToJail();
                 break;
             case "Holiday fund matures. Receive $100":
+            case "Life insurance matures. Collect $100":
+            case "You inherit $100":
                 player.collect(100);
                 break;
             case "Income tax refund. Collect $20":
@@ -42,14 +45,8 @@ public class CommunityChest extends Card{
             case "It is your birthday. Collect $10 from every player":
                 collectMoneyFromEachPlayers();
                 break;
-            case "Life insurance matures. Collect $100":
-                player.collect(100);
-                break;
             case "Pay hospital fees of $100":
                 player.pay(100);
-                break;
-            case "Pay school fees of $50":
-                player.pay(50);
                 break;
             case "Receive $25 consultancy fee":
                 player.collect(25);
@@ -59,9 +56,6 @@ public class CommunityChest extends Card{
                 break;
             case "You have won second prize in a beauty contest. Collect $10":
                 player.collect(10);
-                break;
-            case "You inherit $100":
-                player.collect(100);
                 break;
             default:
                 break;
