@@ -88,10 +88,8 @@ public class Chance extends Card {
         int playerTilePosition = player.receiveCurrentTile().getPosition();
         if (playerTilePosition < MIDDLE_BOARD_POSITION) {
             moveTile = waterWorksUtility;
-            moveDescription = "Has to go to Water Works";
         } else {
             moveTile = electricUtility;
-            moveDescription = "Has to go to Electric Company";
         }
     }
 
@@ -106,7 +104,6 @@ public class Chance extends Card {
         } else {
             moveTile = game.receiveTileOnName("Short Line RR");
         }
-        moveDescription = "Advanced to the nearest railroad: " + moveTile;
     }
 
     public void goBack3Spaces() {
@@ -118,6 +115,5 @@ public class Chance extends Card {
             newPlayerPosition = (LAST_BOARD_POSITION - (2 - playerCurrentPosition));
         }
         moveTile = game.receiveTileOnPosition(newPlayerPosition);
-        moveDescription = "Had to go back 3 spaces and now you're standing on: " + moveTile;
     }
 }
