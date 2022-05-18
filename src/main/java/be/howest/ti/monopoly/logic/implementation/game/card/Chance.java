@@ -33,10 +33,10 @@ public class Chance extends Card {
             case "Advance to St. Charles Place. If you pass Go, collect $200":
                 advanceTo("Saint Charles Place");
                 break;
-            case "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled":
+            case "Advance to the nearest Railroad.":
                 advanceToNearestRailroad();
                 break;
-            case "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.":
+            case "Advance token to nearest Utility.":
                 advanceToNearestUtility();
                 break;
             case "Bank pays you dividend of $50":
@@ -93,7 +93,6 @@ public class Chance extends Card {
             moveTile = electricUtility;
             moveDescription = "Has to go to Electric Company";
         }
-        // TODO: dubbel rent betalen als de utility is owned bij iemand anders
     }
 
     public void advanceToNearestRailroad() {
@@ -108,7 +107,6 @@ public class Chance extends Card {
             moveTile = game.receiveTileOnName("Short Line RR");
         }
         moveDescription = "Advanced to the nearest railroad: " + moveTile;
-        // TODO: dubbel rent betalen als de RailRoad is owned bij iemand anders
     }
 
     public void goBack3Spaces() {
@@ -121,13 +119,5 @@ public class Chance extends Card {
         }
         moveTile = game.receiveTileOnPosition(newPlayerPosition);
         moveDescription = "Had to go back 3 spaces and now you're standing on: " + moveTile;
-    }
-
-    public Tile getTile() {
-        return moveTile;
-    }
-
-    public String getMoveDescription() {
-        return moveDescription;
     }
 }
