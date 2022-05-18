@@ -5,6 +5,8 @@ import be.howest.ti.monopoly.logic.implementation.game.Move;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 
 public class CommunityChest extends Card{
+    private static final int HOUSE_REPAIR_COST = 40;
+    private static final int HOTEL_REPAIR_COST = 115;
 
     public CommunityChest(String communitypostDescription,Player player, Game game, Move move) {
         super(player, game, move);
@@ -38,6 +40,7 @@ public class CommunityChest extends Card{
                 player.collect(20);
                 break;
             case "It is your birthday. Collect $10 from every player":
+                collectMoneyFromEachPlayer();
                 break;
             case "Life insurance matures. Collect $100":
                 player.collect(100);
@@ -52,7 +55,7 @@ public class CommunityChest extends Card{
                 player.collect(25);
                 break;
             case "ou are assessed for street repair. $40 per house. $115 per hotel":
-                generalRepair(40,115);
+                generalRepair(HOUSE_REPAIR_COST,HOTEL_REPAIR_COST);
                 break;
             case "You have won second prize in a beauty contest. Collect $10":
                 player.collect(10);
@@ -62,6 +65,16 @@ public class CommunityChest extends Card{
                 break;
             default:
                 break;
+        }
+    }
+
+    private void collectMoneyFromEachPlayer() {
+        int totalAmountToCollect = 10 * (game.getNumberOfPlayers()-1);
+        player.collect(totalAmountToCollect);
+        for (Player gamePlayer : game.getPlayers()){
+            if (!gamePlayer.equals(player)){
+                gamePlayer.pay(10);
+            }
         }
     }
 }
