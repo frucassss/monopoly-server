@@ -5,15 +5,16 @@ import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
-import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChanceTest {
+
     MonopolyService monopolyService = new MonopolyService();
-    void loopUntilChanceDescriptionWithPositionExpection(String initialDescription, int expectedPosition){
+
+    void loopUntilChanceDescriptionWithPositionExpectation(String initialDescription, int expectedPosition){
         String description = "";
         while (!description.equals(initialDescription)){
             Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
@@ -28,7 +29,7 @@ class ChanceTest {
         }
     }
 
-    void loopUntilChanceDescriptionWithMoneyExpection(String initialDescription, int expectedPosition){
+    void loopUntilChanceDescriptionWithMoneyExpectation(String initialDescription, int expectedPosition){
         String description = "";
         while (!description.equals(initialDescription)){
             Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
@@ -45,22 +46,22 @@ class ChanceTest {
 
     @Test
     void testCollectingMoney(){
-        loopUntilChanceDescriptionWithMoneyExpection("Bank pays you dividend of $50",1550);
+        loopUntilChanceDescriptionWithMoneyExpectation("Bank pays you dividend of $50",1550);
     }
 
     @Test
     void testPayingMoney(){
-        loopUntilChanceDescriptionWithMoneyExpection("Speeding fine $15",1485);
+        loopUntilChanceDescriptionWithMoneyExpectation("Speeding fine $15",1485);
     }
 
     @Test
     void test3SpacesBack() {
-        loopUntilChanceDescriptionWithPositionExpection("Go Back 3 Spaces",4);
+        loopUntilChanceDescriptionWithPositionExpectation("Go Back 3 Spaces",4);
     }
 
     @Test
     void testAdvanceToBoardWalk(){
-        loopUntilChanceDescriptionWithPositionExpection("Advance to Boardwalk",39);
+        loopUntilChanceDescriptionWithPositionExpectation("Advance to Boardwalk",39);
     }
 
     @Test
@@ -130,11 +131,11 @@ class ChanceTest {
 
     @Test
     void testAdvanceToNearestRailroad(){
-        loopUntilChanceDescriptionWithPositionExpection("Advance to the nearest Railroad.",15);
+        loopUntilChanceDescriptionWithPositionExpectation("Advance to the nearest Railroad.",15);
     }
 
     @Test
     void testAdvanceToNearestUtility(){
-        loopUntilChanceDescriptionWithPositionExpection("Advance token to nearest Utility.",12);
+        loopUntilChanceDescriptionWithPositionExpectation("Advance token to nearest Utility.",12);
     }
 }
