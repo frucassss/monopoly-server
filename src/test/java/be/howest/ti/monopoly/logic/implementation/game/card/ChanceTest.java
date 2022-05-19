@@ -13,7 +13,6 @@ class ChanceTest {
     MonopolyService monopolyService = new MonopolyService();
     Game game = new Game("Hallo", 1, 2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
     Player michiel;
-    Turn turn;
     Move move;
     int amountOfMoneyAfterTurn;
 
@@ -25,6 +24,21 @@ class ChanceTest {
         amountOfMoneyAfterTurn = michiel.getMoney();
     }
 
+    void loopUntilChanceDescription(String initialDescription, int expectedPosition){
+        String description = "";
+        while (!description.equals(initialDescription)){
+            Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
+            game2.newPlayer("michiel2");
+            game2.newPlayer("thibo2");
+            Player michiel2 = game2.findPlayer("michiel2");
+            Turn turn2 = new Turn(game2,michiel2);
+            description = turn2.getMoves().get(0).getDescription();
+            if (description.equals(initialDescription)){
+                assertEquals(expectedPosition,michiel2.receiveCurrentTile().getPosition());
+            }
+        }
+    }
+
     @Test
     void testPayAChanceFine() {
         Chance payer = new Chance("Speeding fine $15", michiel, game, move);
@@ -33,32 +47,28 @@ class ChanceTest {
 
     @Test
     void test3SpacesBack() {
-        String description = "";
-        while (!description.equals("Go Back 3 Spaces")){
-            Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
-            game2.newPlayer("michiel2");
-            game2.newPlayer("thibo2");
-            Player michiel2 = game2.findPlayer("michiel2");
-            Turn turn2 = new Turn(game2,michiel2);
-            description = turn2.getMoves().get(0).getDescription();
-            if (description.equals("Go Back 3 Spaces")){
-                assertEquals(4,michiel2.receiveCurrentTile().getPosition());
-            }
-        }
+        loopUntilChanceDescription("Go Back 3 Spaces",4);
     }
 
     @Test
-    void advanceTo(){
+    void advanceToBoardWalk(){
+        loopUntilChanceDescription("Advance to Boardwalk",39);
+    }
+
+    @Test
+    void testPassingGOWhenChanceCard(){
         String description = "";
-        while (!description.equals("Advance to Boardwalk")){
+        while (!description.equals("Advance to Illinois Avenue. If you pass Go, collect $200")){
             Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
             game2.newPlayer("michiel2");
             game2.newPlayer("thibo2");
             Player michiel2 = game2.findPlayer("michiel2");
-            Turn turn2 = new Turn(game2,michiel2);
-            description = turn2.getMoves().get(0).getDescription();
-            if (description.equals("Advance to Boardwalk")){
-                assertEquals(39,michiel2.receiveCurrentTile().getPosition());
+            michiel2.setCurrentTile(monopolyService.getTile("North Carolina"));
+            Turn turn = new Turn(game2,michiel2);
+            description = turn.getMoves().get(0).getDescription();
+            if (description.equals("Advance to Illinois Avenue. If you pass Go, collect $200")){
+                assertEquals(24,michiel2.receiveCurrentTile().getPosition());
+                assertEquals(1700,michiel2.getMoney());
             }
         }
     }
