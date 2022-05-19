@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.RailroadTile;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
+import be.howest.ti.monopoly.logic.implementation.tile.UtilityTile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
@@ -24,11 +25,15 @@ class RentTest {
     private static Tile railroadTileOne;
     private static Tile railroadTileTwo;
     private static Tile railroadTileThree;
+    private static Tile utilityTileOne;
+    private static Tile utilityTileTwo;
     private static Property mediterraneanProperty;
     private static Property balticProperty;
     private static Property railroadPropertyOne;
     private static Property railroadPropertyTwo;
     private static Property railroadPropertyThree;
+    private static Property utilityPropertyOne;
+    private static Property getUtilityPropertyTwo;
 
     @BeforeEach
     public void initTest() {
@@ -43,11 +48,15 @@ class RentTest {
         railroadTileOne = new RailroadTile("Reading RR", 5, "railroad", 200, 100, 4, "BLACK", -1);
         railroadTileTwo = new RailroadTile("Pennsylvania RR", 15, "railroad", 200, 100, 4, "BLACK", -1);
         railroadTileThree = new RailroadTile("Baltimore and Ohio RR", 25, "railroad", 200, 100, 4, "BLACK", -1);
+        utilityTileOne = new UtilityTile("Electric Company", 12, "utility", 150, 75, 2, "WHITE", -1);
+        utilityTileTwo = new UtilityTile("Water Works", 28, "utility", 150, 75, 2, "WHITE", -1);
         mediterraneanProperty = new Property(mediterraneanTile);
         balticProperty = new Property(balticTile);
         railroadPropertyOne = new Property(railroadTileOne);
         railroadPropertyTwo = new Property(railroadTileTwo);
         railroadPropertyThree = new Property(railroadTileThree);
+        utilityPropertyOne = new Property(utilityTileOne);
+        getUtilityPropertyTwo = new Property(utilityTileTwo);
     }
 
     @Test
@@ -146,5 +155,42 @@ class RentTest {
         assertEquals(moneyLucasBeforeTurn - 100, lucas.getMoney());
     }
 
+    @Test
+    void rentOneUtilityTest(){
+        michiel.addProperty(utilityPropertyOne);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(utilityTileOne);
 
+        int totalDice = game.getLastDiceRoll()[0] + game.getLastDiceRoll()[1];
+        System.out.println(totalDice);
+
+        int moneyMichielBeforeTurn = michiel.getMoney();
+        int moneyLucasBeforeTurn = lucas.getMoney();
+
+        Rent rent = new Rent(game, michiel, lucas, "Electric Company");
+        rent.collectRent();
+
+        assertEquals(moneyMichielBeforeTurn + (totalDice * 4), michiel.getMoney());
+        assertEquals(moneyLucasBeforeTurn - (totalDice * 4), lucas.getMoney());
+    }
+
+    @Test
+    void rentTwoUtilityTest(){
+        michiel.addProperty(utilityPropertyOne);
+        michiel.addProperty(getUtilityPropertyTwo);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(utilityTileOne);
+
+        int totalDice = game.getLastDiceRoll()[0] + game.getLastDiceRoll()[1];
+        System.out.println(totalDice);
+
+        int moneyMichielBeforeTurn = michiel.getMoney();
+        int moneyLucasBeforeTurn = lucas.getMoney();
+
+        Rent rent = new Rent(game, michiel, lucas, "Electric Company");
+        rent.collectRent();
+
+        assertEquals(moneyMichielBeforeTurn + (totalDice * 10), michiel.getMoney());
+        assertEquals(moneyLucasBeforeTurn - (totalDice * 10), lucas.getMoney());
+    }
 }
