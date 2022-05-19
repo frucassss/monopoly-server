@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ChanceTest {
     MonopolyService monopolyService = new MonopolyService();
-    void loopUntilChanceDescription(String initialDescription, int expectedPosition){
+    void loopUntilChanceDescriptionWithPositionExpection(String initialDescription, int expectedPosition){
         String description = "";
         while (!description.equals(initialDescription)){
             Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
@@ -28,46 +28,39 @@ class ChanceTest {
         }
     }
 
-    @Test
-    void testCollectingMoney(){
+    void loopUntilChanceDescriptionWithMoneyExpection(String initialDescription, int expectedPosition){
         String description = "";
-        while (!description.equals("Bank pays you dividend of $50")){
+        while (!description.equals(initialDescription)){
             Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
             game2.newPlayer("michiel2");
             game2.newPlayer("thibo2");
             Player michiel2 = game2.findPlayer("michiel2");
             Turn turn2 = new Turn(game2,michiel2);
             description = turn2.getMoves().get(0).getDescription();
-            if (description.equals("Bank pays you dividend of $50")){
-                assertEquals(1550,michiel2.getMoney());
+            if (description.equals(initialDescription)){
+                assertEquals(expectedPosition,michiel2.getMoney());
             }
         }
+    }
+
+    @Test
+    void testCollectingMoney(){
+        loopUntilChanceDescriptionWithMoneyExpection("Bank pays you dividend of $50",1550);
     }
 
     @Test
     void testPayingMoney(){
-        String description = "";
-        while (!description.equals("Speeding fine $15")){
-            Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
-            game2.newPlayer("michiel2");
-            game2.newPlayer("thibo2");
-            Player michiel2 = game2.findPlayer("michiel2");
-            Turn turn2 = new Turn(game2,michiel2);
-            description = turn2.getMoves().get(0).getDescription();
-            if (description.equals("Speeding fine $15")){
-                assertEquals(1485,michiel2.getMoney());
-            }
-        }
+        loopUntilChanceDescriptionWithMoneyExpection("Speeding fine $15",1485);
     }
 
     @Test
     void test3SpacesBack() {
-        loopUntilChanceDescription("Go Back 3 Spaces",4);
+        loopUntilChanceDescriptionWithPositionExpection("Go Back 3 Spaces",4);
     }
 
     @Test
     void testAdvanceToBoardWalk(){
-        loopUntilChanceDescription("Advance to Boardwalk",39);
+        loopUntilChanceDescriptionWithPositionExpection("Advance to Boardwalk",39);
     }
 
     @Test
@@ -108,7 +101,7 @@ class ChanceTest {
     }
 
     @Test
-    void testGeneralRepair(){
+    void testGeneralRepairWith4Houses(){
         String description = "";
         while (!description.equals("Make general repairs on all your property. For each house pay $25. For each hotel pay $100")){
             Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
@@ -137,11 +130,11 @@ class ChanceTest {
 
     @Test
     void testAdvanceToNearestRailroad(){
-        loopUntilChanceDescription("Advance to the nearest Railroad.",15);
+        loopUntilChanceDescriptionWithPositionExpection("Advance to the nearest Railroad.",15);
     }
 
     @Test
     void testAdvanceToNearestUtility(){
-        loopUntilChanceDescription("Advance token to nearest Utility.",12);
+        loopUntilChanceDescriptionWithPositionExpection("Advance token to nearest Utility.",12);
     }
 }
