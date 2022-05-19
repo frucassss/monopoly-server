@@ -107,7 +107,7 @@ public class Chance extends Card {
     }
 
     public void goBack3Spaces() {
-        int playerCurrentPosition = player.receiveCurrentTile().getPosition();
+        int playerCurrentPosition = move.receiveTile().getPosition();
         int newPlayerPosition;
         if (playerCurrentPosition >= 3) {
             newPlayerPosition = playerCurrentPosition - 3;
