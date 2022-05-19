@@ -122,6 +122,92 @@ class RentTest {
     }
 
     @Test
+    void rentWithTwoHouseTest() {
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(mediterraneanTile);
+        Improve improveMediterranean = new Improve(michiel, "Mediterranean");
+        Improve improveBaltic = new Improve(michiel, "Baltic");
+        for (int i = 0; i < 2; i++) {
+            improveMediterranean.buyHouse();
+            improveBaltic.buyHouse();
+        }
+        int moneyMichielBeforeTurn = michiel.getMoney();
+        int moneyLucasBeforeTurn = lucas.getMoney();
+
+        Rent rent = new Rent(game, michiel, lucas, "Mediterranean");
+        rent.collectRent();
+        assertEquals(moneyMichielBeforeTurn + 30, michiel.getMoney());
+        assertEquals(moneyLucasBeforeTurn - 30, lucas.getMoney());
+    }
+
+    @Test
+    void rentWithThreeHouseTest() {
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(mediterraneanTile);
+        Improve improveMediterranean = new Improve(michiel, "Mediterranean");
+        Improve improveBaltic = new Improve(michiel, "Baltic");
+        for (int i = 0; i < 3; i++) {
+            improveMediterranean.buyHouse();
+            improveBaltic.buyHouse();
+        }
+        int moneyMichielBeforeTurn = michiel.getMoney();
+        int moneyLucasBeforeTurn = lucas.getMoney();
+
+        Rent rent = new Rent(game, michiel, lucas, "Mediterranean");
+        rent.collectRent();
+        assertEquals(moneyMichielBeforeTurn + 90, michiel.getMoney());
+        assertEquals(moneyLucasBeforeTurn - 90, lucas.getMoney());
+    }
+
+
+    @Test
+    void rentWithFourHouseTest() {
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(mediterraneanTile);
+        Improve improveMediterranean = new Improve(michiel, "Mediterranean");
+        Improve improveBaltic = new Improve(michiel, "Baltic");
+        for (int i = 0; i < 4; i++) {
+            improveMediterranean.buyHouse();
+            improveBaltic.buyHouse();
+        }
+        int moneyMichielBeforeTurn = michiel.getMoney();
+        int moneyLucasBeforeTurn = lucas.getMoney();
+
+        Rent rent = new Rent(game, michiel, lucas, "Mediterranean");
+        rent.collectRent();
+        assertEquals(moneyMichielBeforeTurn + 160, michiel.getMoney());
+        assertEquals(moneyLucasBeforeTurn - 160, lucas.getMoney());
+    }
+
+    @Test
+    void rentWithHotelTest() {
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(mediterraneanTile);
+        Improve improveMediterranean = new Improve(michiel, "Mediterranean");
+        Improve improveBaltic = new Improve(michiel, "Baltic");
+        for (int i = 0; i < 4; i++) {
+            improveMediterranean.buyHouse();
+            improveBaltic.buyHouse();
+        }
+        improveMediterranean.buyHotel();
+
+        int moneyMichielBeforeTurn = michiel.getMoney();
+        int moneyLucasBeforeTurn = lucas.getMoney();
+
+        Rent rent = new Rent(game, michiel, lucas, "Mediterranean");
+        rent.collectRent();
+        assertEquals(moneyMichielBeforeTurn + 250, michiel.getMoney());
+        assertEquals(moneyLucasBeforeTurn - 250, lucas.getMoney());
+    }
+    @Test
     void rentOneRailroadTest() {
         michiel.addProperty(railroadPropertyOne);
         new Turn(game, lucas);
