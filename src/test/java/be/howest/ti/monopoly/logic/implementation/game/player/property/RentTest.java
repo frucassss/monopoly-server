@@ -35,7 +35,7 @@ class RentTest {
     private static Property railroadPropertyTwo;
     private static Property railroadPropertyThree;
     private static Property utilityPropertyOne;
-    private static Property UtilityPropertyTwo;
+    private static Property utilityPropertyTwo;
 
     @BeforeEach
     public void initTest() {
@@ -59,7 +59,7 @@ class RentTest {
         railroadPropertyTwo = new Property(railroadTileTwo);
         railroadPropertyThree = new Property(railroadTileThree);
         utilityPropertyOne = new Property(utilityTileOne);
-        UtilityPropertyTwo = new Property(utilityTileTwo);
+        utilityPropertyTwo = new Property(utilityTileTwo);
     }
 
     @Test
@@ -265,7 +265,7 @@ class RentTest {
     @Test
     void rentTwoUtilityTest(){
         michiel.addProperty(utilityPropertyOne);
-        michiel.addProperty(UtilityPropertyTwo);
+        michiel.addProperty(utilityPropertyTwo);
         new Turn(game, lucas);
         lucas.setCurrentTile(utilityTileOne);
 
