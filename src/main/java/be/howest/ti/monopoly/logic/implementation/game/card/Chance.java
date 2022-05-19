@@ -83,26 +83,24 @@ public class Chance extends Card {
     }
 
     public void advanceToNearestUtility() {
-        Tile waterWorksUtility = game.receiveTileOnPosition(12);
-        Tile electricUtility = game.receiveTileOnPosition(28);
-        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        int playerTilePosition = move.receiveTile().getPosition();
         if (playerTilePosition < MIDDLE_BOARD_POSITION) {
-            moveTile = waterWorksUtility;
+            advanceTo("Water Works");
         } else {
-            moveTile = electricUtility;
+            advanceTo("Electric Company");
         }
     }
 
     public void advanceToNearestRailroad() {
-        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        int playerTilePosition = move.receiveTile().getPosition();
         if (playerTilePosition < 7) {
-            moveTile = game.receiveTileOnName("Reading RR");
+            advanceTo("Reading RR");
         } else if (playerTilePosition < MIDDLE_BOARD_POSITION) {
-            moveTile = game.receiveTileOnName("Pennsylvania RR");
+            advanceTo("Pennsylvania RR");
         } else if (playerTilePosition < 30) {
-            moveTile = game.receiveTileOnName("Baltimore and Ohio RR");
+            advanceTo("Baltimore and Ohio RR");
         } else {
-            moveTile = game.receiveTileOnName("Short Line RR");
+            advanceTo("Short Line RR");
         }
     }
 

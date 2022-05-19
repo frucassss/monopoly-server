@@ -39,7 +39,7 @@ public class Card {
     }
 
     public void determineIfYouPassedGo(Tile nextTile){
-        int currentTilePosition = player.receiveCurrentTile().getPosition();
+        int currentTilePosition = move.receiveTile().getPosition();
         int nextTilePosition = nextTile.getPosition();
         if (nextTilePosition - currentTilePosition <= 0 && !player.getJailed()){
             move.setPassedGo(true);
