@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
@@ -192,5 +193,17 @@ class RentTest {
 
         assertEquals(moneyMichielBeforeTurn + (totalDice * 10), michiel.getMoney());
         assertEquals(moneyLucasBeforeTurn - (totalDice * 10), lucas.getMoney());
+    }
+
+    @Test
+    void notAllowedToCollectRentTest(){
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        new Turn(game, lucas);
+        lucas.setCurrentTile(mediterraneanTile);
+
+        Rent rent = new Rent(game, michiel, lucas, "Baltic");
+
+        assertThrows(IllegalMonopolyActionException.class, rent::collectRent);
     }
 }
