@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation.game.card;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.Move;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.List;
 
