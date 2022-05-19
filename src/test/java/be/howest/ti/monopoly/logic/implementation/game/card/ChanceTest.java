@@ -134,4 +134,14 @@ class ChanceTest {
             }
         }
     }
+
+    @Test
+    void testAdvanceToNearestRailroad(){
+        loopUntilChanceDescription("Advance to the nearest Railroad.",15);
+    }
+
+    @Test
+    void testAdvanceToNearestUtility(){
+        loopUntilChanceDescription("Advance token to nearest Utility.",12);
+    }
 }
