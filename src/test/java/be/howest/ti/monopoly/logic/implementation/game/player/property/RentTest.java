@@ -28,6 +28,7 @@ class RentTest {
     private static Tile railroadTileThree;
     private static Tile utilityTileOne;
     private static Tile utilityTileTwo;
+    private static Tile goTile;
     private static Property mediterraneanProperty;
     private static Property balticProperty;
     private static Property railroadPropertyOne;
@@ -51,6 +52,7 @@ class RentTest {
         railroadTileThree = new RailroadTile("Baltimore and Ohio RR", 25, "railroad", 200, 100, 4, "BLACK", -1);
         utilityTileOne = new UtilityTile("Electric Company", 12, "utility", 150, 75, 2, "WHITE", -1);
         utilityTileTwo = new UtilityTile("Water Works", 28, "utility", 150, 75, 2, "WHITE", -1);
+        goTile = new Tile("Go", 0, "Go");
         mediterraneanProperty = new Property(mediterraneanTile);
         balticProperty = new Property(balticTile);
         railroadPropertyOne = new Property(railroadTileOne);
@@ -290,4 +292,16 @@ class RentTest {
 
         assertThrows(IllegalMonopolyActionException.class, rent::collectRent);
     }
+
+    @Test
+    void notAllowedToCollectRentTest2(){
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        game.setCurrentPlayer(michiel);
+        new Turn(game, michiel);
+        Rent rent = new Rent(game, michiel, lucas, "Baltic");
+
+        assertThrows(IllegalMonopolyActionException.class, rent::collectRent);
+    }
+
 }
