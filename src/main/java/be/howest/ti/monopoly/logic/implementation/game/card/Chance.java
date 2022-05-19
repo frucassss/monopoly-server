@@ -84,9 +84,9 @@ public class Chance extends Card {
     public void advanceToNearestUtility() {
         int playerTilePosition = move.receiveTile().getPosition();
         if (playerTilePosition < MIDDLE_BOARD_POSITION) {
-            advanceTo("Water Works");
-        } else {
             advanceTo("Electric Company");
+        } else {
+            advanceTo("Water Works");
         }
     }
 
