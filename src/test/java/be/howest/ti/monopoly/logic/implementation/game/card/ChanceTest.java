@@ -4,6 +4,9 @@ import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.Turn;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Improve;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Market;
+import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,5 +107,31 @@ class ChanceTest {
         }
     }
 
+    @Test
+    void testGeneralRepair(){
+        String description = "";
+        while (!description.equals("Make general repairs on all your property. For each house pay $25. For each hotel pay $100")){
+            Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
+            game2.newPlayer("michiel2");
+            game2.newPlayer("thibo2");
+            Player michiel2 = game2.findPlayer("michiel2");
 
+            michiel2.addProperty(new Property(game2.receiveTileOnName("Baltic")));
+            michiel2.addProperty(new Property(game2.receiveTileOnName("Mediterranean")));
+
+            Improve improveBaltic = new Improve(michiel2,"Baltic");
+            Improve improveMediterranean = new Improve(michiel2,"Mediterranean");
+
+            for (int i = 0; i < 4; i++) {
+                improveBaltic.buyHouse();
+                improveMediterranean.buyHouse();
+            }
+
+            Turn turn = new Turn(game2,michiel2);
+            description = turn.getMoves().get(0).getDescription();
+            if (description.equals("Make general repairs on all your property. For each house pay $25. For each hotel pay $100")){
+                assertEquals(900,michiel2.getMoney());
+            }
+        }
+    }
 }
