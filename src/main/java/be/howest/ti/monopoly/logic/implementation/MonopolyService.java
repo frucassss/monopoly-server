@@ -23,7 +23,7 @@ import java.util.Map;
 public class MonopolyService extends ServiceAdapter {
     private static final List<String> tileTypes = List.of(
             "street",
-            "C",
+            "Go",
             "community chest",
             "Tax Income",
             "railroad",
