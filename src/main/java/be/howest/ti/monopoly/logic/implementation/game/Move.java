@@ -213,7 +213,7 @@ public class Move {
         return communityChest.get(value);
     }
 
-    private Tile receiveTile() {
+    public Tile receiveTile() {
         return tile;
     }
 

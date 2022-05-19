@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation.game.card;
 import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.Move;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
-import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class Chance extends Card {
             case "Get Out of Jail Free":
                 player.addGetOutOfJailFreeCard();
                 break;
-            case "Go Back 3 spaces":
+            case "Go Back 3 Spaces":
                 goBack3Spaces();
                 break;
             case "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200":
@@ -83,31 +82,29 @@ public class Chance extends Card {
     }
 
     public void advanceToNearestUtility() {
-        Tile waterWorksUtility = game.receiveTileOnPosition(12);
-        Tile electricUtility = game.receiveTileOnPosition(28);
-        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        int playerTilePosition = move.receiveTile().getPosition();
         if (playerTilePosition < MIDDLE_BOARD_POSITION) {
-            moveTile = waterWorksUtility;
+            advanceTo("Electric Company");
         } else {
-            moveTile = electricUtility;
+            advanceTo("Water Works");
         }
     }
 
     public void advanceToNearestRailroad() {
-        int playerTilePosition = player.receiveCurrentTile().getPosition();
+        int playerTilePosition = move.receiveTile().getPosition();
         if (playerTilePosition < 7) {
-            moveTile = game.receiveTileOnName("Reading RR");
+            advanceTo("Reading RR");
         } else if (playerTilePosition < MIDDLE_BOARD_POSITION) {
-            moveTile = game.receiveTileOnName("Pennsylvania RR");
+            advanceTo("Pennsylvania RR");
         } else if (playerTilePosition < 30) {
-            moveTile = game.receiveTileOnName("Baltimore and Ohio RR");
+            advanceTo("Baltimore and Ohio RR");
         } else {
-            moveTile = game.receiveTileOnName("Short Line RR");
+            advanceTo("Short Line RR");
         }
     }
 
     public void goBack3Spaces() {
-        int playerCurrentPosition = player.receiveCurrentTile().getPosition();
+        int playerCurrentPosition = move.receiveTile().getPosition();
         int newPlayerPosition;
         if (playerCurrentPosition >= 3) {
             newPlayerPosition = playerCurrentPosition - 3;
