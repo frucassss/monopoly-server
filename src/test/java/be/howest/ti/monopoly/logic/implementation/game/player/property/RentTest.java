@@ -249,7 +249,6 @@ class RentTest {
         lucas.setCurrentTile(utilityTileOne);
 
         int totalDice = game.getLastDiceRoll()[0] + game.getLastDiceRoll()[1];
-        System.out.println(totalDice);
 
         int moneyMichielBeforeTurn = michiel.getMoney();
         int moneyLucasBeforeTurn = lucas.getMoney();
@@ -269,7 +268,6 @@ class RentTest {
         lucas.setCurrentTile(utilityTileOne);
 
         int totalDice = game.getLastDiceRoll()[0] + game.getLastDiceRoll()[1];
-        System.out.println(totalDice);
 
         int moneyMichielBeforeTurn = michiel.getMoney();
         int moneyLucasBeforeTurn = lucas.getMoney();
