@@ -25,6 +25,7 @@ public class Mortgage {
 
     public void takeMortgage() {
         mortgageCheck.checkIfPropertyIsNotMortgaged();
+        mortgageCheck.checkIfYouHaveNoHouseOnProperties();
         player.collect(mortgageValue);
         property.tookMortgage();
     }

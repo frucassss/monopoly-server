@@ -31,4 +31,16 @@ public class MortgageCheck {
             throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
         }
     }
+
+    public void checkIfYouHaveNoHouseOnProperties(){
+        for (Property playerProperty : player.getProperties()){
+            if(doYouOwnAnyPropertiesOnStreet(playerProperty)) {
+                throw new IllegalMonopolyActionException("You're trying to do something illegal here");
+            }
+        }
+    }
+
+    private boolean doYouOwnAnyPropertiesOnStreet(Property playerProperty){
+        return((property.receiveColor().equals(playerProperty.receiveColor())) && (playerProperty.getHouseCount() != 0 || playerProperty.getHotelCount() != 0));
+    }
 }

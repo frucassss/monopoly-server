@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.game.player.property;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.game.player.Player;
 import be.howest.ti.monopoly.logic.implementation.tile.StreetTile;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
@@ -9,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MortgageTest {
-
+    MonopolyService monopolyService = new MonopolyService();
     private final Player michiel = new Player("Michiel");
-    private final Tile mediterraneanTile = new StreetTile("Mediterranean", 1, "street", 60, 30, 2, "PURPLE", 2, 10, 30, 90, 160, 250, 50, "PURPLE");
-    private final Property mediterraneanProperty = new Property(mediterraneanTile);
+    private final Property mediterraneanProperty = new Property(monopolyService.getTile("Mediterranean"));
+    private final Property balticProperty = new Property(monopolyService.getTile("Baltic"));
 
     @Test
     void testMortgage() {
@@ -51,6 +52,16 @@ class MortgageTest {
         assertThrows(IllegalMonopolyActionException.class, () -> {
             new Mortgage(michiel, "Mediterranean");
         });
+    }
+
+    @Test
+    void testMortgageWhenYouHaveAHouseOnAProperty() {
+        michiel.addProperty(mediterraneanProperty);
+        michiel.addProperty(balticProperty);
+        Improve improveBaltic = new Improve(michiel,"Baltic");
+        improveBaltic.buyHouse();
+        Mortgage mortgageMediterranean = new Mortgage(michiel,"Mediterranean");
+        assertThrows(IllegalMonopolyActionException.class, mortgageMediterranean::takeMortgage);
     }
 
 }
