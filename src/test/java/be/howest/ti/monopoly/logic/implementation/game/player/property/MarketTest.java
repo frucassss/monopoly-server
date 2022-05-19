@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MarketTest {
     MonopolyService monopolyService = new MonopolyService();
     Game game = new Game("hello",5,2, monopolyService.getChance(), monopolyService.getCommunityChest(), monopolyService.getTiles());
-
     public MarketTest(){
         game.newPlayer("michiel");
         game.newPlayer("thibo");

@@ -45,7 +45,7 @@ public class Chance extends Card {
             case "Get Out of Jail Free":
                 player.addGetOutOfJailFreeCard();
                 break;
-            case "Go Back 3 spaces":
+            case "Go Back 3 Spaces":
                 goBack3Spaces();
                 break;
             case "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200":
