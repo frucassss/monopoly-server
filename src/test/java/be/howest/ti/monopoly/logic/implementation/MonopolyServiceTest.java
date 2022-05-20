@@ -91,4 +91,23 @@ class MonopolyServiceTest {
         assertEquals(4, monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Baltic").getHouseCount());
     }
 
+
+    @Test
+    void testSellHotel(){
+        makeGameFullOfPlayers();
+        addPropertyToPlayerEnvironment("Michiel", "Mediterranean");
+        addPropertyToPlayerEnvironment("Michiel", "Baltic");
+
+        for (int i = 0; i < 4; i++) {
+            monopolyService.buyHouse("test101_0", "Michiel", "Mediterranean");
+            monopolyService.buyHouse("test101_0", "Michiel", "Baltic");
+        }
+
+        monopolyService.buyHotel("test101_0", "Michiel", "Mediterranean");
+
+        monopolyService.sellHotel("test101_0", "Michiel", "Mediterranean");
+        assertEquals(0, monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getHotelCount());
+    }
+
+
 }
