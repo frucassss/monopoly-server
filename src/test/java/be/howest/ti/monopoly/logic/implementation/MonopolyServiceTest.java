@@ -28,5 +28,11 @@ class MonopolyServiceTest {
         assertEquals(11, monopolyService.getGamesFromService().size());
     }
 
+    @Test
+    void testJoinGame() {
+        monopolyService.joinGame("test101_0", "Michiel");
+        assertEquals("Michiel", monopolyService.getGame("test101_0").getPlayers().get(0).getName());
+    }
+
 
 }
