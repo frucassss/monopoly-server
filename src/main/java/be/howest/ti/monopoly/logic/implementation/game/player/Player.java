@@ -136,12 +136,32 @@ public class Player {
     public void makeBankrupt(Game game) {
         playerCheck.checkBankrupt();
         this.bankrupt = true;
-        if (game.receiveCurrentPlayer().equals(this)){
+        if (game.receiveCurrentPlayer().equals(this) && game.receiveLastTurn() == null) {
+            Player newNextPlayer = setNextPlayer(this, game);
+
+            while (newNextPlayer.getBankrupt()){
+                newNextPlayer = setNextPlayer(newNextPlayer, game);
+            }
+            game.setCurrentPlayer(newNextPlayer);
+        }
+       else if (game.receiveCurrentPlayer().equals(this)){
             game.receiveLastTurn().makeFinished();
         }
         for (Property property : properties){
             removeProperty(property);
         }
+    }
+
+    private Player setNextPlayer(Player player, Game game){
+        List<Player> players = game.getPlayers();
+        int currentPlayerIdx = players.indexOf(player);
+        int nextPlayerIdx = currentPlayerIdx + 1;
+
+        if (nextPlayerIdx >= players.size()) {
+            nextPlayerIdx = 0;
+        }
+
+        return players.get(nextPlayerIdx);
     }
 
     // BUILT-IN
