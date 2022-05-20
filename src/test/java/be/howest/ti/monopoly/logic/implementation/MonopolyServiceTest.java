@@ -124,5 +124,12 @@ class MonopolyServiceTest {
         assertEquals(3,monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getHouseCount());
 
     }
+    @Test
+    void testDeclareBankrupt(){
+        makeGameFullOfPlayers();
+        monopolyService.declareBankruptcy("test101_0","Michiel");
+        assertTrue(monopolyService.getGame("test101_0").findPlayer("Michiel").getBankrupt());
+    }
+
 
 }
