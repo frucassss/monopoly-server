@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation.game.player;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.checkers.game.player.PlayerCheck;
+import be.howest.ti.monopoly.logic.implementation.game.Game;
 import be.howest.ti.monopoly.logic.implementation.game.player.property.Property;
 import be.howest.ti.monopoly.logic.implementation.tile.Tile;
 
@@ -132,9 +133,12 @@ public class Player {
         this.jailed = jailed;
     }
 
-    public void makeBankrupt() {
+    public void makeBankrupt(Game game) {
         playerCheck.checkBankrupt();
         this.bankrupt = true;
+        if (game.receiveCurrentPlayer().equals(this)){
+            game.receiveLastTurn().makeFinished();
+        }
         for (Property property : properties){
             removeProperty(property);
         }
