@@ -20,5 +20,13 @@ class MonopolyServiceTest {
         });
     }
 
+    @Test
+    void testCreateGame() {
+        for (int i = 0; i < 10; i++) {
+            monopolyService.createGame("test101", 2);
+        }
+        assertEquals(11, monopolyService.getGamesFromService().size());
+    }
+
 
 }
