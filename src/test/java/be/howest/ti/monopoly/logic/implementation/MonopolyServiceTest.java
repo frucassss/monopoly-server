@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.game.Game;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,10 +9,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class MonopolyServiceTest {
     MonopolyService monopolyService = new MonopolyService();
 
-    MonopolyServiceTest() {
+    @BeforeEach
+    void clearMonopolyService(){
+        monopolyService = new MonopolyService();
         monopolyService.createGame("test101", 2);
     }
 
+    void makeGameFullOfPlayers(){
+        monopolyService.joinGame("test101_0","Michiel");
+        monopolyService.joinGame("test101_0","Thibo");
+    }
+
+    void addPropertyToPlayer(String playerName, String propertyName){
+        Game game = monopolyService.getGame("test101_0");
+        game.setCurrentPlayer(monopolyService.getGame("test101_0").findPlayer(playerName));
+        while (!game.receiveCurrentPlayer().receiveCurrentTile().getName().equals(propertyName)){
+            game.setCurrentPlayer(monopolyService.getGame("test101_0").findPlayer(playerName));
+            while (game.receiveCurrentPlayer().getGetOutOfJailFreeCards() != 0){
+                game.receiveCurrentPlayer().setJailed(true);
+                game.receiveCurrentPlayer().useGetOutOfJailFreeCard();
+            }
+            monopolyService.rollDice("test101_0",playerName);
+            game.receiveLastTurn().makeFinished();
+        }
+        game.setCurrentPlayer(monopolyService.getGame("test101_0").findPlayer(playerName));
+        game.receiveLastTurn().makeUnfinished();
+        monopolyService.buyProperty("test101_0",playerName,propertyName);
+    }
 
     @Test
     void testMakingTheGameWithSameGameId() {
@@ -35,12 +59,19 @@ class MonopolyServiceTest {
     }
 
     @Test
-    void testBuyProperty(){
-        monopolyService.joinGame("test101_0","Michiel");
-        monopolyService.joinGame("test101_0","Thibo");
-        monopolyService.rollDice("test101_0","Michiel");
-        monopolyService.getGame("test101_0").receiveCurrentPlayer().setCurrentTile(monopolyService.getTile("Mediterranean"));
-        monopolyService.buyProperty("test101_0","Michiel","Mediterranean");
-        assertEquals("Mediterranean", monopolyService.getGame("test101_0").getPlayers().get(0).getProperties().get(0).getProperty());
+    void testBuyProperty() {
+        makeGameFullOfPlayers();
+        addPropertyToPlayer("Michiel","Mediterranean");
+        assertEquals("Mediterranean", monopolyService.getGame("test101_0").findPlayer("Michiel").getProperties().get(0).getProperty());
     }
+
+    @Test
+    void testBuyHouse() {
+        makeGameFullOfPlayers();
+        addPropertyToPlayer("Michiel","Mediterranean");
+        addPropertyToPlayer("Michiel","Baltic");
+        monopolyService.buyHouse("test101_0","Michiel","Mediterranean");
+        assertEquals(1,monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getHouseCount());
+    }
+
 }
