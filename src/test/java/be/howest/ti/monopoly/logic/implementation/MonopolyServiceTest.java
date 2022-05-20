@@ -10,31 +10,31 @@ class MonopolyServiceTest {
     MonopolyService monopolyService = new MonopolyService();
 
     @BeforeEach
-    void clearMonopolyService(){
+    void clearMonopolyService() {
         monopolyService = new MonopolyService();
         monopolyService.createGame("test101", 2);
     }
 
-    void makeGameFullOfPlayers(){
-        monopolyService.joinGame("test101_0","Michiel");
-        monopolyService.joinGame("test101_0","Thibo");
+    void makeGameFullOfPlayers() {
+        monopolyService.joinGame("test101_0", "Michiel");
+        monopolyService.joinGame("test101_0", "Thibo");
     }
 
-    void addPropertyToPlayer(String playerName, String propertyName){
+    void addPropertyToPlayerEnvironment(String playerName, String propertyName) {
         Game game = monopolyService.getGame("test101_0");
         game.setCurrentPlayer(monopolyService.getGame("test101_0").findPlayer(playerName));
-        while (!game.receiveCurrentPlayer().receiveCurrentTile().getName().equals(propertyName)){
+        while (!game.receiveCurrentPlayer().receiveCurrentTile().getName().equals(propertyName)) {
             game.setCurrentPlayer(monopolyService.getGame("test101_0").findPlayer(playerName));
-            while (game.receiveCurrentPlayer().getGetOutOfJailFreeCards() != 0){
+            while (game.receiveCurrentPlayer().getGetOutOfJailFreeCards() != 0) {
                 game.receiveCurrentPlayer().setJailed(true);
                 game.receiveCurrentPlayer().useGetOutOfJailFreeCard();
             }
-            monopolyService.rollDice("test101_0",playerName);
+            monopolyService.rollDice("test101_0", playerName);
             game.receiveLastTurn().makeFinished();
         }
         game.setCurrentPlayer(monopolyService.getGame("test101_0").findPlayer(playerName));
         game.receiveLastTurn().makeUnfinished();
-        monopolyService.buyProperty("test101_0",playerName,propertyName);
+        monopolyService.buyProperty("test101_0", playerName, propertyName);
     }
 
     @Test
@@ -61,17 +61,34 @@ class MonopolyServiceTest {
     @Test
     void testBuyProperty() {
         makeGameFullOfPlayers();
-        addPropertyToPlayer("Michiel","Mediterranean");
+        addPropertyToPlayerEnvironment("Michiel", "Mediterranean");
         assertEquals("Mediterranean", monopolyService.getGame("test101_0").findPlayer("Michiel").getProperties().get(0).getProperty());
     }
 
     @Test
     void testBuyHouse() {
         makeGameFullOfPlayers();
-        addPropertyToPlayer("Michiel","Mediterranean");
-        addPropertyToPlayer("Michiel","Baltic");
-        monopolyService.buyHouse("test101_0","Michiel","Mediterranean");
-        assertEquals(1,monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getHouseCount());
+        addPropertyToPlayerEnvironment("Michiel", "Mediterranean");
+        addPropertyToPlayerEnvironment("Michiel", "Baltic");
+        monopolyService.buyHouse("test101_0", "Michiel", "Mediterranean");
+        assertEquals(1, monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getHouseCount());
+    }
+
+    @Test
+    void testBuyHotel() {
+        makeGameFullOfPlayers();
+        addPropertyToPlayerEnvironment("Michiel", "Mediterranean");
+        addPropertyToPlayerEnvironment("Michiel", "Baltic");
+
+        for (int i = 0; i < 4; i++) {
+            monopolyService.buyHouse("test101_0", "Michiel", "Mediterranean");
+            monopolyService.buyHouse("test101_0", "Michiel", "Baltic");
+        }
+
+        monopolyService.buyHotel("test101_0", "Michiel", "Mediterranean");
+
+        assertEquals(1, monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getHotelCount());
+        assertEquals(4, monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Baltic").getHouseCount());
     }
 
 }
