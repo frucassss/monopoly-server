@@ -131,5 +131,14 @@ class MonopolyServiceTest {
         assertTrue(monopolyService.getGame("test101_0").findPlayer("Michiel").getBankrupt());
     }
 
+    @Test
+    void testPayPrisonFine(){
+        makeGameFullOfPlayers();
+        monopolyService.getGame("test101_0").findPlayer("Michiel").setJailed(true);
+        monopolyService.payPrisonFine("test101_0","Michiel");
+        assertFalse(monopolyService.getGame("test101_0").findPlayer("Michiel").getJailed());
+        assertEquals(1450,monopolyService.getGame("test101_0").findPlayer("Michiel").getMoney());
+    }
+
 
 }
