@@ -37,7 +37,7 @@ public class TurnCheck {
 
     private void checkIfPlayerShouldBeBankrupt(){
         if (hasNegativeBalance()){
-            player.makeBankrupt();
+            player.makeBankrupt(game);
             throw new IllegalMonopolyActionException("Player is bankrupt. Player is not allowed to roll.");
         }
     }
