@@ -150,5 +150,20 @@ class MonopolyServiceTest {
         assertEquals(0,monopolyService.getGame("test101_0").findPlayer("Michiel").getGetOutOfJailFreeCards());
     }
 
+    @Test
+    void testMortgage(){
+        makeGameFullOfPlayers();
+        addPropertyToPlayerEnvironment("Michiel","Mediterranean");
+        monopolyService.takeMortgage("test101_0","Michiel","Mediterranean");
+        assertTrue(monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getMortgage());
+    }
 
+    @Test
+    void testSettleMortgage(){
+        makeGameFullOfPlayers();
+        addPropertyToPlayerEnvironment("Michiel","Mediterranean");
+        monopolyService.takeMortgage("test101_0","Michiel","Mediterranean");
+        monopolyService.settleMortgage("test101_0","Michiel","Mediterranean");
+        assertFalse(monopolyService.getGame("test101_0").findPlayer("Michiel").findProperty("Mediterranean").getMortgage());
+    }
 }
