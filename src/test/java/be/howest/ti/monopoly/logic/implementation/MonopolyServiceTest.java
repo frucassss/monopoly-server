@@ -34,5 +34,13 @@ class MonopolyServiceTest {
         assertEquals("Michiel", monopolyService.getGame("test101_0").getPlayers().get(0).getName());
     }
 
-
+    @Test
+    void testBuyProperty(){
+        monopolyService.joinGame("test101_0","Michiel");
+        monopolyService.joinGame("test101_0","Thibo");
+        monopolyService.rollDice("test101_0","Michiel");
+        monopolyService.getGame("test101_0").receiveCurrentPlayer().setCurrentTile(monopolyService.getTile("Mediterranean"));
+        monopolyService.buyProperty("test101_0","Michiel","Mediterranean");
+        assertEquals("Mediterranean", monopolyService.getGame("test101_0").getPlayers().get(0).getProperties().get(0).getProperty());
+    }
 }
