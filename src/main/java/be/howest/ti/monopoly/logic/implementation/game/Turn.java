@@ -86,6 +86,10 @@ public class Turn {
         game.setDirectSale(null);
     }
 
+    public void makeUnfinished(){
+        finished = false;
+    }
+
     private void setNextPlayer(){
         if (doubleCount == 0){
             Player nextPlayer = shiftToNextPlayer(player);
