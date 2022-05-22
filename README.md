@@ -2,10 +2,12 @@
 
 ## Server bug(s)
 
-Na vele testen hebben we alle bugs weten op te lossen. We hebben geprobeerd om nog een bug aan de server te vinden, maar kunnen jammer genoeg geen terugvinden.
+Na vele testen hebben we alle bugs weten op te lossen. We hebben geprobeerd om nog een bug aan de server te vinden, maar jammer genoeg kunnen we geen terugvinden.
 
-| Bug behaviour                                                                       | How to reproduce                                                                                                                                                                                                                                                                                                                                                 | Why it hasn't been fixed                      |
-|-------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| Bug behaviour | How to reproduce | Why it hasn't been fixed |
+|---------------|------------------|--------------------------|
+
+
 
 ## Token
 
