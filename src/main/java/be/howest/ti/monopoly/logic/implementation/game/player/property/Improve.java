@@ -11,6 +11,8 @@ public class Improve {
     private final Property property;
     private final int housePrice;
 
+    private static final double BANK_TAKE = 0.5;
+
     public Improve(Player player, String propertyName){
         this.player = player;
 
@@ -32,7 +34,7 @@ public class Improve {
     public void sellHouse() {
         improveCheck.checkIfYouHaveAHouse();
         improveCheck.checkIfYouAreAllowedToSellHouse();
-        player.collect((int) (housePrice * 0.5));
+        player.collect((int) (housePrice * BANK_TAKE));
         property.removeHouse();
     }
 
@@ -48,7 +50,7 @@ public class Improve {
     public void sellHotel() {
         improveCheck.checkIfYouHaveAHotel();
         improveCheck.checkWhileSellingAHotelIWontRunAhead();
-        player.collect(housePrice);
+        player.collect((int) (housePrice * BANK_TAKE));
         property.removeHotel();
         for (int i = 0; i < 4; i++) {
             property.addHouse();

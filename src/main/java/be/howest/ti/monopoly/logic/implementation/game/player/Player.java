@@ -50,7 +50,6 @@ public class Player {
     }
 
     public void addGetOutOfJailFreeCard() {
-        playerCheck.checkIfYouCanAddGetOutOfJailFreeCard();
         this.getOutOfJailFreeCards += 1;
     }
 

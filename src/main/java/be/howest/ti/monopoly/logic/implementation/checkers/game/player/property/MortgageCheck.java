@@ -9,6 +9,8 @@ public class MortgageCheck {
     private final Player player;
     private final Property property;
 
+    private static final double BANK_MORTGAGE_TAKE = 0.1;
+
     public MortgageCheck(Player player, Property property){
         this.player = player;
         this.property = property;
@@ -27,7 +29,7 @@ public class MortgageCheck {
     }
 
     public void checkIfYouHaveEnoughMoneyToSettleMortgage() {
-        if (player.getMoney() < (int) (property.receiveMortgageValue() + (property.receiveMortgageValue() * 0.1))) {
+        if (player.getMoney() < (int) (property.receiveMortgageValue() + (property.receiveMortgageValue() * BANK_MORTGAGE_TAKE))) {
             throw new IllegalMonopolyActionException("You don't have enough money to un mortgage this property.");
         }
     }

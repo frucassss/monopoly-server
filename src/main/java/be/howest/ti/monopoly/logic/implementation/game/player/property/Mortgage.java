@@ -11,6 +11,8 @@ public class Mortgage {
     private final Property property;
     private final int mortgageValue;
 
+    private static final double BANK_MORTGAGE_TAKE = 0.1;
+
     public Mortgage(Player player, String propertyName){
         this.player = player;
 
@@ -33,7 +35,7 @@ public class Mortgage {
     public void settleMortgage() {
         mortgageCheck.checkIfYouHaveEnoughMoneyToSettleMortgage();
         mortgageCheck.checkIfPropertyIsMortgaged();
-        player.pay((int) (mortgageValue + (mortgageValue* 0.1)));
+        player.pay((int) (mortgageValue + (mortgageValue * BANK_MORTGAGE_TAKE)));
         property.settledMortgage();
     }
 }

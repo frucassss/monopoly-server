@@ -15,7 +15,8 @@ public class Move {
     private Tile tile;
 
     private boolean passedGo = false;
-    static final int GO_POSITION = 0;
+    private static final int GO_POSITION = 0;
+    private static final int SALARY = 200;
 
     private int[] dices;
     private Player player;
@@ -85,11 +86,11 @@ public class Move {
             if (tile.getPosition() > GO_POSITION) {
                 description = "passes 'GO!' and receives 200 for it";
                 turn.addMove(new Move(this));
-                player.collect(200);
+                player.collect(SALARY);
             } else if (tile.getPosition() == GO_POSITION) {
                 description = "landed on 'GO!' and receives 200 for it";
                 turn.addMove(new Move(this));
-                player.collect(200);
+                player.collect(SALARY);
                 turn.makeFinished();
             }
             passedGo = false;

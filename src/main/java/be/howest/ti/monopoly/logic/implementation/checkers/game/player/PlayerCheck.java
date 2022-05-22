@@ -26,12 +26,6 @@ public class PlayerCheck {
         }
     }
 
-    public void checkIfYouCanAddGetOutOfJailFreeCard() {
-        if (player.getGetOutOfJailFreeCards() > 2) {
-            throw new IllegalMonopolyActionException("You already have 2 get out of jail cars");
-        }
-    }
-
     public void checkIfYouCanUseAGetOutOfJailFreeCard() {
         if (player.getGetOutOfJailFreeCards() == 0) {
             throw new IllegalMonopolyActionException("You don't have an get out of jail card");
