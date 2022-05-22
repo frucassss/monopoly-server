@@ -138,4 +138,22 @@ class ChanceTest {
     void testAdvanceToNearestUtility(){
         loopUntilChanceDescriptionWithPositionExpectation("Advance token to nearest Utility.",12);
     }
+
+    @Test
+    void testGo(){
+        String description = "";
+        while (!description.equals("Advance to Go (Collect $200)")){
+            Game game2 = new Game("hallo",1,2,monopolyService.getChance(),monopolyService.getCommunityChest(),monopolyService.getTiles());
+            game2.newPlayer("michiel2");
+            game2.newPlayer("thibo2");
+            Player michiel2 = game2.findPlayer("michiel2");
+            michiel2.setCurrentTile(monopolyService.getTile("North Carolina"));
+            Turn turn = new Turn(game2,michiel2);
+            description = turn.getMoves().get(0).getDescription();
+            if (description.equals("Advance to Go (Collect $200)")){
+                assertEquals(0,michiel2.receiveCurrentTile().getPosition());
+                assertEquals(1700,michiel2.getMoney());
+            }
+        }
+    }
 }
