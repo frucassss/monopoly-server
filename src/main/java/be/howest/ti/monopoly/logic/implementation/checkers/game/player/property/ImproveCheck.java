@@ -34,7 +34,7 @@ public class ImproveCheck {
     public void checkWhileSellingAHotelIWontRunAhead(){
         for (Property other : player.getProperties()){
             if (other.receiveColor().equals(property.receiveColor()) &&
-                    (other.getHouseCount() != MAX_HOUSE_COUNT && other.getHotelCount() == MAX_HOTEL_COUNT) &&
+                    (other.getHouseCount() != 0 && other.getHotelCount() == MAX_HOTEL_COUNT) &&
                     (other.getHouseCount() != MAX_HOUSE_COUNT && other.getHotelCount() == 0)){
                 throw new IllegalMonopolyActionException("You need to sell all houses before you can sell a hotel");
             }
