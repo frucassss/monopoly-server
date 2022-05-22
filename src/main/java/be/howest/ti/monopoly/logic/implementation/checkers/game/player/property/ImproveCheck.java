@@ -9,6 +9,9 @@ public class ImproveCheck {
     private final Player player;
     private final Property property;
 
+    private static final int MAX_HOUSE_COUNT = 4;
+    private static final int MAX_HOTEL_COUNT = 1;
+
     public ImproveCheck(Player player, Property property){
         this.player = player;
         this.property = property;
@@ -31,15 +34,15 @@ public class ImproveCheck {
     public void checkWhileSellingAHotelIWontRunAhead(){
         for (Property other : player.getProperties()){
             if (other.receiveColor().equals(property.receiveColor()) &&
-                    (other.getHouseCount() != 0 && other.getHotelCount() == 1) &&
-                    (other.getHouseCount() != 4 && other.getHotelCount() == 0)){
+                    (other.getHouseCount() != MAX_HOUSE_COUNT && other.getHotelCount() == MAX_HOTEL_COUNT) &&
+                    (other.getHouseCount() != MAX_HOUSE_COUNT && other.getHotelCount() == 0)){
                 throw new IllegalMonopolyActionException("You need to sell all houses before you can sell a hotel");
             }
         }
     }
 
     public void checkIfYouHaveAHotel() {
-        if (property.getHotelCount() != 1){
+        if (property.getHotelCount() <= 0){
             throw new IllegalMonopolyActionException("You don't have a hotel to sell");
         }
     }

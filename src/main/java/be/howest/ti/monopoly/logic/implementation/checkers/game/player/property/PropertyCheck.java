@@ -9,6 +9,8 @@ public class PropertyCheck {
     private final Property property;
     private final PropertyTile propertyTile;
 
+    private static final int MAX_HOUSE_COUNT = 4;
+
     public PropertyCheck(Property property){
         this.property = property;
         this.propertyTile = property.receivePropertyTile();
@@ -27,7 +29,7 @@ public class PropertyCheck {
     }
 
     public void checkIfYouCanAddHotel() {
-        if (property.getHouseCount()  != 4) {
+        if (property.getHouseCount() != MAX_HOUSE_COUNT) {
             throw new IllegalMonopolyActionException("You can't buy an hotel because you don't have 4 houses");
         } else if (property.getHotelCount() > 0) {
             throw new IllegalMonopolyActionException("You can't buy an hotel because you already have one");
@@ -35,7 +37,7 @@ public class PropertyCheck {
     }
 
     public void checkIfYouDontHaveMoreThen4HousesOnProperty() {
-        if (property.getHouseCount()  == 4) {
+        if (property.getHouseCount() == MAX_HOUSE_COUNT) {
             throw new IllegalMonopolyActionException("You already have 4 houses on the property");
         }
     }
