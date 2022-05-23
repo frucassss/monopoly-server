@@ -104,7 +104,7 @@ public class MonopolyService extends ServiceAdapter {
                 new StreetTile("Ventnor", 27, tileTypes.get(0), 260, 130, 3, tileColors.get(7), 22, 110, 330, 800, 975, 1150, 150, tileColors.get(7)),
                 new UtilityTile("Water Works", 28, tileTypes.get(7), 150, 75, 2, tileColors.get(4), -1),
                 new StreetTile("Marvin Gardens", 29, tileTypes.get(0), 280, 140, 3, tileColors.get(7), 24, 120, 360, 850, 1025, 1200, 150, tileColors.get(7)),
-                new Tile(tileTypes.get(8), 30, tileTypes.get(8)),
+                new Tile(tileTypes.get(9), 30, tileTypes.get(9)),
                 new StreetTile("Pacific", 31, tileTypes.get(0), 300, 150, 3, tileColors.get(8), 26, 130, 390, 900, 1100, 1275, 200, tileColors.get(8)),
                 new StreetTile("North Carolina", 32, tileTypes.get(0), 300, 150, 3, tileColors.get(8), 26, 130, 390, 900, 1100, 1275, 200, tileColors.get(8)),
                 new Tile("Community Chest III", 33, tileTypes.get(2)),
@@ -112,7 +112,7 @@ public class MonopolyService extends ServiceAdapter {
                 new RailroadTile("Short Line RR", 35, tileTypes.get(4), 200, 100, 4, tileColors.get(1), -1),
                 new Tile("Chance III", 36, tileTypes.get(5)),
                 new StreetTile("Park Place", 37, tileTypes.get(0), 350, 175, 2, tileColors.get(9), 35, 175, 500, 1100, 1300, 1500, 200, tileColors.get(9)),
-                new Tile(tileTypes.get(9), 38, tileTypes.get(9)),
+                new Tile(tileTypes.get(10), 38, tileTypes.get(10)),
                 new StreetTile("Boardwalk", 39, tileTypes.get(0), 400, 200, 2, tileColors.get(9), 50, 200, 600, 1400, 1700, 2000, 200, tileColors.get(9))
         );
     }
