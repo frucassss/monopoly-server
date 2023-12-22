@@ -1,13 +1,11 @@
-# Monopoly
+# Monopoly server
 
-## Server bug(s)
+we made monopoly on web for a school project and added our personal twist to it.
 
-Na vele testen hebben we alle bugs weten op te lossen. We hebben geprobeerd om een bug te vinden, maar dit was geen succes.
-
-| Bug behaviour | How to reproduce | Why it hasn't been fixed |
-|---------------|------------------|--------------------------|
+this is the server that communicates with the [client](https://github.com/frucassss/monopoly-client)
 
 
+## made by [Lucas Guillemyn](https://github.com/frucassss), [Thibo Verbeerst](https://github.com/thiboverbeerst), [Michiel Stragier](https://github.com/michielez) and [Luca Verlinde]()
 
 ## Token
 
